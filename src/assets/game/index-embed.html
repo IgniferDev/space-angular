@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Space Invaders - Educativo (Mejorado)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>Space Invaders - Educativo</header>
+
+    <!-- Menú principal -->
+    <div id="menu" class="overlay">
+      <!-- Menú principal (fragmento relevante) -->
+      <div class="menu-panel">
+        <h1>Space Invaders (Educativo)</h1>
+
+        <div class="menu-row">
+          <label>Jugadores:</label>
+          <select id="player-count">
+            <option value="1">1 jugador</option>
+            <option value="2">2 jugadores (competitivo)</option>
+          </select>
+        </div>
+
+        <div class="menu-row">
+          <label>Modo educativo:</label>
+          <select id="mode-select">
+            <option value="math">Matemáticas</option>
+            <option value="history">Historia</option>
+          </select>
+        </div>
+
+        <div class="menu-row">
+          <label>Tipo de partida:</label>
+          <select id="game-type-select">
+            <option value="lives">Vidas (3)</option>
+            <option value="timer">Temporizador (25s)</option>
+          </select>
+        </div>
+
+        <div class="menu-row">
+          <button id="configure-controls" class="btn">Configurar controles</button>
+          <button id="start-game" class="btn primary">Empezar</button>
+        </div>
+
+        <small class="hint">Selecciona 1 o 2 jugadores. En 2 jugadores cada uno tiene su pantalla; gana quien acierte más preguntas.</small>
+      </div>
+      <div id="leaderboard" class="leaderboard-panel"></div>
+    </div>
+
+    <!-- Configuración controles (modal) -->
+    <div id="controls-config" class="overlay hidden">
+      <div class="menu-panel">
+        <h2>Configurar controles</h2>
+        <div id="players-config"></div>
+        <div class="menu-row">
+          <button id="close-config" class="btn">Cerrar</button>
+          <button id="save-config" class="btn primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pausa -->
+    <div id="pause-menu" class="overlay hidden">
+      <div class="menu-panel">
+        <h2>PAUSA</h2>
+        <div class="menu-row">
+          <button id="resume" class="btn primary">Continuar</button>
+          <button id="restart-pause" class="btn">Jugar de nuevo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Area de juego (si 2 jugadores se divide en dos pantallas) -->
+    <div class="game-wrapper" id="game-wrapper">
+      <!-- aquí se inyectarán las instancias de juego: .game-instance -->
+    </div>
+
+    <footer></footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

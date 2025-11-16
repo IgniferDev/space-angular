@@ -1,0 +1,34 @@
+<!-- src/app/web-page/pages/game/game.component.html -->
+ <app-navigation-menu></app-navigation-menu>
+<section class="game-page">
+  <div class="game-controls" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+    <label>Jugadores:
+      <select id="player-count" #players>
+        <option value="1">1</option>
+        <option value="2">2</option>
+      </select>
+    </label>
+
+    <label>Modo:
+      <select id="mode-select" #mode>
+        <option value="math">Matemáticas</option>
+        <option value="history">Historia</option>
+      </select>
+    </label>
+
+    <label>Tipo:
+      <select id="game-type-select" #type>
+        <option value="lives">Vidas</option>
+        <option value="timer">Temporizador</option>
+      </select>
+    </label>
+
+    <!-- ahora aceptamos strings en startEmbed y convertimos dentro -->
+    <button (click)="startEmbed(players.value, mode.value, type.value)" class="btn primary">Iniciar juego</button>
+    <button (click)="stopEmbed()" class="btn">Detener</button>
+  </div>
+
+  <div class="iframe-wrapper" *ngIf="embedVisible" style="margin-top:12px;">
+    <iframe [src]="embedUrlSafe" width="870" height="700" frameborder="0"></iframe>
+  </div>
+</section>

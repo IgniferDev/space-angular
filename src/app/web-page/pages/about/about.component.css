@@ -1,0 +1,6 @@
+:host { display:block; background: linear-gradient(180deg,#05060a 0%, #071227 100%); color:#dbeafe; min-height: calc(100vh - 60px); }
+.page { max-width:1100px; margin: 28px auto; padding: 14px; }
+h1 { color:#fff; margin-bottom:6px; }
+.muted { color:#a8c6ea; margin-bottom:18px; }
+.team { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin-top:14px; }
+.card { background: rgba(255,255,255,0.03); padding:14px; border-radius:10px; box-shadow:0 8px 28px rgba(0,0,0,0.6); }

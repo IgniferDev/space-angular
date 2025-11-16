@@ -1,0 +1,20 @@
+<app-navigation-menu></app-navigation-menu>
+
+<main class="page">
+  <h1>Banco de preguntas (ejemplo)</h1>
+  <p class="muted">Este es un pequeño banco de preguntas de ejemplo que usa el juego. Puedes ampliarlo o conectarlo a una base de datos más tarde.</p>
+
+  <section class="list">
+    <div class="q-card" *ngFor="let it of questions">
+      <div class="q-top">
+        <div class="badge">{{ it.mode }}</div>
+        <div class="q-text">{{ it.q }}</div>
+      </div>
+      <div class="q-answer">Respuesta: <strong>{{ it.a }}</strong></div>
+    </div>
+  </section>
+
+  <div style="margin-top:18px;">
+    <a routerLink="/juega" class="btn primary">Ir a jugar</a>
+  </div>
+</main>
