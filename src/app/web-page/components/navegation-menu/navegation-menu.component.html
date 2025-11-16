@@ -1,9 +1,17 @@
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="brand" routerLink="/">SpaceEdu</a>
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner container">
+    <a class="brand" routerLink="/" aria-label="SpaceEdu home">
+      <span class="logo">🌌</span>
+      <span class="brand-text">SpaceEdu</span>
+    </a>
 
-    <div class="links">
-      <a routerLink="/" routerLinkActive="active">Inicio</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" (click)="toggleMenu($event)">
+      <span class="sr-only">Abrir menú</span>
+      <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 2H20M0 7H20M0 12H20" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+
+    <div id="nav-links" class="links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
       <a routerLink="/preguntas" routerLinkActive="active">Preguntas</a>
       <a routerLink="/proposito" routerLinkActive="active">Propósito</a>
       <a routerLink="/quienes-somos" routerLinkActive="active">Quiénes somos</a>

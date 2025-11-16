@@ -1,40 +1,194 @@
-:host { display:block; background: linear-gradient(180deg,#05060a 0%, #071227 100%); color: #dbeafe; min-height: calc(100vh - 60px); }
+/* HOME - Espaciado amplio y respirado (reemplazar todo el archivo) */
 
-.page { max-width:1100px; margin: 26px auto; padding: 14px; }
+/* Base de sección: mucho espacio entre bloques */
+.section-card {
+  margin: 48px 0;        /* espacio arriba y abajo entre secciones */
+  padding: 28px 28px;    /* padding interior generoso */
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+  box-shadow: 0 10px 36px rgba(2,6,23,0.55);
+  border: 1px solid rgba(255,255,255,0.02);
+}
 
-.hero {
+/* HERO: más aire, limitamos la anchura del texto para mejor lectura */
+.hero-inner {
   display:flex;
-  gap: 24px;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
+  gap: 40px;                    /* espacio grande entre texto y media */
+  align-items:center;
+  justify-content:space-between;
+  padding: 6px 0;
 }
 
-.hero-inner { flex:1; }
-.hero h1 { font-size: 36px; margin: 6px 0 10px; color: #fff; letter-spacing: -0.4px; }
-.lead { color: #bcdcff; font-size: 16px; margin-bottom: 14px; max-width: 640px; }
-
-.actions .btn { margin-right: 10px; text-decoration:none; }
-
-.hero-illustration { width: 220px; display:flex; align-items:center; justify-content:center; }
-.mock-game {
-  width: 200px; height:120px; background: linear-gradient(180deg,#061025,#0b1440); border-radius:10px; display:flex; align-items:center; justify-content:center;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.7), inset 0 -4px 12px rgba(255,255,255,0.02);
-  font-size:46px;
+.hero-text {
+  flex:1;
+  min-width: 260px;
+  max-width: 720px;            /* limita longitud de renglón */
 }
 
-.info-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 14px; margin-top: 18px; }
+.kicker { margin-bottom: 12px; display:inline-block; }
 
-.card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+.hero-title {
+  font-size: 2.4rem;
+  margin: 6px 0 14px;          /* más separación debajo del título */
+  line-height: 1.06;
+}
+
+.hero-sub {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 18px;         /* separa del CTA */
+  line-height: 1.6;
+}
+
+/* CTA con separación */
+.hero-actions { display:flex; gap:14px; margin-top: 8px; }
+
+/* Imagen del hero: más grande y con margen superior/inferior */
+.hero-art { width: 360px; display:flex; flex-direction:column; gap:10px; align-items:center; }
+.hero-image {
+  width:100%;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 22px 60px rgba(2,6,23,0.65);
+  border: 1px solid rgba(255,255,255,0.03);
+  margin-top: 4px;
+}
+
+/* SIMPLE CARDS: mayor separación entre tarjetas y padding interior */
+.card-row { display:flex; gap: 20px; justify-content:space-between; align-items:stretch; }
+.card.small {
+  flex:1;
+  padding: 20px;
+  min-height: 120px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:left;
+}
+.card.small h3 { margin-bottom: 10px; font-size: 1.05rem; }
+.card.small p { margin:0; color:var(--muted); line-height:1.6; }
+
+/* SHORT: frase con margen amplio */
+.section-card.short { text-align:left; padding: 28px; }
+.section-card.short h2 { margin-bottom: 14px; }
+.section-card.short p { margin: 0; color: var(--muted); font-size: 1.02rem; line-height:1.7; }
+
+/* STEPS: tarjetas separadas, mayor gap y padding */
+.steps-row { display:flex; gap: 18px; margin-top: 16px; }
+.step {
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
   padding: 16px;
+  min-height: 84px;
   border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
 }
-.card h3 { margin-top: 0; color:#f8fafc; }
-.card p { color:#cfe7ff; line-height:1.5; }
+.step strong {
+  width:46px; height:46px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800;
+  background: linear-gradient(90deg,var(--accent2),var(--accent1));
+  color:#041025;
+}
 
-.how-it-works { margin-top: 20px; color:#cfe7ff; }
-.how-it-works ol { padding-left: 18px; }
+/* PSYCH GRID: más espacio y tarjetas separadas */
+.psych-grid { display:grid; gap:18px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-top: 14px; }
+.psych { padding: 18px; }
 
-.page-footer { margin-top:28px; text-align:center; color:#9fb4d8; padding: 18px 0 40px; }
+/* FOOTER: centrado con más padding */
+.footer-note { text-align:center; color: var(--muted); padding: 18px; margin-top: 8px; }
+
+/* Helpers: listas y textos con más leading (espacio entre líneas) */
+.spaced-list { list-style: disc; margin: 10px 0 0 20px; color: var(--muted); line-height: 1.8; }
+.lead, .muted { line-height: 1.7; }
+
+/* Responsivo: stack con espacio aumentado */
+@media (max-width: 920px) {
+  .hero-inner { flex-direction: column-reverse; gap: 22px; align-items:flex-start; }
+  .hero-art { width:100%; }
+  .card-row { flex-direction: column; gap: 16px; }
+  .steps-row { flex-direction: column; }
+  .section-card { margin: 28px 0; padding: 18px; }
+  .hero-title { font-size: 1.9rem; }
+}
+
+
+/* Espaciado general para secciones */
+.section-card {
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+/* HERO */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 22px;
+  align-items: center;
+}
+.hero-content .kicker {
+  display:inline-block;
+  background: rgba(45,212,191,0.09);
+  color: var(--accent2);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight:700;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.hero-title {
+  font-size: 2.2rem;
+  margin: 6px 0 8px;
+  line-height: 1.05;
+}
+.hero .subtitle { font-size: 1rem; color: #cfe7ff; margin-bottom: 8px; }
+.hero .lead { margin-top: 8px; color: var(--muted); }
+
+/* Features grid in hero */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+}
+.feature h4 { margin: 0 0 6px; font-size: 14px; }
+.feature p { margin:0; font-size: 13px; color: var(--muted); }
+
+/* HERO media */
+.hero-media { display:flex; flex-direction:column; gap:8px; align-items:center; }
+.hero-image { width: 100%; height: auto; border-radius: 10px; object-fit: cover; }
+
+/* Card heads */
+.card-head h2 { margin-bottom: 6px; font-size: 1.4rem; }
+.card-head .subtitle { margin-bottom: 12px; }
+
+/* split layout */
+.split { display:flex; gap: 18px; align-items:center; justify-content:space-between; }
+.split .text { flex:1; }
+.split .media { width: 360px; flex-shrink: 0; }
+.split.reverse-on-small { flex-direction: row; }
+.split.reverse-on-small .media { order:0; }
+@media (max-width: 920px){
+  .hero-grid { grid-template-columns: 1fr; }
+  .split { flex-direction: column; }
+  .split .media { width:100%; }
+  .features-grid { grid-template-columns: 1fr; }
+}
+
+/* List spacing */
+.spaced-list { list-style: disc; margin: 6px 0 0 18px; color: var(--muted); line-height: 1.6; }
+
+/* Psychology grid */
+.psych-grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-top: 10px; }
+.psych { padding: 14px; }
+
+/* steps */
+.steps-grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); margin-top: 12px; }
+.step { display:flex; gap:12px; align-items:flex-start; padding:12px; }
+.step strong { display:inline-block; width:36px; height:36px; border-radius: 8px; background: linear-gradient(90deg,var(--accent2),var(--accent1)); color:#041025; font-weight:800; display:flex; align-items:center; justify-content:center; }
+
+/* footer */
+.footer-note { text-align:center; color: var(--muted); padding: 12px; margin-top: 6px; }
+
+/* small helpers */
+.img-hint { color: var(--muted); font-size: 12px; display:block; margin-top:6px; }

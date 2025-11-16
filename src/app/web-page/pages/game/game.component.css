@@ -1,0 +1,44 @@
+/* game.component.css - centrado simple, sin limitar la lógica */
+.game-page {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 12px;
+  box-sizing: border-box;
+}
+
+.play-panel {
+  width: 100%;
+  display:flex;
+  justify-content:center;
+  margin-bottom: 18px;
+}
+
+.iframe-wrapper {
+  width: 100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding-bottom: 40px;
+}
+
+/* Forzar el tamaño del iframe a la resolución del juego (evita scroll dentro) */
+.iframe-wrapper iframe {
+  width: 800px;   /* coincide con GAME_WIDTH */
+  height: 600px;  /* coincide con GAME_HEIGHT */
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  overflow: hidden; /* intentamos ocultar scrollbars visualmente */
+}
+
+/* responsive: si la pantalla es más angosta, escala manteniendo ratio */
+@media (max-width: 840px) {
+  .iframe-wrapper iframe {
+    width: calc(100% - 32px);
+    height: calc((100% - 32px) * 600 / 800); /* mantiene ratio 4:3 */
+    max-height: 560px;
+  }
+}

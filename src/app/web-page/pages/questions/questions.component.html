@@ -1,20 +1,92 @@
 <app-navigation-menu></app-navigation-menu>
 
-<main class="page">
-  <h1>Banco de preguntas (ejemplo)</h1>
-  <p class="muted">Este es un pequeño banco de preguntas de ejemplo que usa el juego. Puedes ampliarlo o conectarlo a una base de datos más tarde.</p>
+<div class="questions-container">
 
-  <section class="list">
-    <div class="q-card" *ngFor="let it of questions">
-      <div class="q-top">
-        <div class="badge">{{ it.mode }}</div>
-        <div class="q-text">{{ it.q }}</div>
-      </div>
-      <div class="q-answer">Respuesta: <strong>{{ it.a }}</strong></div>
+  <h1 class="title">Preguntas frecuentes</h1>
+  <p class="subtitle">Aquí encontrarás respuestas claras sobre la importancia de la IHC, la psicología y los videojuegos educativos.</p>
+
+  <!-- LISTA DE PREGUNTAS -->
+  <div class="faq-list">
+
+    <!-- 1 -->
+    <div class="faq-item" (click)="toggle(1)">
+      <h3>¿Por qué es importante la Interacción Humano-Computadora (IHC)?</h3>
+      <p [class.open]="isOpen(1)">
+        La IHC permite diseñar sistemas más intuitivos, accesibles y eficientes, facilitando que las personas interactúen con la tecnología sin frustración.
+      </p>
     </div>
-  </section>
 
-  <div style="margin-top:18px;">
-    <a routerLink="/juega" class="btn primary">Ir a jugar</a>
+    <!-- 2 -->
+    <div class="faq-item" (click)="toggle(2)">
+      <h3>¿Cómo se relaciona la IHC con la psicología?</h3>
+      <p [class.open]="isOpen(2)">
+        La IHC utiliza principios de psicología cognitiva para entender cómo las personas perciben, aprenden y toman decisiones al usar interfaces digitales.
+      </p>
+    </div>
+
+    <!-- 3 -->
+    <div class="faq-item" (click)="toggle(3)">
+      <h3>¿Qué papel tienen los videojuegos en el aprendizaje?</h3>
+      <p [class.open]="isOpen(3)">
+        Los videojuegos promueven el pensamiento crítico, la atención, la resolución de problemas y la motivación intrínseca al aprender jugando.
+      </p>
+    </div>
+
+    <!-- 4 -->
+    <div class="faq-item" (click)="toggle(4)">
+      <h3>¿Los videojuegos educativos realmente funcionan?</h3>
+      <p [class.open]="isOpen(4)">
+        Sí, al combinar mecánicas de juego con contenido académico, aumentan la retención, el interés y el aprendizaje significativo.
+      </p>
+    </div>
+
+    <!-- 5 -->
+    <div class="faq-item" (click)="toggle(5)">
+      <h3>¿Qué beneficios cognitivos aportan los videojuegos?</h3>
+      <p [class.open]="isOpen(5)">
+        Mejoran memoria, coordinación visomotora, toma de decisiones, atención selectiva y flexibilidad mental.
+      </p>
+    </div>
+
+    <!-- 6 -->
+    <div class="faq-item" (click)="toggle(6)">
+      <h3>¿Por qué los videojuegos motivan más que los métodos tradicionales?</h3>
+      <p [class.open]="isOpen(6)">
+        Porque recompensan el progreso, usan retroalimentación inmediata y ofrecen retos ajustables al ritmo del jugador.
+      </p>
+    </div>
+
+    <!-- 7 -->
+    <div class="faq-item" (click)="toggle(7)">
+      <h3>¿Qué relación hay entre diseño de videojuegos e IHC?</h3>
+      <p [class.open]="isOpen(7)">
+        El diseño de videojuegos aplica principios de IHC para crear experiencias fáciles de entender, usables y atractivas.
+      </p>
+    </div>
+
+    <!-- 8 -->
+    <div class="faq-item" (click)="toggle(8)">
+      <h3>¿Cómo ayudan los videojuegos a niños y adolescentes?</h3>
+      <p [class.open]="isOpen(8)">
+        Fomentan habilidades sociales, pensamiento lógico, concentración y creatividad, además de mejorar la tolerancia a la frustración.
+      </p>
+    </div>
+
+    <!-- 9 -->
+    <div class="faq-item" (click)="toggle(9)">
+      <h3>¿Qué es la gamificación y cómo ayuda a aprender?</h3>
+      <p [class.open]="isOpen(9)">
+        La gamificación usa elementos de juego (puntos, retos, recompensas) en actividades no lúdicas para mejorar la motivación y el aprendizaje.
+      </p>
+    </div>
+
+    <!-- 10 -->
+    <div class="faq-item" (click)="toggle(10)">
+      <h3>¿Los videojuegos pueden apoyar la salud mental?</h3>
+      <p [class.open]="isOpen(10)">
+        Sí, algunos videojuegos ayudan a reducir estrés, mejorar el estado de ánimo y fortalecer habilidades de autorregulación emocional.
+      </p>
+    </div>
+
   </div>
-</main>
+</div>

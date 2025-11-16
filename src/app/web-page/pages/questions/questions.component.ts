@@ -11,10 +11,13 @@ import { NavegationMenuComponent } from '../../components/navegation-menu/navega
 })
 export class QuestionsPageComponent {
   // ejemplo simple de banco (puedes reemplazar por servicio)
-  questions = [
-    { id:1, mode:'math', q:'2 + 2', a:'4' },
-    { id:2, mode:'math', q:'5 × 3', a:'15' },
-    { id:3, mode:'history', q:'¿Quién llegó a América en 1492?', a:'Colón' },
-    { id:4, mode:'history', q:'Civilización inca – capital', a:'Cuzco' }
-  ];
+  opened = -1;
+
+  toggle(num: number) {
+    this.opened = this.opened === num ? -1 : num;
+  }
+
+  isOpen(num: number) {
+    return this.opened === num;
+  }
 }

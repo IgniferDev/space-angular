@@ -1,49 +1,73 @@
 <app-navigation-menu></app-navigation-menu>
 
-<main class="page">
-  <section class="hero">
+<main class="page container home-page">
+
+  <!-- HERO: breve, con CTA -->
+  <section class="section-card hero">
     <div class="hero-inner">
-      <h1>SpaceEdu — Aprender jugando</h1>
-      <p class="lead">Un Space Invaders educativo que convierte preguntas en enemigos. Aprende resolviendo y compite por la mejor puntuación.</p>
-      <div class="actions">
-        <a routerLink="/juega" class="btn primary large">Jugar ahora</a>
-        <a routerLink="/proposito" class="btn ghost">¿Por qué esto funciona?</a>
+      <div class="hero-text">
+        <div class="kicker">Bienvenido</div>
+        <h1 class="hero-title">SpaceEdu</h1>
+        <p class="hero-sub">Juegos educativos que combinan diseño de interfaz y psicología del aprendizaje.</p>
+
+        <div class="hero-actions">
+          <a routerLink="/juega" class="btn primary large">Jugar ahora</a>
+          <a routerLink="/preguntas" class="btn ghost">Banco de preguntas</a>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <img src="assets/game/img/hero-game.png" alt="Ejemplo de juego" class="hero-image">
       </div>
     </div>
+  </section>
 
-    <div class="hero-illustration">
-      <!-- placeholder visual (puedes añadir imagen) -->
-      <div class="mock-game">🎮</div>
+  <!-- TRES PUNTOS CLAVE: tarjetas cortas -->
+  <section class="section-card simple-cards">
+    <div class="card-row">
+      <article class="card small">
+        <h3>Interfaz clara</h3>
+        <p class="muted">Diseños que guían la atención del estudiante.</p>
+      </article>
+
+      <article class="card small">
+        <h3>Feedback inmediato</h3>
+        <p class="muted">Aprende corrigiendo errores en tiempo real.</p>
+      </article>
+
+      <article class="card small">
+        <h3>Motivación</h3>
+        <p class="muted">Retos y recompensas para mantener el interés.</p>
+      </article>
     </div>
   </section>
 
-  <section class="info-grid">
-    <article class="card">
-      <h3>Interacción Humano–Computadora</h3>
-      <p>Los juegos ofrecen un entorno controlado donde las interfaces e instrucciones se pueden probar y mejorar. La retroalimentación inmediata ayuda a consolidar el aprendizaje.</p>
-    </article>
-
-    <article class="card">
-      <h3>Aprendizaje activo</h3>
-      <p>Interactuar, tomar decisiones y recibir consecuencias fomenta la memorización y la comprensión profunda en lugar de la repetición pasiva.</p>
-    </article>
-
-    <article class="card">
-      <h3>Evaluación continua</h3>
-      <p>Los juegos permiten medir progreso por puntos, tiempo y rondas, ofreciendo métricas útiles para mejorar contenido educativo.</p>
-    </article>
+  <!-- BREVE EXPLICACION: una frase -->
+  <section class="section-card short">
+    <h2>¿Por qué funciona?</h2>
+    <p class="muted">Combinamos principios de IHC y psicología (atención, memoria, refuerzo) para crear actividades breves y efectivas que fomentan el aprendizaje activo.</p>
   </section>
 
-  <section class="how-it-works">
-    <h2>Cómo funciona</h2>
-    <ol>
-      <li>Selecciona modo (Matemáticas / Historia) y tipo (Vidas / Temporizador).</li>
-      <li>Tu nave contiene una respuesta; dispara a la pregunta correcta arriba o abajo.</li>
-      <li>Gana poderes y sube rondas: la dificultad aumenta poco a poco.</li>
-    </ol>
+  <!-- USO: pasos simples -->
+  <section class="section-card steps">
+    <h2>Cómo empezar</h2>
+    <div class="steps-row">
+      <div class="step card">
+        <strong>1</strong>
+        <div>Elige modo y tipo (Vidas / Temporizador).</div>
+      </div>
+      <div class="step card">
+        <strong>2</strong>
+        <div>Observa la respuesta en tu nave y dispara a la pregunta correcta.</div>
+      </div>
+      <div class="step card">
+        <strong>3</strong>
+        <div>Acumula puntos y compite en el scoreboard.</div>
+      </div>
+    </div>
   </section>
 
-  <footer class="page-footer">
-    <small>Proyecto educativo — Interacción Humano-Computadora y gamificación en el aula.</small>
+  <footer class="card footer-note">
+    <small>SpaceEdu — IHC y gamificación para el aula.</small>
   </footer>
 </main>

@@ -1,1 +1,134 @@
 /* You can add global styles to this file, and also import other style files */
+/* Global styles - Dark theme base */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root{
+  --bg-100: #030517;   /* fondo principal */
+  --bg-90:  #071227;
+  --panel:  rgba(255,255,255,0.03);
+  --muted:  #9fb4d8;
+  --accent1: #60a5fa;
+  --accent2: #2dd4bf;
+  --glass: rgba(255,255,255,0.03);
+  --text: #dbeafe;
+}
+
+* { box-sizing: border-box; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+html, body {
+  height: 100%;
+  margin: 0;            /* elimina los bordes/márgenes blancos del navegador */
+  background: linear-gradient(180deg, var(--bg-100) 0%, var(--bg-90) 100%);
+  color: var(--text);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-main, main, .page {
+  background: transparent; /* aseguramos que el contenido tome el fondo oscuro */
+}
+
+/* Contenedor central */
+.container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 12px;
+}
+
+/* Botones reutilizables */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+  font-weight: 700;
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn.primary {
+  background: linear-gradient(90deg, var(--accent2), var(--accent1));
+  color: #041025;
+  box-shadow: 0 6px 22px rgba(45,212,191,0.06);
+}
+
+.btn.ghost {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.025);
+}
+
+/* Headings */
+h1, h2, h3 { margin: 0 0 10px 0; color: #fff; font-weight: 700; letter-spacing: -0.3px; }
+h1 { font-size: 2.1rem; }
+h2 { font-size: 1.4rem; }
+p { margin: 0 0 12px 0; color: var(--muted); line-height: 1.55; }
+
+/* Cards / panels */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 6px 24px rgba(3,6,12,0.5);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* Small utilities */
+.lead { color: #bcdcff; font-size: 1rem; }
+.muted { color: var(--muted); }
+
+/* Fix iframe/game area to visually fit */
+.iframe-wrapper iframe {
+  border-radius: 12px;
+  box-shadow: 0 14px 48px rgba(2,6,23,0.7);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Responsive helpers */
+@media (max-width: 860px){
+  .container { margin: 12px; padding: 8px; }
+  h1 { font-size: 1.6rem; }
+  .hero { flex-direction: column; gap: 12px; align-items:flex-start; }
+}
+
+
+/* Fondo oscuro suave con degradado */
+body {
+  background: linear-gradient(145deg, #0f1620, #1b2330);
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  color: #e5e5e5;
+  font-family: "Inter", sans-serif;
+}
+
+/* Ajuste general para que todo se vea más claro */
+* {
+  color-scheme: dark;
+}
+
+/* Tarjetas más claras (aplican a home, questions, about, purpose, etc.) */
+.card,
+.faq-item,
+.section-card {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  backdrop-filter: blur(6px);
+}
+
+/* Hover más claro */
+.card:hover,
+.faq-item:hover,
+.section-card:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Títulos ligeramente más brillantes */
+h1, h2, h3, h4 {
+  color: #f6f6f6 !important;
+}
