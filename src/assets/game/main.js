@@ -1,44 +1,46 @@
-/* main.js
-   Añadido: rondas / dificultad progresiva + overlay de ronda
-           scoreboard guardado en localStorage + formulario al morir
-   Mantiene: modos (vidas/timer), poderes, pausa IZQ+DER, 2 jugadores, gamepad
+/* main.js - Versión final integrada
+   - Mantiene tu jugabilidad original
+   - Añade: sonido (Audio), fullscreen por jugador, bloqueo scroll, fixes 2 jugadores
+   - Rutas audio (relativas a assets/game/): audio/*.wav
 */
-// en assets/game/main.js (al principio)
+
+/* ===========================
+   PARSE HASH (auto params)
+   =========================== */
 (function(){
   function parseHash(){
     const h = location.hash.replace(/^#/, '');
     const obj = {};
     h.split('&').forEach(part=>{
+      if(!part) return;
       const [k,v] = part.split('=');
       if(k) obj[k]=decodeURIComponent(v||'');
     });
     return obj;
   }
   const params = parseHash();
-  // params.players, params.mode, params.type
-  // usa estos valores para inicializar el menú o auto-start.
-  // p. ej. if (params.mode) document.getElementById('mode-select').value = params.mode;
+  // If desired, we can auto-fill selects on load (index-embed.html must have the elements)
+  window.__embedParams = params;
 })();
 
-/* ---------- CONFIGS ---------- */
+/* ===========================
+   CONSTANTS & BANKS
+   =========================== */
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 600;
 const POSITIONS_X = [120, 360, 600];
 const ENEMY_TOP_Y = 40;
 const ENEMY_BOTTOM_Y = 300;
-const PLAYER_Y_MIDDLE = 200;
-
+const PLAYER_Y_MIDDLE = 420 - 220; // keep visible area (you used 200 before, keep same effect)
 const POWER_DURATION_MS = 7000;
 const UNPAUSE_INPUT_BLOCK_MS = 300;
 const TIMER_START_SECONDS = 25;
 const TIMER_ON_CORRECT_BASE = 3;
 const TIMER_ON_WRONG_BASE = 5;
-
-const ROUNDS_EVERY_N_CORRECT = 8; // cada 8 aciertos subes de ronda
-
+const ROUNDS_EVERY_N_CORRECT = 8;
 const LEADERBOARD_KEY = 'si_leaderboard_v1';
 
-/* Bancos */
+/* Small banks (your original) */
 const BANKS = {
   math: [
     { q: "2 + 2", a: "4" },
@@ -58,7 +60,9 @@ const BANKS = {
   ]
 };
 
-/* Controles por defecto */
+/* ===========================
+   CONTROLS DEFAULT
+   =========================== */
 const defaultControls = [
   {
     inputType: "keyboard",
@@ -73,7 +77,9 @@ const defaultControls = [
 ];
 let controlsConfig = JSON.parse(JSON.stringify(defaultControls));
 
-/* ---------- DOM Global ---------- */
+/* ===========================
+   DOM references
+   =========================== */
 const $menu = document.getElementById('menu');
 const $start = document.getElementById('start-game');
 const $configure = document.getElementById('configure-controls');
@@ -88,21 +94,119 @@ const $gameWrapper = document.getElementById('game-wrapper');
 const $pauseMenu = document.getElementById('pause-menu');
 const $resumeBtn = document.getElementById('resume');
 const $restartPause = document.getElementById('restart-pause');
-const $leaderboardContainer = document.getElementById('leaderboard'); // ver index.html section
+const $leaderboardContainer = document.getElementById('leaderboard');
 
-window.addEventListener('gamepadconnected', (e)=> console.log('Gamepad connected', e.gamepad));
-window.addEventListener('gamepaddisconnected', (e)=> console.log('Gamepad disconnected', e.gamepad));
+/* Defensive: if some DOM missing, create placeholders to avoid exceptions */
+function ensureDom(elem, id, parent=document.body) {
+  if(elem) return elem;
+  const node = document.createElement('div');
+  node.id = id;
+  parent.appendChild(node);
+  return node;
+}
+if(!$gameWrapper) $gameWrapper = ensureDom($gameWrapper,'game-wrapper',document.body);
+if(!$leaderboardContainer) $leaderboardContainer = ensureDom($leaderboardContainer,'leaderboard',document.body);
 
-/* ---------- Utilidades ---------- */
-function shuffle(arr){ return arr.slice().sort(()=> Math.random()-0.5); }
+/* ===========================
+   UTILITIES
+   =========================== */
+function shuffle(arr){ return arr && arr.length ? arr.slice().sort(()=> Math.random()-0.5) : []; }
 function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
 function keyName(code){
-  if(!code && code !== 0) return 'ninguno';
+  if(code === null || code === undefined) return 'ninguno';
   const map = {32:'Space',37:'Left',38:'Up',39:'Right',40:'Down',65:'A',68:'D',70:'F',71:'G',69:'E',83:'S',87:'W'};
   return map[code] || ('KeyCode '+code);
 }
 
-/* Leaderboard helpers */
+/* ===========================
+   AUDIO (Option A: new Audio())
+   Uses: audio/*.wav (relative to assets/game/)
+   =========================== */
+window.gameSounds = {
+  available: false,
+  items: {},
+  base: 'audio/',
+
+  preload() {
+    try {
+      const make = (name, file, opts={}) => {
+        try {
+          const a = new Audio(this.base + file);
+          a.preload = 'auto';
+          if(opts.loop) a.loop = true;
+          if(opts.volume !== undefined) a.volume = opts.volume;
+          this.items[name] = a;
+        } catch(e) {
+          console.warn('Audio create fail', name, e);
+        }
+      };
+      make('shoot','shoot.wav',{volume:0.6});
+      make('explosion','explosion.wav',{volume:0.5});
+      make('correct','correct.wav',{volume:0.7});
+      make('wrong','wrong.wav',{volume:0.7});
+      make('bg','music.wav',{loop:true,volume:0.14});
+      this.available = true;
+    } catch(e){
+      console.warn('gameSounds preload failed', e);
+      this.available = false;
+    }
+  },
+
+  play(name){
+    try {
+      if(!this.available) return;
+      const a = this.items[name];
+      if(!a) return;
+      // Reset playhead to allow retrigger
+      try { a.pause(); } catch(e){}
+      try { a.currentTime = 0; } catch(e){}
+      a.play().catch(()=>{/* may be blocked until user interaction */});
+    } catch(e){}
+  },
+
+  playLoop(name){
+    try {
+      if(!this.available) return;
+      const a = this.items[name];
+      if(!a) return;
+      if(!a.loop) a.loop = true;
+      a.play().catch(()=>{});
+      this._loopRef = a;
+    } catch(e){}
+  },
+
+  stopLoop(){
+    try {
+      if(this._loopRef) { this._loopRef.pause(); this._loopRef.currentTime = 0; this._loopRef = null; }
+    } catch(e){}
+  },
+
+  stop(name){
+    try {
+      const a = this.items[name];
+      if(a){ a.pause(); a.currentTime = 0; }
+    } catch(e){}
+  }
+};
+window.gameSounds.preload();
+
+/* Start bg on first user interaction (autoplay policy) */
+window.addEventListener('click', function _enableAudioOnce(){
+  if(window.gameSounds && window.gameSounds.available){
+    // attempt to warm audio context by playing 0-length silence via existing elements
+    const bg = window.gameSounds.items['bg'];
+    if(bg && bg.paused) {
+      // do not auto play bg immediately unless user clicks Start, just unlock ability
+      try { bg.play().then(()=>bg.pause()); } catch(e){}
+    }
+  }
+  window.removeEventListener('click', _enableAudioOnce);
+});
+
+/* ===========================
+   LEADERBOARD helpers
+   =========================== */
 function loadLeaderboard(){
   try {
     const raw = localStorage.getItem(LEADERBOARD_KEY);
@@ -114,15 +218,14 @@ function loadLeaderboard(){
   }
 }
 function saveLeaderboard(arr){
-  localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(arr.slice(0,100))); // keep last 100
+  localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(arr.slice(0,100)));
 }
 function addScoreToLeaderboard(entry){
   const arr = loadLeaderboard();
   arr.push(entry);
-  // sort by score desc, then rounds desc, then date desc
   arr.sort((a,b)=> (b.score - a.score) || (b.rounds - a.rounds) || (new Date(b.date) - new Date(a.date)));
   saveLeaderboard(arr);
-  renderLeaderboard(); // update UI
+  renderLeaderboard();
 }
 function clearLeaderboard(){
   localStorage.removeItem(LEADERBOARD_KEY);
@@ -136,7 +239,7 @@ function renderLeaderboard(){
   if(top.length === 0) html += `<div class="empty">Aún no hay puntajes</div>`;
   else {
     html += `<table class="lb-table"><thead><tr><th>#</th><th>Nombre</th><th>Pts</th><th>Modo</th><th>Tipo</th><th>Rondas</th><th>Fecha</th></tr></thead><tbody>`;
-    top.forEach((r,i)=>{
+    top.forEach((r,i)=> {
       html += `<tr><td>${i+1}</td><td>${escapeHtml(r.name||'---')}</td><td>${r.score}</td><td>${escapeHtml(r.mode)}</td><td>${escapeHtml(r.gameType)}</td><td>${r.rounds}</td><td>${new Date(r.date).toLocaleString()}</td></tr>`;
     });
     html += `</tbody></table>`;
@@ -146,16 +249,28 @@ function renderLeaderboard(){
   const btn = document.getElementById('clear-lb');
   if(btn) btn.addEventListener('click', () => { if(confirm('Borrar tabla de puntajes?')) clearLeaderboard(); });
 }
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
 
-/* ---------- GameInstance class ---------- */
+/* render once */
+renderLeaderboard();
+
+/* ===========================
+   Utility: safe numeric parse
+   =========================== */
+function safeParseInt(v, fallback=1){
+  const n = parseInt(v,10);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+/* ===========================
+   GameInstance (keeps gameplay intact)
+   =========================== */
 class GameInstance {
   constructor(index, mode, parentEl, controlCfgIndexStart = 0, gameType='lives'){
     this.index = index;
-    this.mode = mode;
+    this.mode = mode || 'math';
     this.parentEl = parentEl;
-    this.controlsOffset = controlCfgIndexStart;
-    this.gameType = gameType;
+    this.controlsOffset = controlCfgIndexStart || 0;
+    this.gameType = gameType || 'lives';
 
     // DOM & HUD
     this.dom = this._createDOM();
@@ -166,9 +281,10 @@ class GameInstance {
     this.powerBox = this.dom.powerBox;
     this.livesBox = this.dom.livesBox;
     this.timerBox = this.dom.timerBox;
+    this.topInfo = this.dom.topInfo;
 
     // gameplay state
-    this.bank = shuffle(BANKS[this.mode]).slice();
+    this.bank = shuffle(BANKS[this.mode] || []);
     this.enemies = [];
     this.player = null;
     this.lasers = [];
@@ -178,9 +294,9 @@ class GameInstance {
     this.animationId = null;
 
     // difficulty & rounds
-    this.correctCount = 0;     // total corrects (for power / life / rounds)
+    this.correctCount = 0;
     this.round = 1;
-    this.difficultyMultiplier = 1; // increases with rounds
+    this.difficultyMultiplier = 1;
 
     // timing
     this.timeLeft = (this.gameType==='timer') ? TIMER_START_SECONDS : null;
@@ -191,6 +307,7 @@ class GameInstance {
     this.gamepadPrevAxis = 0;
     this.ignoreInputUntil = 0;
 
+    // prepare
     this._prepare();
   }
 
@@ -207,11 +324,16 @@ class GameInstance {
     const timerBox = document.createElement('div'); timerBox.className = 'score-box'; timerBox.textContent = this.gameType==='timer' ? `Tiempo: ${this.timeLeft}s` : '';
     top.appendChild(title); top.appendChild(modeLabel); top.appendChild(score); top.appendChild(powerBox); top.appendChild(livesBox); top.appendChild(timerBox);
 
-    const board = document.createElement('div'); board.className = 'board'; board.style.width = GAME_WIDTH + 'px'; board.style.height = GAME_HEIGHT + 'px';
-    // round overlay
-    const roundOverlay = document.createElement('div'); roundOverlay.className='round-overlay hidden'; roundOverlay.innerHTML = `<div class="round-text"></div>`;
+    // fullscreen button (attach after board created)
+    const fsBtn = document.createElement('button'); fsBtn.className = 'btn small'; fsBtn.textContent = '⛶'; fsBtn.title = 'Pantalla completa'; fsBtn.style.marginLeft='6px';
+    title.style.display='inline-block'; title.style.marginRight='8px';
+    title.appendChild(fsBtn);
 
-    // end screen (game over / you win) includes name input
+    const board = document.createElement('div'); board.className = 'board'; board.style.width = GAME_WIDTH + 'px'; board.style.height = GAME_HEIGHT + 'px';
+
+    const roundOverlay = document.createElement('div'); roundOverlay.className='round-overlay hidden';
+    roundOverlay.innerHTML = `<div class="round-text"></div>`;
+
     const end = document.createElement('div'); end.className = 'end-screen hidden';
     end.innerHTML = `<h2 class="end-title"></h2>
       <div class="end-body">
@@ -224,15 +346,34 @@ class GameInstance {
 
     inst.appendChild(top); inst.appendChild(board); inst.appendChild(roundOverlay); inst.appendChild(end);
     this.parentEl.appendChild(inst);
+
+    // AFTER appending, attach fullscreen handler — safe to use 'board' here
+    fsBtn.addEventListener('click', (ev) => {
+      ev.preventDefault(); ev.stopPropagation();
+      try {
+        if (board.requestFullscreen) board.requestFullscreen();
+        else if (board.webkitRequestFullscreen) board.webkitRequestFullscreen();
+        else if (board.msRequestFullscreen) board.msRequestFullscreen();
+      } catch(e){}
+    });
+
     return { root: inst, topInfo: top, board, endScreen: end, roundOverlay, scoreBox: score, powerBox, livesBox, timerBox };
   }
 
   _prepare(){
     this._clearAll();
-    while(this.bank.length < 12) this.bank.push(...shuffle(BANKS[this.mode]));
+    if(!BANKS[this.mode]) this.mode = Object.keys(BANKS)[0];
+    this.bank = shuffle(BANKS[this.mode] || []).slice();
+    while(this.bank.length < 12 && BANKS[this.mode] && BANKS[this.mode].length) this.bank.push(...shuffle(BANKS[this.mode]));
     const sel = this.bank.splice(0,6);
-    for(let i=0;i<3;i++) this._createEnemy(i,'top',POSITIONS_X[i],ENEMY_TOP_Y,sel[i].q,sel[i].a);
-    for(let i=0;i<3;i++) this._createEnemy(i,'bottom',POSITIONS_X[i],ENEMY_BOTTOM_Y,sel[3+i].q,sel[3+i].a);
+    for(let i=0;i<3;i++){
+      const it = sel[i] || {q:'?', a:'—'};
+      this._createEnemy(i,'top',POSITIONS_X[i],ENEMY_TOP_Y,it.q,it.a);
+    }
+    for(let i=0;i<3;i++){
+      const it = sel[3+i] || {q:'?', a:'—'};
+      this._createEnemy(i,'bottom',POSITIONS_X[i],ENEMY_BOTTOM_Y,it.q,it.a);
+    }
 
     this.player = {
       slot:1,
@@ -244,7 +385,9 @@ class GameInstance {
       powerCooldown:0,
       powerUsesRemaining:2,
       lives: (this.gameType==='lives'?3:0),
-      alive:true
+      alive:true,
+      x: 0,
+      y: PLAYER_Y_MIDDLE
     };
 
     this.timeLeft = (this.gameType==='timer') ? TIMER_START_SECONDS : null;
@@ -260,32 +403,20 @@ class GameInstance {
     this._updateLivesBox();
     this._updateTimerBox();
 
-    // wire end-screen buttons & save name
-    const btnPlayAgain = this.endScreen.querySelector('.btn-playagain');
-    if(btnPlayAgain) btnPlayAgain.onclick = () => { this.endScreen.classList.add('hidden'); this._prepare(); this.start(); };
-    const btnBack = this.endScreen.querySelector('.btn-backmenu');
-    if(btnBack) btnBack.onclick = () => { this.stop(); goToMenu(); };
-
+    // wire end-screen save button
     const saveBtn = this.endScreen.querySelector(`#save-score-${this.index}`);
     const nameInput = this.endScreen.querySelector(`#player-name-${this.index}`);
     if(saveBtn && nameInput){
       saveBtn.onclick = () => {
         const name = (nameInput.value || '---').slice(0,20);
-        addScoreToLeaderboard({
-          name,
-          score: this.score,
-          mode: this.mode,
-          gameType: this.gameType,
-          rounds: this.round,
-          date: new Date().toISOString()
-        });
-        // hide form after save
+        addScoreToLeaderboard({ name, score: this.score, mode: this.mode, gameType: this.gameType, rounds:this.round, date: new Date().toISOString() });
         this.endScreen.querySelector('.enter-name').classList.add('hidden');
-        // show done text
         const actions = this.endScreen.querySelector('.end-actions');
         actions.innerHTML = `<div class="saved-msg">Puntaje guardado. ¡buena!</div>`;
       };
     }
+    // ensure board isn't visually paused
+    this.board.classList.remove('paused');
   }
 
   _clearAll(){
@@ -300,7 +431,7 @@ class GameInstance {
   _createEnemy(slot,row,x,y,q,a){
     const container = document.createElement('div'); container.className='enemy';
     container.dataset.slot = slot; container.dataset.row = row;
-    container.innerHTML = `<img src="img/ufo.png" alt="ufo"><div class="enemy-label">${q}</div>`;
+    container.innerHTML = `<img src="img/ufo.png" alt="ufo" onerror="this.style.opacity=.6"><div class="enemy-label">${escapeHtml(q)}</div>`;
     container.style.transform = `translate(${x}px, ${y}px)`;
     this.board.appendChild(container);
     const enemy = { id:`${row}-${slot}-${Date.now()}-${Math.random().toString(36).slice(2,6)}`, slot, row, x, y, question:q, answer:a, el:container, alive:true };
@@ -323,8 +454,8 @@ class GameInstance {
   _positionPlayer(){
     const p = this.player;
     p.x = POSITIONS_X[p.slot]; p.y = PLAYER_Y_MIDDLE;
-    p.wrapEl.style.transform = `translate(${p.x}px, ${p.y}px)`;
-    p.imgEl.style.transform = (p.facing === 'up') ? 'rotate(0deg)' : 'rotateX(180deg)';
+    if(p.wrapEl) p.wrapEl.style.transform = `translate(${p.x}px, ${p.y}px)`;
+    if(p.imgEl) p.imgEl.style.transform = (p.facing === 'up') ? 'rotate(0deg)' : 'rotateX(180deg)';
     const answerEl = p.wrapEl.querySelector(`#inst-${this.index}-answer`);
     if(answerEl) answerEl.textContent = p.answer || '—';
   }
@@ -335,17 +466,17 @@ class GameInstance {
     const el = this.player.wrapEl.querySelector(`#inst-${this.index}-answer`); if(el) el.textContent = this.player.answer;
   }
 
-  _updateScore(delta){ this.score += delta; this.scoreBox.textContent = `Aciertos: ${this.score}`; }
-  _updatePowerBox(){ this.powerBox.textContent = `Poderes: ${this.player.powerUsesRemaining}`; }
-  _updateLivesBox(){ this.livesBox.textContent = this.gameType==='lives' ? `Vidas: ${this.player.lives}` : ''; }
-  _updateTimerBox(){ if(this.gameType==='timer') this.timerBox.textContent = `Tiempo: ${Math.max(0, Math.floor(this.timeLeft))}s`; else this.timerBox.textContent=''; }
+  _updateScore(delta){ this.score += delta; if(this.scoreBox) this.scoreBox.textContent = `Aciertos: ${this.score}`; }
+  _updatePowerBox(){ if(this.powerBox) this.powerBox.textContent = `Poderes: ${this.player.powerUsesRemaining}`; }
+  _updateLivesBox(){ if(this.livesBox) this.livesBox.textContent = this.gameType==='lives' ? `Vidas: ${this.player.lives}` : ''; }
+  _updateTimerBox(){ if(this.timerBox) this.timerBox.textContent = this.gameType==='timer' ? `Tiempo: ${Math.max(0, Math.floor(this.timeLeft))}s` : ''; }
 
   handleKeyDown(code){
     if(Date.now() < this.ignoreInputUntil) return;
     if(this.keyDownOnce[code]) return;
     this.keyDownOnce[code] = true;
     const cfg = controlsConfig[this.controlsOffset] || controlsConfig[0];
-    if(cfg.inputType === 'keyboard'){
+    if(cfg && cfg.inputType === 'keyboard'){
       const kb = cfg.keyboard;
       if(code === kb.left) this.moveLeft();
       else if(code === kb.right) this.moveRight();
@@ -390,9 +521,10 @@ class GameInstance {
     const $l = document.createElement('img'); $l.className='laser'; $l.src='img/laser.png'; $l.style.width='12px';
     const dir = (this.player.facing === 'up') ? -1 : 1;
     this.board.appendChild($l);
+    try { if(window.gameSounds && window.gameSounds.available) window.gameSounds.play('shoot'); } catch(e){}
     $l.style.transform = `translate(${lx}px, ${ly}px)`;
     this.lasers.push({ x: lx, y: ly, el: $l, dir });
-    this.player.cooldown = Math.max(6, 18 - Math.floor((this.round-1)/2)); // slightly faster cooldown as rounds progress (but not too low)
+    this.player.cooldown = Math.max(6, 18 - Math.floor((this.round-1)/2));
   }
 
   tryPower(){
@@ -424,16 +556,15 @@ class GameInstance {
 
   _replenishEnemyAt(slot,row){
     if(this.bank.length === 0) this.bank = shuffle(BANKS[this.mode]).slice();
-    const next = this.bank.shift();
+    const next = this.bank.shift() || {q:'?', a:'—'};
     this._createEnemy(slot,row,POSITIONS_X[slot], row==='top' ? ENEMY_TOP_Y : ENEMY_BOTTOM_Y, next.q, next.a);
   }
 
   _maybeRoundUp(){
-    // cada ROUNDS_EVERY_N_CORRECT correctos, sube 1 ronda
     const newRound = Math.floor(this.correctCount / ROUNDS_EVERY_N_CORRECT) + 1;
     if(newRound > this.round){
       this.round = newRound;
-      this.difficultyMultiplier = 1 + (this.round - 1) * 0.18; // escala del 18% por ronda (ajustable)
+      this.difficultyMultiplier = 1 + (this.round - 1) * 0.18;
       this._showRoundOverlay(this.round);
     }
   }
@@ -444,13 +575,11 @@ class GameInstance {
     text.textContent = `RONDA ${roundNum}`;
     ov.classList.remove('hidden');
     setTimeout(()=> ov.classList.add('hidden'), 1800);
-    // small visual/audio hook could be added here
   }
 
   _updateLasers(deltaSec){
     for(let i=this.lasers.length-1;i>=0;i--){
       const L = this.lasers[i];
-      // laser speed increases a little with difficulty
       const speed = 10 + Math.floor((this.round-1) * 1.6);
       L.y += (L.dir * speed);
       if(L.y < -50 || L.y > GAME_HEIGHT + 50){ L.el.remove(); this.lasers.splice(i,1); continue; }
@@ -462,40 +591,28 @@ class GameInstance {
         if(this._isEnemyHidden(target)){ L.el.remove(); this.lasers.splice(i,1); continue; }
         if(this.player.answer === target.answer){
           const slot = target.slot, row = target.row;
+          try { if(window.gameSounds && window.gameSounds.available) window.gameSounds.play('explosion'); } catch(e){}
           target.alive = false; target.el.remove();
           L.el.remove(); this.lasers.splice(i,1);
           this._updateScore(1);
-
-          // correcto: contadores
           this.correctCount += 1;
-          // cada 4 correctos -> +1 poder
           if(this.correctCount % 4 === 0){
             this.player.powerUsesRemaining += 1;
             this._updatePowerBox();
-            // mostrar mini notificación (opcional)
             this._flashTopMessage('PODER +1');
           }
-          // en modo vidas: cada 7 correctos -> +1 vida
           if(this.gameType === 'lives' && this.correctCount % 7 === 0){
             this.player.lives += 1;
             this._updateLivesBox();
             this._flashTopMessage('VIDA +1');
           }
-
-          // ajustes por ronda / dificultad
           this._maybeRoundUp();
-
-          // tiempo (si timer)
-          const added = Math.max(0.5, TIMER_ON_CORRECT_BASE - (this.round-1)*0.2); // reduce slightly each ronda
+          const added = Math.max(0.5, TIMER_ON_CORRECT_BASE - (this.round-1)*0.2);
           if(this.gameType === 'timer'){ this.timeLeft += added; this._updateTimerBox(); }
-
-          // reasignar respuesta y reponer enemigo en misma celda
           this._assignNewAnswer();
           this._replenishEnemyAt(slot,row);
-
           if(this.powerState) this._clearPowerVisuals();
         } else {
-          // fallo
           if(this.gameType === 'lives'){
             this.player.lives -= 1;
             this._updateLivesBox();
@@ -505,7 +622,6 @@ class GameInstance {
               this.player.imgEl.classList.add('dead');
             }
           } else if(this.gameType === 'timer'){
-            // penalidad según ronda: se vuelve más dura
             const penalty = Math.min(12, TIMER_ON_WRONG_BASE + Math.floor((this.round-1)*0.6));
             this.timeLeft -= penalty;
             this._updateTimerBox();
@@ -521,7 +637,7 @@ class GameInstance {
     const alive = this.enemies.filter(e=>e.alive).map(e=>e.answer);
     if(alive.length === 0){
       if(this.bank.length === 0) this.bank = shuffle(BANKS[this.mode]).slice();
-      const next = this.bank.shift();
+      const next = this.bank.shift() || {a:'—'};
       this.player.answer = next ? next.a : '—';
     } else this.player.answer = alive[Math.floor(Math.random()*alive.length)];
     const el = this.player.wrapEl.querySelector(`#inst-${this.index}-answer`); if(el) el.textContent = this.player.answer;
@@ -535,9 +651,8 @@ class GameInstance {
   }
 
   _flashTopMessage(txt){
-    // small transient message at top-info
     const el = document.createElement('div'); el.className = 'top-temp-msg'; el.textContent = txt;
-    this.dom.topInfo.appendChild(el);
+    if(this.topInfo && this.topInfo.appendChild) this.topInfo.appendChild(el);
     setTimeout(()=> { el.classList.add('out'); setTimeout(()=> el.remove(),900); }, 900);
   }
 
@@ -555,16 +670,10 @@ class GameInstance {
   _end(type){
     this.running = false;
     if(this.animationId) cancelAnimationFrame(this.animationId);
-    // show end
     const esc = this.endScreen; esc.classList.remove('hidden');
     const title = esc.querySelector('.end-title'); title.textContent = (type==='gameover') ? 'GAME OVER' : 'YOU WIN!';
-    // show enter-name form by default when gameover
     const enter = esc.querySelector('.enter-name');
-    if(enter){
-      // show only for game over (if win, still allow)
-      enter.classList.remove('hidden');
-    }
-    // fill end-actions with basic controls (restart/backmenu)
+    if(enter) enter.classList.remove('hidden');
     const actions = esc.querySelector('.end-actions');
     actions.innerHTML = `<div style="margin:8px 0"><button class="btn primary btn-playagain">Jugar de nuevo</button> <button class="btn btn-backmenu">Volver al menú</button></div>`;
     const btnPlay = actions.querySelector('.btn-playagain'); btnPlay.onclick = () => { esc.classList.add('hidden'); this._prepare(); this.start(); };
@@ -575,6 +684,7 @@ class GameInstance {
     this.running = true;
     this.blockInputShortly();
     this.lastFrameTime = performance.now();
+    // start per-instance loop
     this.animationId = requestAnimationFrame((ts)=> this._loop(ts));
   }
   stop(){
@@ -592,7 +702,6 @@ class GameInstance {
     if(this.player.cooldown > 0) this.player.cooldown--;
     if(this.player.powerCooldown > 0) this.player.powerCooldown--;
 
-    // wobble scaled by difficultyMultiplier
     this.enemies.forEach(e => { if(!e.alive) return; const dy = Math.sin((Date.now()+e.slot*100)/(700/this.difficultyMultiplier))*6*this.difficultyMultiplier; e.el.style.transform = `translate(${e.x}px, ${e.y + dy}px)`; });
 
     this._updateLasers(deltaSec);
@@ -602,8 +711,9 @@ class GameInstance {
 
     if(this._checkEnd()) return;
 
+    // poll gamepad for this instance if configured
     const cfg = controlsConfig[this.controlsOffset] || controlsConfig[0];
-    if(cfg.inputType === 'gamepad' && cfg.gamepad.index !== null){
+    if(cfg && cfg.inputType === 'gamepad' && cfg.gamepad.index !== null){
       const gp = navigator.getGamepads ? navigator.getGamepads()[cfg.gamepad.index] : null;
       if(gp) this.handleGamepad(gp);
     }
@@ -612,7 +722,9 @@ class GameInstance {
   }
 }
 
-/* ---------- Host / UI ---------- */
+/* ===========================
+   HOST / UI / MANAGER
+   =========================== */
 
 /* única declaración instances */
 let instances = [];
@@ -620,58 +732,74 @@ let instances = [];
 function buildInstances(){
   $gameWrapper.innerHTML = '';
   instances = [];
-  const numPlayers = parseInt($playerCountSelect.value);
-  const mode = $modeSelect.value || 'math';
-  const gameType = $gameTypeSelect ? $gameTypeSelect.value : 'lives';
+  const numPlayers = safeParseInt($playerCountSelect ? $playerCountSelect.value : 1, 1);
+  const mode = ($modeSelect && $modeSelect.value) ? $modeSelect.value : (window.__embedParams && window.__embedParams.mode) || 'math';
+  const gameType = ($gameTypeSelect && $gameTypeSelect.value) ? $gameTypeSelect.value : (window.__embedParams && window.__embedParams.type) || 'lives';
+
   if(numPlayers === 1){
     const inst = new GameInstance(0, mode, $gameWrapper, 0, gameType); instances.push(inst);
   } else {
+    // left and right instances: offsets 0 and 1 (controlsConfig must have entries for both)
     const instL = new GameInstance(0, mode, $gameWrapper, 0, gameType);
     const instR = new GameInstance(1, mode, $gameWrapper, 1, gameType);
     instances.push(instL, instR);
   }
-  // auto focus: show leaderboard updated
   renderLeaderboard();
 }
 
 /* volver al menu sin recargar */
 function goToMenu(){
   instances.forEach(i=>i.stop());
+  // stop bg
+  try { window.gameSounds.stop('bg'); window.gameSounds.stopLoop && window.gameSounds.stopLoop(); } catch(e){}
   $gameWrapper.innerHTML = '';
   instances = [];
-  $menu.classList.remove('hidden');
+  if($menu) $menu.classList.remove('hidden');
   document.querySelectorAll('.board').forEach(b=>b.classList.remove('paused'));
 }
 
-/* global keyboard */
+/* ===========================
+   GLOBAL INPUT (keyboard) - prevents scroll
+   =========================== */
 window.addEventListener('keydown', (e) => {
+  const blockedKeys = new Set([37,38,39,40,32,65,68,83,87]);
+  const code = e.keyCode || e.which;
+  if(blockedKeys.has(code)) {
+    const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : null;
+    if(tag !== 'input' && tag !== 'textarea') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+
+  // propagate to instances
   instances.forEach(inst => {
     const cfg = controlsConfig[inst.controlsOffset];
-    if(cfg.inputType === 'keyboard') inst.handleKeyDown(e.keyCode);
+    if(cfg && cfg.inputType === 'keyboard') inst.handleKeyDown(code);
   });
-  window._globalKeys = window._globalKeys || {}; window._globalKeys[e.keyCode] = true;
 
-  // pausa por IZQ+DER en cualquier instancia
-  const shouldPause = instances.some(inst => {
-    const cfg = controlsConfig[inst.controlsOffset];
-    if(cfg.inputType !== 'keyboard') return false;
-    const kb = cfg.keyboard;
-    return (!!window._globalKeys[kb.left] && !!window._global_keys_when_check || !!window._globalKeys[kb.right]) || (!!window._globalKeys[kb.left] && !!window._globalKeys[kb.right]);
-  });
-  // simpler: detect any instance where both its left & right keys pressed
+  window._globalKeys = window._globalKeys || {};
+  window._globalKeys[code] = true;
+
+  // pause detection: left+right for any instance
   let pauseNow = false;
   for(const inst of instances){
     const cfg = controlsConfig[inst.controlsOffset];
-    if(cfg.inputType !== 'keyboard') continue;
+    if(!cfg || cfg.inputType !== 'keyboard') continue;
     const kb = cfg.keyboard;
     if(window._globalKeys[kb.left] && window._globalKeys[kb.right]) { pauseNow = true; break; }
   }
-  if(pauseNow) togglePauseAll();
+  if(pauseNow){
+    const anyRunning = instances.some(i=>i.running);
+    if(anyRunning) togglePauseAll();
+  }
 });
 
 window.addEventListener('keyup', (e) => {
-  window._globalKeys = window._globalKeys || {}; window._globalKeys[e.keyCode] = false;
-  instances.forEach(inst => inst.handleKeyUp && inst.handleKeyUp(e.keyCode));
+  const code = e.keyCode || e.which;
+  window._globalKeys = window._globalKeys || {};
+  window._globalKeys[code] = false;
+  instances.forEach(inst => inst.handleKeyUp && inst.handleKeyUp(code));
 });
 
 /* instance event pause (gamepad) */
@@ -681,29 +809,42 @@ function togglePauseAll(){
   const anyRunning = instances.some(i=>i.running);
   if(anyRunning){
     instances.forEach(i=>i.stop());
-    $pauseMenu.classList.remove('hidden');
+    if($pauseMenu) $pauseMenu.classList.remove('hidden');
     document.querySelectorAll('.board').forEach(b=>b.classList.add('paused'));
+    try { window.gameSounds.stop('bg'); } catch(e){}
   } else {
     instances.forEach(i=>{ i.start(); i.blockInputShortly(); });
-    $pauseMenu.classList.add('hidden');
+    if($pauseMenu) $pauseMenu.classList.add('hidden');
     document.querySelectorAll('.board').forEach(b=>b.classList.remove('paused'));
+    try { if(window.gameSounds && window.gameSounds.available) window.gameSounds.playLoop('bg'); } catch(e){}
   }
 }
 
 /* UI wiring */
-$configure.addEventListener('click', ()=> { openConfigModal(parseInt($playerCountSelect.value)); $controlsModal.classList.remove('hidden'); });
-$closeConfig.addEventListener('click', ()=> { $controlsModal.classList.add('hidden'); });
-$saveConfig.addEventListener('click', ()=> { $controlsModal.classList.add('hidden'); alert('Controles guardados'); });
+if($configure) $configure.addEventListener('click', ()=> { openConfigModal(safeParseInt($playerCountSelect ? $playerCountSelect.value : 1)); if($controlsModal) $controlsModal.classList.remove('hidden'); });
+if($closeConfig) $closeConfig.addEventListener('click', ()=> { if($controlsModal) $controlsModal.classList.add('hidden'); });
+if($saveConfig) $saveConfig.addEventListener('click', ()=> { if($controlsModal) $controlsModal.classList.add('hidden'); alert('Controles guardados'); });
 
-$start.addEventListener('click', ()=> { buildInstances(); instances.forEach(i=>i.start()); $menu.classList.add('hidden'); renderLeaderboard(); });
-$resumeBtn.addEventListener('click', ()=> { instances.forEach(i=>{ if(!i._checkEnd()) i.start(); i.blockInputShortly(); }); $pauseMenu.classList.add('hidden'); document.querySelectorAll('.board').forEach(b=>b.classList.remove('paused')); });
-$restartPause.addEventListener('click', ()=> location.reload());
+if($start) $start.addEventListener('click', ()=> {
+  buildInstances();
+  instances.forEach(i=>i.start());
+  if($menu) $menu.classList.add('hidden');
+  renderLeaderboard();
+  // music: start loop if available
+  try { if(window.gameSounds && window.gameSounds.available) window.gameSounds.playLoop('bg'); } catch(e){}
+});
 
-/* config modal (remapeo) - misma lógica que antes */
+if($resumeBtn) $resumeBtn.addEventListener('click', ()=> { instances.forEach(i=>{ if(!i._checkEnd()) i.start(); i.blockInputShortly(); }); if($pauseMenu) $pauseMenu.classList.add('hidden'); document.querySelectorAll('.board').forEach(b=>b.classList.remove('paused')); });
+if($restartPause) $restartPause.addEventListener('click', ()=> location.reload());
+
+/* ===========================
+   Config modal UI helpers (assign keys/gamepads)
+   =========================== */
 function openConfigModal(numPlayers){
   $playersConfig.innerHTML = '';
   for(let p=0;p<numPlayers;p++){
-    const cfg = controlsConfig[p];
+    const cfg = controlsConfig[p] || JSON.parse(JSON.stringify(defaultControls[0]));
+    controlsConfig[p] = cfg; // ensure existence
     const div = document.createElement('div'); div.className='mapping';
     div.innerHTML = `<h3>Jugador ${p+1}</h3>
       <div>Input: <select id="input-type-${p}"><option value="keyboard">Teclado</option><option value="gamepad">Gamepad</option></select></div>
@@ -736,16 +877,16 @@ function openConfigModal(numPlayers){
 
 function listenForKeyboardAssign(which, player){
   const span = document.getElementById(`kb-${which}-${player}`);
-  span.textContent = 'Pulsar tecla...';
-  function handlerAssign(e){ e.preventDefault(); controlsConfig[player].keyboard[which] = e.keyCode; span.textContent = keyName(e.keyCode); window.removeEventListener('keydown', handlerAssign); }
+  if(span) span.textContent = 'Pulsar tecla...';
+  function handlerAssign(e){ e.preventDefault(); controlsConfig[player].keyboard[which] = e.keyCode; if(span) span.textContent = keyName(e.keyCode); window.removeEventListener('keydown', handlerAssign); }
   window.addEventListener('keydown', handlerAssign);
 }
 
 function listenForGamepadAssign(player){
   const info = document.getElementById(`gp-index-${player}`);
-  info.textContent = 'Esperando botón...';
+  if(info) info.textContent = 'Esperando botón...';
   let listening = true;
-  const poll = setInterval(()=>{
+  const poll = setInterval(()=> {
     const gps = navigator.getGamepads ? navigator.getGamepads() : [];
     for(let i=0;i<gps.length;i++){
       const gp = gps[i]; if(!gp) continue;
@@ -754,17 +895,19 @@ function listenForGamepadAssign(player){
           controlsConfig[player].gamepad.index = i;
           controlsConfig[player].gamepad.shootButton = b;
           controlsConfig[player].gamepad.powerButton = Math.min(b+1, gp.buttons.length-1);
-          info.textContent = `${i}`;
+          if(info) info.textContent = `${i}`;
           listening = false; clearInterval(poll); return;
         }
       }
     }
-  }, 150);
-  setTimeout(()=>{ if(listening){ clearInterval(poll); info.textContent = 'tiempo agotado'; } }, 10000);
+  },150);
+  setTimeout(()=>{ if(listening){ clearInterval(poll); if(info) info.textContent = 'tiempo agotado'; } }, 10000);
 }
 
-/* keep gamepad polling alive */
+/* keep gamepad polling alive (no-op loop) */
 (function pollGP(){ requestAnimationFrame(pollGP); })();
 
 /* initial render of leaderboard in menu */
 renderLeaderboard();
+
+/* EOF main.js */

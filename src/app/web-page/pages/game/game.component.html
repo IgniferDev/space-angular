@@ -1,16 +1,27 @@
 <app-navigation-menu></app-navigation-menu>
 
 <section class="game-page">
-  <div class="play-panel">
-    <button class="btn primary large" (click)="startEmbed()">Jugar ahora</button>
+
+  <!-- PANEL PRINCIPAL -->
+  <div class="play-panel fade-in">
+    <h1 class="game-title">Space Education Invaders</h1>
+    <p class="game-subtitle">
+      Presiona el botón para iniciar la aventura.
+    </p>
+
+    <button class="btn primary large start-btn" (click)="startEmbed()">
+      Jugar ahora
+    </button>
   </div>
 
-  <div class="iframe-wrapper" *ngIf="embedVisible">
+  <!-- IFRAME DEL JUEGO -->
+  <div class="iframe-wrapper fade-in" *ngIf="embedVisible">
     <iframe #gameFrame
             [src]="embedUrlSafe"
-            width="800"
-            height="600"
             frameborder="0"
-            title="SpaceEdu - Juego"></iframe>
+            allow="fullscreen"
+            title="SpaceEdu - Juego">
+    </iframe>
   </div>
+
 </section>
