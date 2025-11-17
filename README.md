@@ -9,7 +9,7 @@
 
 ---
 
-## 🌐 **Demo en Vivo (Opcional)**
+## 🌐 **Demo en Vivo**
 
 *Link del proyecto*
 
@@ -229,11 +229,16 @@ Abre un **Issue** o un **Pull Request**.
 
 # 👤 **Autores*
 
-**Proyecto desarrollado por:**
-**Fernando Morales Cilia**
-**Gerson Emmanuel Contreras González**
-**Pablo Iván Ibarra Valencia**
-**Bernardo Palacios Caballero**
+Proyecto desarrollado por:
+
+Fernando Morales Cilia
+
+Gerson Emmanuel Contreras González
+
+Pablo Iván Ibarra Valencia
+
+Bernardo Palacios Caballero
+
 Mejorado en conjunto con asistencia técnica de IA avanzada.
 Hecho con ❤️ para la educación + el gaming retro.
 
