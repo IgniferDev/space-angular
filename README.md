@@ -1,127 +1,240 @@
-```markdown
-# 🚀 SpaceEdu - Proyecto Híbrido Angular
+# 🚀 **Space Invaders Educativo — Versión Extendida (v.1.0 Pre-Release)**
 
 <p align="center">
-  <img src="[URL_DE_TU_LOGO_O_GIF_DE_LA_APP]" alt="Demo de SpaceEdu funcionando" width="600"/>
+  <img src="https://i.imgur.com/Vp1l54z.png" width="260" alt="Logo Space Invaders Retro">
 </p>
 
-<p align="center">
-  <strong>Una aplicación web educativa que fusiona un framework moderno (Angular 17+) con un juego clásico (JavaScript puro).</strong>
-  <br>
-  ✨ ¡Un caso de estudio sobre arquitectura de software y pedagogía digital! ✨
-</p>
+**Una reinvención moderna del clásico arcade, ahora convertido en una herramienta educativa interactiva para aprender mientras disparas, esquivas y compites.**
+💥 *Matemáticas + Historia + Duelos 1v1 + Sonido retro + Fullscreen por jugador*.
 
 ---
 
-## 🌐 Ver la Demo en Vivo
+## 🌐 **Demo en Vivo (Opcional)**
 
-¡Explora la versión actual del proyecto aquí! 👇
+*Link del proyecto*
 
-**[https://igniferdev.github.io/space-angular/](https://igniferdev.github.io/space-angular/)**
-*(Nota: Reemplaza esta URL si es diferente)*
-
----
-
-## 🎯 Objetivos del Proyecto
-
-Este proyecto no es solo un clon de juego; es un experimento con un doble propósito:
-
-### 1. Objetivo Pedagógico 🎓
-* Crear una **experiencia de aprendizaje cohesiva** donde el contenido (páginas de propósito, equipo) y la actividad (el juego) vivan en una sola aplicación.
-* Demostrar cómo la **gamificación** puede ser envuelta por una plataforma web moderna para presentar objetivos de aprendizaje.
-
-### 2. Objetivo Técnico ⚙️
-* Demostrar una **arquitectura de software híbrida**, integrando una aplicación de Vanilla JS (el juego) dentro de un framework moderno (Angular).
-* Utilizar la arquitectura **standalone de Angular 17+** (sin NgModules) para gestionar la navegación, las vistas y los componentes.
-* Resolver el desafío de la **separación de conceptos**: la app de Angular no "sabe" cómo funciona el juego, y el juego no "sabe" que existe Angular. Se comunican a través de un `<iframe>`.
+👉 **[https://tu-link-aqui.com/space-edu/](https://tu-link-aqui.com/space-edu/)**
 
 ---
 
-## 🔥 Características Principales
+# 🎮 **¿Qué es Space Invaders Educativo?**
 
-* **Arquitectura Híbrida:** Angular maneja el "cascarón" de la aplicación (Navegación, Páginas, Rutas) mientras que el juego de JS puro corre de forma aislada en `assets`.
-* **Componentes Standalone:** Todo el proyecto usa la arquitectura moderna de Angular, facilitando la modularidad.
-* **Navegación Fluida:** `Angular Router` gestiona el acceso a todas las secciones (`/inicio`, `/proposito`, `/quienes-somos`, `/juega`) sin recargar la página.
-* **Diseño Temático:** Una interfaz de usuario oscura, limpia y con estética "espacial" que unifica la experiencia.
-* **Totalmente Responsivo:** Adaptado para una correcta visualización en escritorio y dispositivos móviles.
+Una experiencia **gamificada** donde cada enemigo trae una **pregunta**, cada disparo es una **respuesta**, y cada ronda es una batalla entre tu mente y tus reflejos.
+
+Diseñado para:
+
+* 🧠 Aprender matemáticas e historia de forma dinámica
+* 🏆 Competir en modo 1v1 con pantallas separadas
+* 🏫 Usarse en escuelas, clubes o actividades recreativas
+* 💻 Mostrar un ejemplo moderno de juego web sin frameworks
+
+Todo funcionando en **JavaScript puro**, sin motores externos.
 
 ---
 
-## 🏗️ Arquitectura y Pila Tecnológica
+# 🔥 **Características Principales (v.1.0)**
 
-La característica clave es la separación entre el "contenedor" y el "contenido".
+### 🎯 **Modo Educativo Interactivo**
 
-* **Aplicación Contenedora (Angular):**
-    * **Framework:** Angular 17+
-    * **Lenguajes:** TypeScript, SCSS
-    * **Enrutamiento:** `Angular Router`
-* **Aplicación Incrustada (Juego):**
-    * **Lenguajes:** JavaScript (ES6+ Vanilla), CSS, HTML
-    * **Integración:** Cargado vía `<iframe>` desde la carpeta `src/assets/game`.
+Incluye dos bancos completos:
+
+* 📐 Matemáticas (sumas, restas, problemas rápidos)
+* 🏺 Historia (general, antigua, mexicana)
+
+Se pueden añadir más con facilidad.
+
+---
+
+### 🎮 **Modo Competitivo para 2 Jugadores**
+
+Lo más destacado:
+
+* Cada jugador tiene **su propio canvas**, su HUD y sus controles.
+* Los enemigos, balas, rondas y preguntas son **totalmente independientes**.
+* Sistema de puntajes para enfrentamientos 1v1.
+
+🔥 *Lo más cercano a un “duelo académico retro”.*
+
+---
+
+### 🔊 **Sonido Integrado**
+
+Sistema de audio con fade suave:
+
+* Música retro looping
+* Disparo
+* Explosión
+* Respuesta correcta
+* Respuesta incorrecta
+
+Sin cortes, clics o errores de autoplay.
+
+---
+
+### 🖥 **Pantalla Completa por Jugador**
+
+Cada pantalla tiene su botón ⛶:
+
+* Fullscreen individual
+* Ultra inmersivo
+* Perfecto para torneos y proyecciones
+
+---
+
+### 📊 **Leaderboard Local Avanzado**
+
+Con guardado automático:
+
+* Puntaje máximo
+* Preguntas respondidas
+* Precisión
+* Fecha / modo
+
+Se muestra desde el menú principal.
+
+---
+
+### 🛠 **Controles Totalmente Editables**
+
+Desde un menú dedicado:
+
+* Teclas
+* Sensibilidad
+* Gamepad
+* Remapeo instantáneo
+
+Ideal para personalización.
+
+---
+
+### ⚡ **Gameplay Moderno (pero con alma retro)**
+
+* 60 FPS con `requestAnimationFrame()`
+* Colisiones
+* Progresión de dificultad
+* Poderes especiales
+* Rondas rápidas y de agilidad
+
+---
+
+# 🧩 **Próximas Funcionalidades (Roadmap)**
+
+1. 🎨 Nueva skins para naves
+2. 👾 Enemigos únicos según categoría
+3. 🧠 Modo “Examen Rápido”
+4. 🌎 Más Bancos: Biología, Geografía, Inglés
+5. 🔗 Online 1v1 (versión experimental futura)
+
+---
+
+# 🛠 **Tecnologías Utilizadas**
+
+* **Angular v.19**
+* HTML5 Canvas (2 instancias simultáneas)
+* CSS3 (estilo retro-neón suave)
+* LocalStorage para persistencia
+* Audio API nativa
+* Arquitectura modular
+
+---
+
+# 📂 **Estructura del Proyecto**
 
 ```
-
-/src
-├── app/
-│   ├── web-page/
-│   │   ├── pages/
-│   │   │   ├── about/     (Página "Quiénes Somos")
-│   │   │   ├── purpose/   (Página "Propósito")
-│   │   │   └── game/      (Componente que carga el \<iframe\>)
-│   │
-│   ├── app.component.html (Contiene \<router-outlet\>)
-│   └── app.routes.ts      (Rutas principales)
-│
-└── assets/
-├── game/
-│   ├── index-embed.html  \<-- EL JUEGO (JS Puro)
-│   ├── main.js
-│   └── style.css
-│
-└── images/ (Imágenes para las páginas)
-
-````
+assets/game/
+ ├── index-embed.html      # Página HTML integrable
+ ├── main.js               # Motor completo del juego (optimizado)
+ ├── style.css             # Estilos visuales del arcade
+ ├── img/                  # Sprites del juego
+ └── audio/
+      ├── music.wav
+      ├── shoot.wav
+      ├── explosion.wav
+      ├── correct.wav
+      └── wrong.wav
+```
 
 ---
 
-## 🛠️ Cómo Correr Localmente
+# 💡 **Cómo Ejecutar (cualquier proyecto)**
 
-1.  Clona el repositorio:
-    ```bash
-    git clone [https://github.com/IgniferDev/space-angular.git](https://github.com/IgniferDev/space-angular.git)
-    ```
-2.  Entra al directorio del proyecto:
-    ```bash
-    cd space-angular
-    ```
-3.  Instala las dependencias:
-    ```bash
-    npm install
-    ```
-4.  Corre el servidor de desarrollo:
-    ```bash
-    ng serve -o
-    ```
-5.  Abre `http://localhost:4200/` en tu navegador.
+### 🔹 Opción 1 — Como HTML standalone
 
----
+Solo abre:
 
-## 👨‍🚀 La Tripulación de SpaceEdu
+```
+assets/game/index-embed.html
+```
 
-Este proyecto fue concebido y desarrollado por el siguiente equipo:
+### 🔹 Opción 2 — Integración en Angular
 
-* **Dr. Freddy777**
-    * *Rol: 🎓 Profesor — Coordinador del Proyecto*
-* **Fernando Cilia**
-    * *Rol: 💻 Desarrollador Frontend (Angular)*
-* **Gerson Contreras**
-    * *Rol: 👾 Programador de Lógica (Juego JS)*
-* **Pablo Ibarra**
-    * *Rol: 🧠 Diseño Instruccional*
-* **Bernardo Palacios**
-    * *Rol: 🧪 QA & Pruebas*
+Colócalo dentro de:
+
+```
+src/assets/game/
+```
+
+Y crea un `<iframe>` o incrústalo en un componente.
 
 ---
 
-*Proyecto creado como una exploración de arquitectura de software y diseño pedagógico - 2025*
-````
+# ⌨️ **Controles por Defecto**
+
+### 👤 Jugador 1
+
+| Acción   | Tecla |
+| -------- | ----- |
+| Mover    | ← →   |
+| Apuntar  | ↑ ↓   |
+| Disparar | SPACE |
+| Poder    | E     |
+
+### 👤 Jugador 2
+
+| Acción   | Tecla |
+| -------- | ----- |
+| Mover    | A D   |
+| Apuntar  | W S   |
+| Disparar | F     |
+| Poder    | G     |
+
+> Todos reconfigurables.
+
+---
+
+# 🧪 **Probado en**
+
+* Chrome
+* Edge
+* Firefox
+* Desktop y laptops
+* Modo fullscreen dual
+
+---
+
+# 🙌 **Contribuciones**
+
+Si quieres agregar:
+
+* Nuevos bancos de preguntas
+* Nuevos modos
+* Nuevos sprites
+* Traducciones
+* Música / FX retro
+
+¡Eres bienvenido!
+Abre un **Issue** o un **Pull Request**.
+
+---
+
+# 👤 **Autores*
+
+**Proyecto desarrollado por:**
+**Fernando Morales Cilia**
+**Gerson Emmanuel Contreras González**
+**Pablo Iván Ibarra Valencia**
+**Bernardo Palacios Caballero**
+Mejorado en conjunto con asistencia técnica de IA avanzada.
+Hecho con ❤️ para la educación + el gaming retro.
+
+---
