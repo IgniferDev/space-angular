@@ -1,86 +1,122 @@
 <app-navigation-menu></app-navigation-menu>
 
 <main class="about-page container">
+
   <header class="about-header">
-    <h1>Quiénes somos</h1>
-    <p class="subtitle">Equipo académico y estudiantes detrás de SpaceEdu — diseño, desarrollo y pedagogía unidos.</p>
+    <h1>La Tripulación de SpaceEdu</h1>
+    <p class="subtitle">
+      Conoce a los estudiantes, diseñadores y académicos que unen código y pedagogía para esta misión.
+    </p>
+    <p class="purpose-link">
+      ¿Quieres saber por qué lo hacemos? 
+      <a routerLink="/proposito">Descubre nuestro propósito</a>.
+    </p>
   </header>
 
-  <!-- Profesor (tarjeta amplia) -->
-  <section class="member-card card highlighted">
-    <div class="photo">
-      <img src="assets/images/team/professor.png" alt="Profesor (placeholder)">
-    </div>
-    <div class="member-body">
-      <h2>Dr. Freddy777</h2>
-      <div class="role">Profesor — Coordinador del proyecto</div>
-      <p class="muted">
-        Docente e investigador en interacción humano–computadora y aprendizaje digital. Supervisa la dirección académica, valida los objetivos pedagógicos y guía la integración teórica en el diseño del juego.
-      </p>
-      <p class="muted small">Intereses: diseño centrado en el usuario, evaluación formativa, tecnologías educativas.</p>
-    </div>
+  <section class="team-section">
+    <h2>El Mentor del Proyecto</h2>
+    <ul class="team-list">
+      <li class="member-card card highlighted">
+        <div class="photo">
+          <img src="../../../../assets/team/freddy.png" alt="Foto del Dr. Freddy777">
+        </div>
+        <div class="member-body">
+          <h3>Dr. Freddy777</h3>
+          <div class="role">Profesor — Coordinador del proyecto</div>
+          <p class="muted">
+            Docente e investigador en interacción humano–computadora y aprendizaje digital. Supervisa la dirección académica, valida los objetivos pedagógicos y guía la integración teórica en el diseño del juego.
+          </p>
+          <p class="muted small">Intereses: diseño centrado en el usuario, evaluación formativa, tecnologías educativas.</p>
+          
+          <div class="social-links">
+            <a href="#" target="_blank" rel="noopener noreferrer" title="Perfil Profesional">LinkedIn</a>
+          </div>
+        </div>
+      </li>
+    </ul>
   </section>
 
-  <!-- Estudiante 1 -->
-  <section class="member-card card">
-    <div class="photo">
-      <img src="assets/images/team/student1.png" alt="Fernando Cilia (placeholder)">
-    </div>
-    <div class="member-body">
-      <h3>Fernando Cilia</h3>
-      <div class="role">Desarrolladora Frontend</div>
-      <p class="muted">
-        Responsable de la interfaz, implementación en Angular y la usabilidad visual del juego.
-      </p>
-    </div>
-  </section>
+  <section class="team-section">
+    <h2>El Equipo de Desarrollo</h2>
+    <ul class="team-grid">
 
-  <!-- Estudiante 2 -->
-  <section class="member-card card">
-    <div class="photo">
-      <img src="assets/images/team/student2.png" alt="Gerson Contreras (placeholder)">
-    </div>
-    <div class="member-body">
-      <h3>Gerson Contreras</h3>
-      <div class="role">Programador de Lógica</div>
-      <p class="muted">
-        Encargado de la mecánica del juego, detección de colisiones y balance de dificultad por rondas.
-      </p>
-    </div>
-  </section>
+      <li class="member-card card">
+        <div class="photo">
+          <img src="../../../../assets/team/ignifer_student.jpg" alt="Foto de Fernando Cilia">
+        </div>
+        <div class="member-body">
+          <h3>Fernando Cilia</h3>
+          <div class="role">Desarrolladora Frontend</div>
+          <p class="muted">
+            Responsable de la interfaz, implementación en Angular y la usabilidad visual del juego.
+          </p>
+          <div class="social-links">
+            <a href="https://github.com/IgniferDev" target="_blank" rel="noopener noreferrer" title="GitHub">GitHub</a>
+            <a href="https://www.linkedin.com/in/fernando-morales-cilia-6b27b8357/" target="_blank" rel="noopener noreferrer" title="LinkedIn">LinkedIn</a>
+          </div>
+        </div>
+      </li>
 
-  <!-- Estudiante 3 -->
-  <section class="member-card card">
-    <div class="photo">
-      <img src="assets/images/team/student3.png" alt="Pablo Ibarra (placeholder)">
-    </div>
-    <div class="member-body">
-      <h3>Pablo Ibarra</h3>
-      <div class="role">Diseño Instruccional</div>
-      <p class="muted">
-        Diseña las preguntas y las secuencias pedagógicas para que las actividades sean significativas y alineadas a objetivos.
-      </p>
-    </div>
-  </section>
+      <li class="member-card card">
+        <div class="photo">
+          <img src="../../../../assets/team/senn_student.jpg" alt="Foto de Gerson Contreras">
+        </div>
+        <div class="member-body">
+          <h3>Gerson Contreras</h3>
+          <div class="role">Programador de Lógica</div>
+          <p class="muted">
+            Encargado de la mecánica del juego, detección de colisiones y balance de dificultad por rondas.
+          </p>
+          <div class="social-links">
+            <a href="https://github.com/SennDev" target="_blank" rel="noopener noreferrer" title="GitHub">GitHub</a>
+            <a href="https://www.linkedin.com/in/gerson-gonzalez-senn4520/" target="_blank" rel="noopener noreferrer" title="LinkedIn">LinkedIn</a>
+          </div>
+        </div>
+      </li>
 
-  <!-- Estudiante 4 -->
-  <section class="member-card card">
-    <div class="photo">
-      <img src="assets/images/team/student4.png" alt="Bernardo Palacios (placeholder)">
-    </div>
-    <div class="member-body">
-      <h3>Bernardo Palacios</h3>
-      <div class="role">QA & Pruebas</div>
-      <p class="muted">
-        Responsable de pruebas, informes de usabilidad y recopilación de métricas para mejorar la experiencia.
-      </p>
-    </div>
+      <li class="member-card card">
+        <div class="photo">
+          <img src="../../../../assets/team/ponkifill_student.jpg" alt="Foto de Pablo Ibarra">
+        </div>
+        <div class="member-body">
+          <h3>Pablo Ibarra</h3>
+          <div class="role">Diseño Instruccional</div>
+          <p class="muted">
+            Diseña las preguntas y las secuencias pedagógicas para que las actividades sean significativas.
+          </p>
+          <div class="social-links">
+            <a href="https://github.com/PabloIbVa" target="_blank" rel="noopener noreferrer" title="GitHub">GitHub</a>
+            <a href="[TU_URL_LINKEDIN]" target="_blank" rel="noopener noreferrer" title="LinkedIn">LinkedIn</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="member-card card">
+        <div class="photo">
+          <img src="../../../../assets/team/floppa_student.jpg" alt="Foto de Bernardo Palacios">
+        </div>
+        <div class="member-body">
+          <h3>Bernardo Palacios</h3>
+          <div class="role">QA & Pruebas</div>
+          <p class="muted">
+            Responsable de pruebas, informes de usabilidad y recopilación de métricas para mejorar la experiencia.
+          </p>
+          <div class="social-links">
+            <a href="https://github.com/floppafan2" target="_blank" rel="noopener noreferrer" title="GitHub">GitHub</a>
+            <a href="[TU_URL_LINKEDIN]" target="_blank" rel="noopener noreferrer" title="LinkedIn">LinkedIn</a>
+          </div>
+        </div>
+      </li>
+
+    </ul>
   </section>
 
   <section class="section-card contact-card">
     <h2>Contáctanos</h2>
     <p class="muted">
-      ¿Deseas colaborar o probar el juego en tu aula? Escríbenos a <strong>equipo&#64;spaceedu.example</strong>
+      ¿Deseas colaborar o probar el juego en tu aula? Escríbenos a 
+      <a href="mailto:somosSpaceEdu@outlook.com"><strong>somosSpaceEdu&#64;outlook.com</strong></a>
     </p>
   </section>
+
 </main>

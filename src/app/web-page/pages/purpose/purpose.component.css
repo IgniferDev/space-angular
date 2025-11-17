@@ -73,3 +73,176 @@
   .with-media .media img, .horizontal .media img { width: 100%; margin-bottom: 10px; }
   .purpose-container { padding: 8px; }
 }
+
+/* 1. Definición de Animación de Entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 2. Aplicación de Animación a las Tarjetas */
+/* Esto hará que las tarjetas aparezcan suavemente 
+  cuando la página cargue.
+*/
+.card-animated {
+  /* Inicialmente oculto para la animación */
+  opacity: 0; 
+  /* Aplicar la animación */
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Staggering (retraso) de la animación 
+  para un efecto más dinámico.
+*/
+.card-animated:nth-of-type(1) { animation-delay: 0.1s; }
+.card-animated:nth-of-type(2) { animation-delay: 0.2s; }
+.card-animated:nth-of-type(3) { animation-delay: 0.3s; }
+.card-animated:nth-of-type(4) { animation-delay: 0.4s; }
+.card-animated:nth-of-type(5) { animation-delay: 0.5s; }
+
+
+/* 3. Estilos del Nuevo "Hero" de Encabezado */
+.purpose-hero {
+  padding: 60px 20px 70px 20px;
+  text-align: center;
+  /* Fondo sutil - asumiendo un tema oscuro */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 40px; /* Separación del contenido */
+}
+
+.purpose-hero .title {
+  /* Tu .title original está bien, solo ajustamos tamaño y margen */
+  font-size: 2.8rem; /* Más grande e impactante */
+  margin-bottom: 12px;
+  color: #fff; /* Asegurar color */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.purpose-hero .subtitle {
+  font-size: 1.2rem;
+  color: var(--muted, #aaa); /* Usar tu variable --muted */
+  max-width: 650px;
+  margin: 0 auto 20px auto;
+  line-height: 1.6;
+}
+
+.purpose-hero .team-link a {
+  color: var(--accent2, #9effff); /* Usar tu variable --accent2 */
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+.purpose-hero .team-link a:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 8px var(--accent2, #9effff);
+}
+
+
+/* 4. Estilos de Título para Rejillas */
+.grid-title {
+  /* Coloca el título *dentro* de la tarjeta 
+    pero abarcando todas las columnas
+  */
+  grid-column: 1 / -1; /* Abarcar todo el ancho del grid */
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* 5. Estilos para Nuevos Iconos SVG (reemplazo de emojis) */
+/* Reutiliza .icon-circle pero con un tamaño más pequeño 
+  para esta sección.
+*/
+.feature-head .icon-circle.small-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px; /* Igual que el .icon-circle original */
+  /* Hereda color y fondo de .icon-circle */
+}
+.feature-head .icon-circle.small-icon svg {
+  width: 22px;
+  height: 22px;
+}
+/* Oculta la clase de emoji anterior si aún existe */
+.icon-small {
+  display: none;
+}
+
+
+/* 6. Estilo para la Tarjeta Final (Call to Action) */
+.cta-card {
+  text-align: center;
+  /* Fondo y borde más prominentes */
+  background: linear-gradient(145deg, rgba(var(--accent1-rgb, 0, 188, 212), 0.1), rgba(var(--accent1-rgb, 0, 188, 212), 0.02));
+  border: 1px solid rgba(var(--accent1-rgb, 0, 188, 212), 0.2);
+  padding: 30px;
+}
+
+.cta-card h2 {
+  color: var(--accent1, #00bcd4); /* Usar tu variable --accent1 */
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+}
+
+.cta-card p {
+  max-width: 750px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+
+/* 7. Efectos Hover Globales para Tarjetas */
+/* Aplica una transición a todas las tarjetas para que el 
+  hover sea suave.
+*/
+.section-card, .card-vision, .feature.card {
+  /* Definir la transición base */
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Efecto Hover para tarjetas individuales dentro de rejillas
+*/
+.card-vision:hover, .feature.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Efecto Hover para tarjetas de sección completas 
+  (ligeramente más sutil)
+*/
+.section-card.with-media:hover,
+.section-card.horizontal:hover,
+.section-card.cta-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+
+/* 8. Ajuste Responsivo Adicional */
+/* Asegurarse de que el título de la rejilla se 
+  vea bien en móviles
+*/
+@media (max-width: 768px) {
+  .grid-title {
+    text-align: center;
+  }
+  .purpose-hero .title {
+    font-size: 2.2rem;
+  }
+  .purpose-hero .subtitle {
+    font-size: 1rem;
+  }
+}

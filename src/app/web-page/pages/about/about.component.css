@@ -96,3 +96,84 @@
   .member-body { width: 100%; }
   .member-body h2, .member-body h3 { font-size: 1.05rem; }
 }
+
+/* --- AÑADIR ESTO A TU about-page.component.css --- */
+
+/* Estilos para las nuevas secciones */
+.team-section h2 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 18px;
+  padding-left: 10px;
+  border-left: 3px solid var(--accent); /* Asumiendo que tienes una variable --accent */
+}
+
+/* Reseteo semántico para listas */
+.team-list, .team-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* La REJILLA 2x2 para el equipo de desarrollo */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+/* Quitar el margen inferior de las tarjetas cuando están en la rejilla */
+.team-grid .member-card {
+  margin-bottom: 0;
+}
+
+/* Estilos para los enlaces de perfiles */
+.social-links {
+  margin-top: 16px;
+  display: flex;
+  gap: 16px;
+}
+
+.social-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.social-links a:hover {
+  color: var(--accent2); /* Asumiendo --accent2 */
+}
+
+/* Enlace a la página de Propósito */
+.purpose-link {
+  text-align: center;
+  margin: 10px 0 0 0;
+  font-size: 0.9rem;
+}
+.purpose-link a {
+  color: var(--accent2);
+  text-decoration: none;
+  font-weight: 600;
+}
+.purpose-link a:hover {
+  text-decoration: underline;
+}
+
+
+/* --- MODIFICAR TU MEDIA QUERY --- */
+@media (max-width: 780px) {
+  /* ... (tu .member-card flex-direction: column) ... */
+
+  /* Deshacer la rejilla en móvil (apilar) */
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 0; /* El margen ya lo da .member-card */
+  }
+
+  /* Asegurar que las tarjetas vuelvan a tener su margen */
+  .team-grid .member-card {
+    margin-bottom: 22px;
+  }
+}

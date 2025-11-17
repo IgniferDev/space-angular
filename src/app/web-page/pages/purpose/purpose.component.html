@@ -1,163 +1,185 @@
 <app-navigation-menu></app-navigation-menu>
-<!-- purpose.component.html -->
-<div class="purpose-container">
 
-  <h1 class="title">Propósito del Proyecto</h1>
+<main class="purpose-page-wrapper">
 
-  <!-- WHAT WE SEEK -->
-  <section class="section-card with-media">
-    <div class="media">
-      <img src="assets/images/purpose-goal.png" alt="Meta del proyecto" />
-    </div>
-    <div class="content">
-      <h2>
-        <span class="icon-inline" aria-hidden="true">
-          <!-- objetivo SVG -->
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.4"/>
-            <circle cx="12" cy="12" r="4" fill="currentColor"/>
-          </svg>
-        </span>
-        ¿Qué buscamos lograr?
-      </h2>
-      <p>
-        Crear una experiencia educativa dinámica y accesible: integrar
-        videojuegos e interfaces bien diseñadas que apoyen el aprendizaje,
-        aumenten la motivación y permitan medir el progreso.
+  <header class="purpose-hero">
+    <div class="purpose-container">
+      <h1 class="title">Nuestra Misión</h1>
+      <p class="subtitle">
+        El "porqué" de SpaceEdu: fusionando pedagogía y juego para redefinir el aprendizaje.
+      </p>
+      <p class="team-link">
+       <a [routerLink]="['/quienes-somos']">Conoce a la tripulación</a>
       </p>
     </div>
-  </section>
+  </header>
 
-  <!-- VISION -->
-  <section class="section-card grid-3">
-    <div class="card-vision card">
-      <div class="card-head">
-        <span class="icon-circle">
-          <!-- visión SVG -->
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5c-4 0-7.3 2.7-9 7 1.7 4.3 5 7 9 7s7.3-2.7 9-7c-1.7-4.3-5-7-9-7z" stroke="currentColor" stroke-width="1.2" />
-            <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
-          </svg>
-        </span>
-        <h3>Visión</h3>
+  <div class="purpose-container">
+
+    <section class="section-card with-media card-animated">
+      <div class="media">
+        <img src="../../../../assets/images/purpose-goal.png" alt="Meta del proyecto" />
       </div>
-      <p class="muted">Un entorno donde aprender sea tan intuitivo y atractivo como jugar.</p>
-    </div>
-
-    <div class="card-vision card">
-      <div class="card-head">
-        <span class="icon-circle">
-          <!-- accesibilidad SVG -->
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M12 16v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <circle cx="12" cy="12" r="3" fill="currentColor"/>
-          </svg>
-        </span>
-        <h3>Inclusión</h3>
+      <div class="content">
+        <h2>
+          <span class="icon-inline" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.9" stroke-width="1.4"/>
+              <circle cx="12" cy="12" r="4" fill="currentColor"/>
+            </svg>
+          </span>
+          ¿Qué buscamos lograr?
+        </h2>
+        <p>
+          Crear una experiencia educativa dinámica y accesible: integrar
+          videojuegos e interfaces bien diseñadas que apoyen el aprendizaje,
+          aumenten la motivación y permitan medir el progreso.
+        </p>
       </div>
-      <p class="muted">Interfaces accesibles y adaptativas para distintos perfiles de aprendizaje.</p>
-    </div>
+    </section>
 
-    <div class="card-vision card">
-      <div class="card-head">
-        <span class="icon-circle">
-          <!-- impacto SVG -->
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <path d="M3 12h18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M12 3v18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <h3>Impacto</h3>
+    <section class="section-card grid-3 card-animated">
+      <h2 class="grid-title">Nuestros Pilares Fundamentales</h2>
+
+      <div class="card-vision card">
+        <div class="card-head">
+          <span class="icon-circle">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5c-4 0-7.3 2.7-9 7 1.7 4.3 5 7 9 7s7.3-2.7 9-7c-1.7-4.3-5-7-9-7z" stroke="currentColor" stroke-width="1.2" />
+              <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+            </svg>
+          </span>
+          <h3>Visión</h3>
+        </div>
+        <p class="muted">Un entorno donde aprender sea tan intuitivo y atractivo como jugar.</p>
       </div>
-      <p class="muted">Medir resultados para mejorar la experiencia de aprendizaje continuamente.</p>
-    </div>
-  </section>
 
-  <!-- MOTIVATIONS -->
-  <section class="section-card horizontal">
-    <div class="content">
-      <h2>
-        <span class="icon-inline" aria-hidden="true">
-          <!-- heart/book -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M12 20s-6-4-8-7 1-6 5-6 3 2 5 2 3-2 5-2 6 2 5 6-8 7-8 7z" stroke="currentColor" stroke-width="0.9"/>
-          </svg>
-        </span>
-        Nuestras motivaciones
-      </h2>
+      <div class="card-vision card">
+        <div class="card-head">
+          <span class="icon-circle">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M12 16v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="3" fill="currentColor"/>
+            </svg>
+          </span>
+          <h3>Inclusión</h3>
+        </div>
+        <p class="muted">Interfaces accesibles y adaptativas para distintos perfiles de aprendizaje.</p>
+      </div>
+
+      <div class="card-vision card">
+        <div class="card-head">
+          <span class="icon-circle">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M3 12h18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M12 3v18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <h3>Impacto</h3>
+        </div>
+        <p class="muted">Medir resultados para mejorar la experiencia de aprendizaje continuamente.</p>
+      </div>
+    </section>
+
+    <section class="section-card horizontal card-animated">
+      <div class="content">
+        <h2>
+          <span class="icon-inline" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 20s-6-4-8-7 1-6 5-6 3 2 5 2 3-2 5-2 6 2 5 6-8 7-8 7z" stroke="currentColor" stroke-width="0.9"/>
+            </svg>
+          </span>
+          Nuestras motivaciones
+        </h2>
+        <p>
+          Como estudiantes y diseñadores nos mueve la curiosidad por comprender
+          cómo la tecnología puede facilitar el aprendizaje. Buscamos crear
+          recursos útiles para docentes y estudiantes, mejorando usabilidad y
+          experiencia.
+        </p>
+
+        <ul class="motivations">
+          <li>
+            <span class="li-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.4"/></svg>
+            </span>
+            Experimentación práctica con IHC y psicología educativa.
+          </li>
+          <li>
+            <span class="li-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.4"/></svg>
+            </span>
+            Crear herramientas que docentes puedan aplicar en clase.
+          </li>
+          <li>
+            <span class="li-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.4"/></svg>
+            </span>
+            Compartir resultados y buenas prácticas con la comunidad.
+          </li>
+        </ul>
+      </div>
+
+      <div class="media small">
+        <img src="../../../../assets/images/purpose-motivation.png" alt="Motivaciones" />
+      </div>
+    </section>
+
+    <section class="section-card feature-grid card-animated">
+      <h2>Lo que queremos para los estudiantes</h2>
+      <div class="features">
+
+        <article class="feature card">
+          <div class="feature-head">
+            <span class="icon-circle small-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="8"/>
+                  <circle cx="12" cy="12" r="3" fill="currentColor"/>
+              </svg>
+            </span>
+            <h4>Desarrollo de habilidades</h4>
+          </div>
+          <p class="muted">Mejorar resolución de problemas, atención y pensamiento lógico.</p>
+        </article>
+
+        <article class="feature card">
+          <div class="feature-head">
+            <span class="icon-circle small-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="8.5" cy="7" r="4"/>
+                <path d="M20 8v6" stroke-linecap="round"/>
+                <path d="M23 11h-6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <h4>Trabajo colaborativo</h4>
+          </div>
+          <p class="muted">Fomentar interacción social en actividades competitivas y cooperativas.</p>
+        </article>
+
+        <article class="feature card">
+          <div class="feature-head">
+            <span class="icon-circle small-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 20l6-6 4 4 8-8" stroke-linecap="round"/>
+                  <path d="M17 6h6v6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <h4>Medición del progreso</h4>
+          </div>
+          <p class="muted">Scores y estadísticas para seguimiento formativo.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-card cta-card card-animated">
+      <h2>Nuestra Meta Final</h2>
       <p>
-        Como estudiantes y diseñadores nos mueve la curiosidad por comprender
-        cómo la tecnología puede facilitar el aprendizaje. Buscamos crear
-        recursos útiles para docentes y estudiantes, mejorando usabilidad y
-        experiencia.
+        Construir una plataforma equilibrada que enseñe, motive y brinde datos útiles
+        para mejorar la enseñanza. Buscamos crear ejemplos reales que demuestren cómo
+        un buen diseño y una mecánica divertida pueden transformar el aprendizaje.
       </p>
+    </section>
 
-      <ul class="motivations">
-        <li>
-          <span class="li-icon" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.4"/></svg>
-          </span>
-          Experimentación práctica con IHC y psicología educativa.
-        </li>
-        <li>
-          <span class="li-icon" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.4"/></svg>
-          </span>
-          Crear herramientas que docentes puedan aplicar en clase.
-        </li>
-        <li>
-          <span class="li-icon" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.4"/></svg>
-          </span>
-          Compartir resultados y buenas prácticas con la comunidad.
-        </li>
-      </ul>
-    </div>
-
-    <div class="media small">
-      <img src="assets/images/purpose-motivation.png" alt="Motivaciones" />
-    </div>
-  </section>
-
-  <!-- STUDENT FOCUS -->
-  <section class="section-card feature-grid">
-    <h2>Lo que queremos para los estudiantes</h2>
-    <div class="features">
-      <article class="feature card">
-        <div class="feature-head">
-          <span class="icon-small">🎯</span>
-          <h4>Desarrollo de habilidades</h4>
-        </div>
-        <p class="muted">Mejorar resolución de problemas, atención y pensamiento lógico.</p>
-      </article>
-
-      <article class="feature card">
-        <div class="feature-head">
-          <span class="icon-small">🤝</span>
-          <h4>Trabajo colaborativo</h4>
-        </div>
-        <p class="muted">Fomentar interacción social en actividades competitivas y cooperativas.</p>
-      </article>
-
-      <article class="feature card">
-        <div class="feature-head">
-          <span class="icon-small">📈</span>
-          <h4>Medición del progreso</h4>
-        </div>
-        <p class="muted">Scores y estadísticas para seguimiento formativo.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- GOAL -->
-  <section class="section-card">
-    <h2>Meta final</h2>
-    <p>
-      Construir una plataforma equilibrada que enseñe, motive y brinde datos útiles
-      para mejorar la enseñanza. Buscamos crear ejemplos reales que demuestren cómo
-      un buen diseño y una mecánica divertida pueden transformar el aprendizaje.
-    </p>
-  </section>
-
-</div>
+  </div> </main>
