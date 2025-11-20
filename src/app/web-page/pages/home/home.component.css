@@ -1,194 +1,326 @@
-/* HOME - Espaciado amplio y respirado (reemplazar todo el archivo) */
+:host { display: block; }
 
-/* Base de sección: mucho espacio entre bloques */
-.section-card {
-  margin: 48px 0;        /* espacio arriba y abajo entre secciones */
-  padding: 28px 28px;    /* padding interior generoso */
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
-  box-shadow: 0 10px 36px rgba(2,6,23,0.55);
-  border: 1px solid rgba(255,255,255,0.02);
+/* --- WRAPPER & CONTAINER --- */
+.home-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding-bottom: 40px;
 }
 
-/* HERO: más aire, limitamos la anchura del texto para mejor lectura */
-.hero-inner {
-  display:flex;
-  gap: 40px;                    /* espacio grande entre texto y media */
-  align-items:center;
-  justify-content:space-between;
-  padding: 6px 0;
+.home-container {
+  max-width: 1100px;
+  margin: 40px auto; /* Margen superior para separar del navbar */
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Espacio entre secciones */
 }
 
-.hero-text {
-  flex:1;
-  min-width: 260px;
-  max-width: 720px;            /* limita longitud de renglón */
+/* --- ESTILOS GENERALES TARJETAS (Bento) --- */
+.bento-card {
+  background: rgba(15, 23, 42, 0.6); /* Fondo oscuro semitransparente */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px; /* Bordes muy redondeados */
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.kicker { margin-bottom: 12px; display:inline-block; }
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* --- HERO SECTION --- */
+.hero-card {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* Texto mas ancho que imagen */
+  align-items: center;
+  padding: 0; /* Sin padding general */
+  min-height: 400px;
+}
+
+.hero-content {
+  padding: 50px;
+  z-index: 2;
+}
+
+.kicker-badge {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.15);
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
 
 .hero-title {
-  font-size: 2.4rem;
-  margin: 6px 0 14px;          /* más separación debajo del título */
-  line-height: 1.06;
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  /* Degradado texto */
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-sub {
-  color: var(--muted);
-  font-size: 1.05rem;
-  margin-bottom: 18px;         /* separa del CTA */
+  font-size: 1.1rem;
+  color: #94a3b8;
+  margin-bottom: 32px;
   line-height: 1.6;
+  max-width: 90%;
 }
 
-/* CTA con separación */
-.hero-actions { display:flex; gap:14px; margin-top: 8px; }
-
-/* Imagen del hero: más grande y con margen superior/inferior */
-.hero-art { width: 360px; display:flex; flex-direction:column; gap:10px; align-items:center; }
-.hero-image {
-  width:100%;
-  border-radius: 12px;
-  object-fit: cover;
-  box-shadow: 0 22px 60px rgba(2,6,23,0.65);
-  border: 1px solid rgba(255,255,255,0.03);
-  margin-top: 4px;
+/* Botones Hero */
+.hero-actions {
+  display: flex;
+  gap: 16px;
 }
 
-/* SIMPLE CARDS: mayor separación entre tarjetas y padding interior */
-.card-row { display:flex; gap: 20px; justify-content:space-between; align-items:stretch; }
-.card.small {
-  flex:1;
-  padding: 20px;
-  min-height: 120px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  text-align:left;
-}
-.card.small h3 { margin-bottom: 10px; font-size: 1.05rem; }
-.card.small p { margin:0; color:var(--muted); line-height:1.6; }
-
-/* SHORT: frase con margen amplio */
-.section-card.short { text-align:left; padding: 28px; }
-.section-card.short h2 { margin-bottom: 14px; }
-.section-card.short p { margin: 0; color: var(--muted); font-size: 1.02rem; line-height:1.7; }
-
-/* STEPS: tarjetas separadas, mayor gap y padding */
-.steps-row { display:flex; gap: 18px; margin-top: 16px; }
-.step {
-  display:flex;
-  gap:12px;
-  align-items:flex-start;
-  padding: 16px;
-  min-height: 84px;
-  border-radius: 10px;
-}
-.step strong {
-  width:46px; height:46px; border-radius:10px;
-  display:flex; align-items:center; justify-content:center;
-  font-weight:800;
-  background: linear-gradient(90deg,var(--accent2),var(--accent1));
-  color:#041025;
-}
-
-/* PSYCH GRID: más espacio y tarjetas separadas */
-.psych-grid { display:grid; gap:18px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-top: 14px; }
-.psych { padding: 18px; }
-
-/* FOOTER: centrado con más padding */
-.footer-note { text-align:center; color: var(--muted); padding: 18px; margin-top: 8px; }
-
-/* Helpers: listas y textos con más leading (espacio entre líneas) */
-.spaced-list { list-style: disc; margin: 10px 0 0 20px; color: var(--muted); line-height: 1.8; }
-.lead, .muted { line-height: 1.7; }
-
-/* Responsivo: stack con espacio aumentado */
-@media (max-width: 920px) {
-  .hero-inner { flex-direction: column-reverse; gap: 22px; align-items:flex-start; }
-  .hero-art { width:100%; }
-  .card-row { flex-direction: column; gap: 16px; }
-  .steps-row { flex-direction: column; }
-  .section-card { margin: 28px 0; padding: 18px; }
-  .hero-title { font-size: 1.9rem; }
-}
-
-
-/* Espaciado general para secciones */
-.section-card {
-  margin-bottom: 20px;
-  padding: 20px;
-}
-
-/* HERO */
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 22px;
+.btn-primary {
+  display: inline-flex;
   align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
 }
-.hero-content .kicker {
-  display:inline-block;
-  background: rgba(45,212,191,0.09);
-  color: var(--accent2);
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-weight:700;
-  font-size: 13px;
-  margin-bottom: 12px;
-}
-.hero-title {
-  font-size: 2.2rem;
-  margin: 6px 0 8px;
-  line-height: 1.05;
-}
-.hero .subtitle { font-size: 1rem; color: #cfe7ff; margin-bottom: 8px; }
-.hero .lead { margin-top: 8px; color: var(--muted); }
 
-/* Features grid in hero */
-.features-grid {
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.6);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  border-radius: 14px;
+  color: #cbd5e1;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.05);
+  color: white;
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* Imagen Hero */
+.hero-visual {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 90%;
+  height: auto;
+  border-radius: 16px;
+  transform: perspective(1000px) rotateY(-12deg) rotateX(5deg);
+  box-shadow: -20px 20px 60px rgba(0,0,0,0.5);
+  transition: 0.5s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.hero-card:hover .hero-img {
+  transform: perspective(1000px) rotateY(-5deg) rotateX(2deg) scale(1.02);
+}
+
+.image-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(99,102,241,0.4) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(40px);
+  z-index: -1;
+}
+
+
+/* --- FEATURES ROW (3 Cards) --- */
+.features-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 16px;
-}
-.feature h4 { margin: 0 0 6px; font-size: 14px; }
-.feature p { margin:0; font-size: 13px; color: var(--muted); }
-
-/* HERO media */
-.hero-media { display:flex; flex-direction:column; gap:8px; align-items:center; }
-.hero-image { width: 100%; height: auto; border-radius: 10px; object-fit: cover; }
-
-/* Card heads */
-.card-head h2 { margin-bottom: 6px; font-size: 1.4rem; }
-.card-head .subtitle { margin-bottom: 12px; }
-
-/* split layout */
-.split { display:flex; gap: 18px; align-items:center; justify-content:space-between; }
-.split .text { flex:1; }
-.split .media { width: 360px; flex-shrink: 0; }
-.split.reverse-on-small { flex-direction: row; }
-.split.reverse-on-small .media { order:0; }
-@media (max-width: 920px){
-  .hero-grid { grid-template-columns: 1fr; }
-  .split { flex-direction: column; }
-  .split .media { width:100%; }
-  .features-grid { grid-template-columns: 1fr; }
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
 }
 
-/* List spacing */
-.spaced-list { list-style: disc; margin: 6px 0 0 18px; color: var(--muted); line-height: 1.6; }
+.feature-card {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
-/* Psychology grid */
-.psych-grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-top: 10px; }
-.psych { padding: 14px; }
+.icon-box-svg {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  color: #818cf8; /* Azul */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: 0.3s;
+}
 
-/* steps */
-.steps-grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); margin-top: 12px; }
-.step { display:flex; gap:12px; align-items:flex-start; padding:12px; }
-.step strong { display:inline-block; width:36px; height:36px; border-radius: 8px; background: linear-gradient(90deg,var(--accent2),var(--accent1)); color:#041025; font-weight:800; display:flex; align-items:center; justify-content:center; }
+.icon-box-svg.color-2 { color: #fbbf24; } /* Amarillo */
+.icon-box-svg.color-3 { color: #f472b6; } /* Rosa */
 
-/* footer */
-.footer-note { text-align:center; color: var(--muted); padding: 12px; margin-top: 6px; }
+.feature-card:hover .icon-box-svg {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.1);
+}
 
-/* small helpers */
-.img-hint { color: var(--muted); font-size: 12px; display:block; margin-top:6px; }
+.feature-card h3 {
+  font-size: 1.25rem;
+  color: white;
+  margin: 0 0 8px 0;
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* --- INFO BANNER --- */
+.info-banner {
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  background: linear-gradient(135deg, rgba(15,23,42,0.8) 0%, rgba(30,41,59,0.8) 100%);
+}
+
+.info-content { max-width: 700px; z-index: 2; }
+.info-content h2 { font-size: 1.5rem; color: white; margin-bottom: 10px; }
+.info-content p { color: #cbd5e1; font-size: 1.05rem; }
+
+.info-deco {
+  color: rgba(255,255,255,0.05);
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  transform: rotate(-15deg) scale(1.5);
+}
+
+/* --- STEPS SECTION --- */
+.steps-section {
+  margin-top: 20px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 24px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.step-card {
+  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.step-number {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(99,102,241,0.4);
+}
+
+.step-text h4 { margin: 0 0 4px 0; color: white; font-size: 1.1rem; }
+.step-text p { margin: 0; color: #94a3b8; font-size: 0.9rem; }
+
+
+/* --- MINI FOOTER --- */
+.mini-footer {
+  text-align: center;
+  color: #64748b;
+  margin-top: 20px;
+  opacity: 0.7;
+}
+
+/* --- ANIMACIONES --- */
+.card-animated {
+  opacity: 0;
+  animation: slideUpFade 0.6s ease-out forwards;
+}
+
+.hero-card { animation-delay: 0.1s; }
+.features-row article:nth-child(1) { animation-delay: 0.2s; }
+.features-row article:nth-child(2) { animation-delay: 0.3s; }
+.features-row article:nth-child(3) { animation-delay: 0.4s; }
+.info-banner { animation-delay: 0.5s; }
+.steps-section { animation-delay: 0.6s; }
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .hero-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-bottom: 40px;
+  }
+
+  .hero-content { padding: 40px 20px; }
+  
+  .hero-actions {
+    justify-content: center;
+  }
+  
+  .hero-img {
+    width: 80%;
+    transform: none;
+    margin-top: 20px;
+  }
+  
+  .hero-card:hover .hero-img { transform: scale(1.02); }
+
+  .info-banner { flex-direction: column; text-align: center; }
+  .info-deco { display: none; }
+}

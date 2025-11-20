@@ -1,6 +1,7 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, Renderer2, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ThemeService } from '../../../theme.service';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -9,19 +10,31 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navegation-menu.component.html',
   styleUrls: ['./navegation-menu.component.css']
 })
-export class NavegationMenuComponent {constructor(private renderer: Renderer2) {}
+export class NavegationMenuComponent implements OnInit {
+
+  currentTheme: string = 'light'; // valor por defecto
+
+  constructor(
+    private renderer: Renderer2,
+    private themeService: ThemeService
+  ) {}
+
+  ngOnInit(): void {
+    this.currentTheme = this.themeService.getCurrentTheme();
+  }
+
+  switchTheme() {
+    const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    this.themeService.setTheme(newTheme);
+    this.currentTheme = newTheme;
+  }
 
   toggleMenu(ev: Event) {
     const btn = ev.currentTarget as HTMLElement;
     const nav = document.getElementById('nav-links');
     if (!nav) return;
-    const isShown = nav.classList.contains('show');
-    if (isShown) {
-      nav.classList.remove('show');
-      btn.setAttribute('aria-expanded', 'false');
-    } else {
-      nav.classList.add('show');
-      btn.setAttribute('aria-expanded', 'true');
-    }
+
+    const show = nav.classList.toggle('show');
+    btn.setAttribute('aria-expanded', show ? 'true' : 'false');
   }
 }

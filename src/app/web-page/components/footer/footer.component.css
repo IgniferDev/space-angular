@@ -1,0 +1,199 @@
+/* ------------------------------------------------------ 
+   FOOTER CONTAINER 
+------------------------------------------------------ */
+.footer {
+  width: 100%;
+  background: rgba(6, 12, 24, 0.85); /* Un poco más oscuro para dar base */
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 40px 0 20px; /* Menos padding vertical */
+  margin-top: auto;
+  font-size: 0.9rem;
+  color: #9ca3af; /* Color gris suave estandar */
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ------------------------------------------------------ 
+   MAIN SECTION (3 Columnas)
+------------------------------------------------------ */
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Alineación vertical centrada */
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+/* --- COL 1: Brand & Info --- */
+.brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 300px;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+}
+
+.footer-logo {
+  width: 32px; /* Logo más discreto */
+  height: 32px;
+  background-image: url('/assets/icons/logo.svg'); /* Asegura ruta correcta */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.brand-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.institution-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+.institution-info strong {
+  color: #cbd5e1;
+}
+
+/* --- COL 2: Navigation --- */
+.footer-nav {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-nav a {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.footer-nav a:hover {
+  color: #fff;
+}
+
+/* Efecto sutil de hover */
+.footer-nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #6366f1; /* Color acento */
+  transition: width 0.3s;
+}
+
+.footer-nav a:hover::after {
+  width: 100%;
+}
+
+/* Botón "Juega" destacado sutilmente */
+.footer-nav a.highlight {
+  color: #6366f1;
+  font-weight: 700;
+}
+
+/* --- COL 3: Social --- */
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-social a {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px; /* Cuadrado redondeado moderno */
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.footer-social a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ------------------------------------------------------ 
+   BOTTOM SECTION (Copyright)
+------------------------------------------------------ */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #475569;
+}
+
+/* ------------------------------------------------------ 
+   LIGHT THEME 
+------------------------------------------------------ */
+body[data-theme="light"] .footer {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+body[data-theme="light"] .brand-wrapper { color: #0f172a; }
+body[data-theme="light"] .institution-info strong { color: #334155; }
+body[data-theme="light"] .footer-nav a { color: #475569; }
+body[data-theme="light"] .footer-nav a:hover { color: #0f172a; }
+body[data-theme="light"] .footer-social a { 
+  background: #e2e8f0; 
+  color: #334155; 
+}
+body[data-theme="light"] .footer-social a:hover { 
+  background: #cbd5e1; 
+}
+body[data-theme="light"] .footer-bottom {
+  border-color: #e2e8f0;
+}
+
+/* ------------------------------------------------------ 
+   RESPONSIVE (Mobile)
+------------------------------------------------------ */
+@media (max-width: 768px) {
+  .footer-main {
+    flex-direction: column;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .brand-col {
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .footer-nav {
+    gap: 15px;
+    flex-direction: column; /* Lista vertical en móvil para toque fácil */
+  }
+}
+
+.footer a {
+  pointer-events: auto;
+}

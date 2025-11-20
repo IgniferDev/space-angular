@@ -1,134 +1,311 @@
-/* You can add global styles to this file, and also import other style files */
-/* Global styles - Dark theme base */
+/* ----------------------------------------------------------
+   Global SpaceEdu Theme – Refined + Enhanced
+----------------------------------------------------------- */
+
+/* Font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
 
-:root{
-  --bg-100: #030517;   /* fondo principal */
+/* Color palette — Deep Space */
+:root {
+  --bg-100: #030517;
   --bg-90:  #071227;
-  --panel:  rgba(255,255,255,0.03);
+  --bg-80: #0d1a30;
+  --panel: rgba(255,255,255,0.03);
+  --glass: rgba(255,255,255,0.05);
+  --glass-strong: rgba(255,255,255,0.12);
   --muted:  #9fb4d8;
-  --accent1: #60a5fa;
-  --accent2: #2dd4bf;
-  --glass: rgba(255,255,255,0.03);
   --text: #dbeafe;
+
+  /* Accents */
+  --accent1: #60a5fa;     /* azul claro */
+  --accent2: #2dd4bf;     /* turquesa */
+  --accent-pink: #c084fc; /* para efectos leves */
 }
 
-* { box-sizing: border-box; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  color-scheme: dark;
+}
 
+/* ----------------------------------------------------------
+   BACKGROUND ESPACIAL
+----------------------------------------------------------- */
 html, body {
   height: 100%;
-  margin: 0;            /* elimina los bordes/márgenes blancos del navegador */
-  background: linear-gradient(180deg, var(--bg-100) 0%, var(--bg-90) 100%);
+  font-family: "Inter", system-ui, sans-serif;
+  background: radial-gradient(circle at 20% 20%, #101b37, #030517 70%);
+  background-attachment: fixed;
   color: var(--text);
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
 }
 
-.app-main, main, .page {
-  background: transparent; /* aseguramos que el contenido tome el fondo oscuro */
+/* Partículas muy leves tipo estrellas */
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(2px 2px at 80% 70%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 50% 90%, rgba(255,255,255,0.1), transparent);
+  opacity: 0.6;
+  animation: starsFloat 12s infinite alternate ease-in-out;
 }
 
-/* Contenedor central */
+@keyframes starsFloat {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(-12px); }
+}
+
+/* ----------------------------------------------------------
+   CONTAINERS
+----------------------------------------------------------- */
 .container {
   max-width: 1100px;
   margin: 24px auto;
-  padding: 12px;
+  padding: 16px;
 }
 
-/* Botones reutilizables */
+/* ----------------------------------------------------------
+   HEADINGS
+----------------------------------------------------------- */
+h1, h2, h3, h4 {
+  color: #f8faff !important;
+  letter-spacing: -0.25px;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text;
+  color: transparent !important;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+/* Text utilities */
+.lead {
+  color: #bcdcff;
+  font-size: 1.05rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ----------------------------------------------------------
+   BUTTONS
+----------------------------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
   cursor: pointer;
-  border: 0;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: transparent;
-  color: var(--text);
-  box-shadow: none;
-  font-weight: 700;
   text-decoration: none;
-  user-select: none;
+  font-weight: 600;
+  transition: all 0.25s ease;
 }
 
 .btn.primary {
   background: linear-gradient(90deg, var(--accent2), var(--accent1));
   color: #041025;
-  box-shadow: 0 6px 22px rgba(45,212,191,0.06);
+  box-shadow: 0 0 14px rgba(96,165,250,0.4);
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(96,165,250,0.7);
 }
 
 .btn.ghost {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.025);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Headings */
-h1, h2, h3 { margin: 0 0 10px 0; color: #fff; font-weight: 700; letter-spacing: -0.3px; }
-h1 { font-size: 2.1rem; }
-h2 { font-size: 1.4rem; }
-p { margin: 0 0 12px 0; color: var(--muted); line-height: 1.55; }
-
-/* Cards / panels */
-.card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius: 12px;
-  padding: 14px;
-  box-shadow: 0 6px 24px rgba(3,6,12,0.5);
-  border: 1px solid rgba(255,255,255,0.02);
+.btn.ghost:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.08);
 }
 
-/* Small utilities */
-.lead { color: #bcdcff; font-size: 1rem; }
-.muted { color: var(--muted); }
-
-/* Fix iframe/game area to visually fit */
-.iframe-wrapper iframe {
-  border-radius: 12px;
-  box-shadow: 0 14px 48px rgba(2,6,23,0.7);
-  border: 1px solid rgba(255,255,255,0.03);
-}
-
-/* Responsive helpers */
-@media (max-width: 860px){
-  .container { margin: 12px; padding: 8px; }
-  h1 { font-size: 1.6rem; }
-  .hero { flex-direction: column; gap: 12px; align-items:flex-start; }
-}
-
-
-/* Fondo oscuro suave con degradado */
-body {
-  background: linear-gradient(145deg, #0f1620, #1b2330);
-  background-attachment: fixed;
-  margin: 0;
-  padding: 0;
-  color: #e5e5e5;
-  font-family: "Inter", sans-serif;
-}
-
-/* Ajuste general para que todo se vea más claro */
-* {
-  color-scheme: dark;
-}
-
-/* Tarjetas más claras (aplican a home, questions, about, purpose, etc.) */
+/* ----------------------------------------------------------
+   CARDS & PANELS
+----------------------------------------------------------- */
 .card,
 .faq-item,
 .section-card {
-  background: rgba(255, 255, 255, 0.07) !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
-  backdrop-filter: blur(6px);
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 14px;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+  transition: 0.25s ease;
+  box-shadow: 0 6px 26px rgba(0,0,0,0.6);
 }
 
-/* Hover más claro */
 .card:hover,
 .faq-item:hover,
 .section-card:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: var(--glass-strong);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.7);
 }
 
-/* Títulos ligeramente más brillantes */
-h1, h2, h3, h4 {
-  color: #f6f6f6 !important;
+/* ----------------------------------------------------------
+   IFRAMES / GAME AREA
+----------------------------------------------------------- */
+.iframe-wrapper iframe {
+  border-radius: 14px;
+  box-shadow: 0 16px 50px rgba(0,0,0,0.7);
+  border: 1px solid rgba(255,255,255,0.05);
+  backdrop-filter: blur(6px);
+}
+
+/* ----------------------------------------------------------
+   RESPONSIVE
+----------------------------------------------------------- */
+@media (max-width: 860px) {
+  .container {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  h1 { font-size: 1.7rem; }
+}
+
+/* ----------------------------------------------------------
+   EXTRA — BRILLO SUAVE EN ELEMENTOS INTERACTIVOS
+----------------------------------------------------------- */
+a, button {
+  outline: none !important;
+}
+
+a:hover, button:hover {
+  filter: brightness(1.08);
+}
+
+/* Glow leve al enfocar */
+*:focus {
+  outline: 2px solid var(--accent1);
+  outline-offset: 2px;
+  box-shadow: 0 0 12px rgba(96,165,250,0.5);
+}
+
+/* ==========================================================
+   SpaceEdu – Light Mode / Stellar Daylight Theme
+   Activado con:  <body data-theme="light">
+   ========================================================== */
+
+body[data-theme="light"] {
+  --bg-100: #f4f7fb;
+  --bg-90:  #e8edf5;
+  --bg-80: #dde4ef;
+
+  --panel: rgba(0,0,0,0.04);
+  --glass: rgba(255,255,255,0.55);
+  --glass-strong: rgba(255,255,255,0.8);
+
+  --muted: #4d5566;
+  --text: #1f2630;
+
+  --accent1: #2563eb;    /* azul fuerte */
+  --accent2: #14b8a6;    /* turquesa suave */
+  --accent-pink: #d946ef;
+
+  background: radial-gradient(circle at 30% 20%, #ffffff, #e6edf7 70%) !important;
+  color: var(--text);
+}
+
+/* Suavizar estrellas para modo claro */
+body[data-theme="light"]::before {
+  opacity: 0.25;
+  filter: brightness(0.6);
+}
+
+/* Titulares */
+body[data-theme="light"] h1,
+body[data-theme="light"] h2,
+body[data-theme="light"] h3,
+body[data-theme="light"] h4 {
+  color: #111418 !important;
+}
+
+/* h1 degradado daytime */
+body[data-theme="light"] h1 {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text;
+  color: transparent !important;
+}
+
+/* Parrafos */
+body[data-theme="light"] p {
+  color: var(--muted);
+}
+
+/* Cards & Panels */
+body[data-theme="light"] .card,
+body[data-theme="light"] .faq-item,
+body[data-theme="light"] .section-card {
+  background: rgba(255,255,255,0.65) !important;
+  border: 1px solid rgba(0,0,0,0.07) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+}
+
+body[data-theme="light"] .card:hover {
+  background: rgba(255,255,255,0.9) !important;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.12);
+}
+
+/* Buttons */
+body[data-theme="light"] .btn.primary {
+  color: white;
+  box-shadow: 0 0 8px rgba(37,99,235,0.35);
+}
+
+body[data-theme="light"] .btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(37,99,235,0.55);
+}
+
+/* Ghost button */
+body[data-theme="light"] .btn.ghost {
+  background: rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.1);
+  color: #1f2630;
+}
+
+body[data-theme="light"] .btn.ghost:hover {
+  background: rgba(0,0,0,0.08);
+}
+
+/* Iframes (juego) */
+body[data-theme="light"] .iframe-wrapper iframe {
+  border-radius: 14px;
+  box-shadow: 0 16px 45px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Focus ring */
+body[data-theme="light"] *:focus {
+  outline: 2px solid var(--accent1);
+  box-shadow: 0 0 8px rgba(37,99,235,0.45);
+}
+
+/* Enlaces y botones hover */
+body[data-theme="light"] a:hover,
+body[data-theme="light"] button:hover {
+  filter: brightness(1.06);
 }

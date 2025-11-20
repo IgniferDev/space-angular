@@ -1,91 +1,240 @@
-:host { display:block; }
+:host { display: block; }
 
-/* Nav base */
+/* ------------------------------------------------------
+   NAV — CÁPSULA FLOTANTE (Round & Stylized)
+------------------------------------------------------ */
 .nav {
   position: sticky;
-  top: 0;
-  z-index: 1400;
-  backdrop-filter: blur(6px);
-  background: linear-gradient(180deg, rgba(2,6,23,0.6), rgba(3,6,12,0.45));
-  border-bottom: 1px solid rgba(255,255,255,0.02);
+  top: 15px; /* Separado del techo para que flote */
+  z-index: 1500;
+  
+  /* Estilización redonda */
+  width: 95%;          /* No ocupa todo el ancho */
+  max-width: 1200px;   /* Tope de ancho */
+  margin: 0 auto;      /* Centrado horizontal */
+  border-radius: 24px; /* Bordes muy redondos */
+  
+  /* Tus colores originales intactos */
+  backdrop-filter: blur(12px);
+  background: rgba(6, 12, 24, 0.55);
+  border: 1px solid rgba(255,255,255,0.08); /* Borde sutil completo */
+  box-shadow: 0 4px 30px rgba(0,0,0,0.25);
 }
 
+body[data-theme="light"] .nav {
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+}
+
+/* Layout */
 .nav-inner {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding: 10px 6px;
+  display: flex;
+  align-items: center;
+  padding: 8px 20px; /* Padding ajustado a la cápsula */
+  gap: 10px;
 }
 
-/* brand */
+/* El espaciador mágico */
+.spacer {
+  flex: 1; /* Ocupa todo el espacio disponible en medio */
+}
+
+/* ------------------------------------------------------
+   BRAND
+------------------------------------------------------ */
 .brand {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  text-decoration:none;
-  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  transition: 0.25s ease;
+  color: var(--text);
 }
-.logo { font-size: 20px; display:inline-block; transform: translateY(-1px); }
-.brand-text { font-weight:800; font-size:18px; letter-spacing: -0.2px; }
 
-/* links */
+.brand:hover {
+  background: rgba(255,255,255,0.10);
+  transform: translateY(-2px);
+}
+
+body[data-theme="light"] .brand {
+  background: rgba(0,0,0,0.05);
+  color: #222;
+}
+
+.brand-text {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* ------------------------------------------------------
+   THEME SWITCHER BUTTON (A la derecha)
+------------------------------------------------------ */
+.theme-toggle-btn {
+  /* Quitamos margin-right: auto y margin-left que tenías antes */
+  margin-left: 12px; 
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 12px; /* Un poco más cuadrado para estilizar (squircle) */
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+  border-radius: 50%; /* Efecto al hover: se vuelve redondo */
+  box-shadow: 0 0 12px rgba(255,255,255,0.2);
+}
+
+body[data-theme="light"] .theme-toggle-btn {
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.18);
+}
+
+body[data-theme="light"] .theme-toggle-btn:hover {
+  background: rgba(0,0,0,0.10);
+}
+
+.theme-toggle-btn .icon {
+  width: 20px;
+  height: 20px;
+  stroke: var(--accent1);
+}
+
+/* ------------------------------------------------------
+   NAV LINKS
+------------------------------------------------------ */
 .links {
-  display:flex;
-  gap:10px;
-  align-items:center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* each link */
 .links a {
-  color: #cfe7ff;
-  text-decoration:none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight:600;
-  transition: all .16s ease;
-  font-size: 14px;
-}
-.links a:hover { transform: translateY(-2px); background: rgba(255,255,255,0.02); color:#fff; }
-.links a.active { background: rgba(255,255,255,0.035); color:#fff; }
+  color: var(--text);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px; /* Botones más redondos (capsulitas) */
+  font-weight: 600;
+  font-size: 15px;
 
-/* CTA */
+  background: rgba(255,255,255,0.03);
+  transition: 0.22s ease;
+}
+
+.links a:hover {
+  background: rgba(120,170,255,0.15);
+  transform: translateY(-2px);
+}
+
+.links a.active {
+  background: rgba(80,150,255,0.22);
+  box-shadow: 0 0 14px rgba(80,150,255,0.3);
+}
+
+/* CTA — Juega */
 .links a.cta {
-  background: linear-gradient(90deg, #2dd4bf, #60a5fa);
-  color: #061025;
-  font-weight:800;
-  padding: 8px 14px;
+  background: linear-gradient(90deg, var(--accent2), var(--accent1));
+  color: #041025;
+  border-radius: 20px;
+  font-weight: 800;
+  box-shadow: 0 0 14px rgba(56,189,248,0.35);
 }
 
-/* toggle button (mobile) */
+.links a.cta:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 0 20px rgba(56,189,248,0.55);
+}
+
+body[data-theme="light"] .links a {
+  background: rgba(0,0,0,0.04);
+  color: #222;
+}
+
+body[data-theme="light"] .links a:hover {
+  background: rgba(0,0,0,0.10);
+}
+
+body[data-theme="light"] .links a.active {
+  background: rgba(0,0,0,0.15);
+  box-shadow: none;
+}
+
+/* ------------------------------------------------------
+   MOBILE
+------------------------------------------------------ */
 .nav-toggle {
-  display:none;
-  background: transparent;
+  display: none;
+  margin-left: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
   border: none;
-  color: #fff;
-  padding: 8px;
-  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
-.nav-toggle:focus { outline: 2px solid rgba(96,165,250,0.18); }
 
-/* small screens: stack menu */
-@media (max-width: 860px){
-  .nav-inner {
-    align-items: center;
+.nav-toggle:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+@media (max-width: 860px) {
+
+  .nav-toggle { display: inline-flex; }
+
+  /* Ajuste para que en móvil la barra no flote tanto si es muy chica */
+  .nav {
+    width: 100%;
+    border-radius: 0 0 20px 20px;
+    top: 0;
+    margin: 0;
   }
-  .nav-toggle { display:inline-flex; }
+
   .links {
     position: absolute;
-    top: 64px;
-    right: 12px;
-    background: rgba(3,6,12,0.9);
-    border-radius: 10px;
+    top: 75px;
+    right: 10px;
     flex-direction: column;
-    padding: 10px;
-    min-width: 180px;
-    box-shadow: 0 10px 40px rgba(2,6,23,0.6);
-    display: none; /* shown when toggled */
+    background: rgba(6,12,24,0.98); /* Fondo más solido */
+    padding: 14px;
+    border-radius: 20px;
+    min-width: 200px;
+    display: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.65);
+    border: 1px solid rgba(255,255,255,0.1);
   }
-  .links.show { display:flex; }
-  .links a { width:100%; padding: 10px 12px; }
+
+  body[data-theme="light"] .links {
+    background: rgba(255,255,255,0.98);
+  }
+
+  .links.show { display: flex; }
+
+  .links a {
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+    border-radius: 12px;
+  }
+}
+
+html, body, nav, .card, .links a, .brand, .theme-toggle-btn {
+  transition: background 0.35s ease, 
+              border-color 0.35s ease, 
+              color 0.3s ease,
+              box-shadow 0.35s ease;
 }

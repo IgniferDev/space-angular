@@ -1,64 +1,196 @@
+:host { display: block; }
+
 .questions-container {
-  max-width: 900px;
-  margin: 40px auto;
+  max-width: 1100px; /* Más ancho para el grid */
+  margin: 60px auto;
   padding: 20px;
   color: #e6e6e6;
 }
 
-.title {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
+/* --- Encabezado --- */
+.header-section {
   text-align: center;
+  margin-bottom: 50px;
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  /* Texto degradado (Tendencia) */
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+
+body[data-theme="light"] .title {
+  background: linear-gradient(135deg, #1e293b 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-  text-align: center;
-  color: #b3b3b3;
-  font-size: 1.1rem;
-  margin-bottom: 40px;
-}
-
-/* FAQ */
-.faq-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.faq-item {
-  padding: 18px 24px;
-  background: #0e121a;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 6px 15px rgba(2, 6, 23, 0.4);
-  cursor: pointer;
-  transition: 0.25s ease;
-}
-
-.faq-item:hover {
-  background: #151a24;
-  transform: translateY(-2px);
-}
-
-.faq-item h3 {
-  margin: 0;
+  color: #94a3b8;
   font-size: 1.2rem;
-  color: #fff;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
 }
 
-.faq-item p {
-  max-height: 0;
+/* --- Grid Layout (Diseño Bento) --- */
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+/* --- Tarjeta (Card) --- */
+.faq-card {
+  background: rgba(15, 23, 42, 0.6); /* Fondo oscuro sutil */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px; /* Bordes muy redondos */
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
   overflow: hidden;
-  opacity: 0;
-  margin: 0;
-  padding-top: 0;
-  line-height: 1.6;
-  color: #c7c7c7;
-  transition: max-height 0.35s ease, opacity 0.35s ease, padding-top 0.35s ease;
+  backdrop-filter: blur(10px);
 }
 
-.faq-item p.open {
-  max-height: 200px;
+.faq-card:hover {
+  background: rgba(15, 23, 42, 0.8);
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.3); /* Borde azul al hover */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Estado Activo (Abierto) */
+.faq-card.active {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: #6366f1; /* Azul intenso */
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15);
+}
+
+/* --- Header de la Tarjeta (Título + Icono) --- */
+.faq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alineado arriba por si el titulo es largo */
+  gap: 15px;
+}
+
+.faq-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.4;
+  transition: color 0.3s;
+}
+
+.faq-card:hover h3 {
+  color: #ffffff;
+}
+
+/* Icono (+) */
+.icon-wrapper {
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  transition: transform 0.4s ease, color 0.3s;
+}
+
+.faq-card:hover .icon-wrapper {
+  color: #6366f1;
+}
+
+/* Rotación del icono cuando está activo */
+.faq-card.active .icon-wrapper {
+  transform: rotate(45deg); /* Se convierte en X */
+  color: #6366f1;
+}
+
+/* --- Contenido Oculto --- */
+.faq-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease-out;
+  opacity: 0;
+}
+
+.faq-content p {
+  overflow: hidden;
+  margin: 0;
+  color: #cbd5e1;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  padding-top: 0;
+  transition: padding 0.4s;
+}
+
+/* Animación de apertura suave */
+.faq-card.active .faq-content {
+  grid-template-rows: 1fr;
   opacity: 1;
-  padding-top: 12px;
+}
+
+.faq-card.active .faq-content p {
+  padding-top: 16px; /* Espacio solo cuando abre */
+}
+
+
+/* ------------------------------------------------------
+   LIGHT MODE (Soporte para tema claro)
+------------------------------------------------------ */
+body[data-theme="light"] .questions-container {
+  color: #1e293b;
+}
+
+body[data-theme="light"] .subtitle {
+  color: #64748b;
+}
+
+body[data-theme="light"] .faq-card {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+body[data-theme="light"] .faq-card:hover {
+  background: #ffffff;
+  border-color: #4f46e5;
+  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.1);
+}
+
+body[data-theme="light"] .faq-card.active {
+  background: #ffffff;
+  border-color: #4f46e5;
+}
+
+body[data-theme="light"] .faq-header h3 {
+  color: #334155;
+}
+
+body[data-theme="light"] .faq-card.active h3 {
+  color: #4f46e5;
+}
+
+body[data-theme="light"] .faq-content p {
+  color: #475569;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .faq-grid {
+    grid-template-columns: 1fr; /* Una sola columna en móvil */
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
 }

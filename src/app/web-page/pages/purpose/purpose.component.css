@@ -1,248 +1,325 @@
-/* purpose.component.css - imágenes e iconos, manteniendo espaciado */
+:host { display: block; }
 
-.purpose-container {
-  max-width: 980px;
-  margin: 36px auto;
-  padding: 12px;
+/* --- Wrapper Global --- */
+.purpose-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 60px;
 }
 
-/* tarjeta general */
-.section-card {
-  background: rgba(255,255,255,0.05);
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 28px;
-  border: 1px solid rgba(255,255,255,0.07);
-  display: block;
-}
-
-/* with media: image left, text right */
-.with-media {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 20px;
-  align-items: center;
-}
-.with-media .media img { width: 100%; border-radius: 10px; object-fit: cover; }
-
-/* grid 3 for vision items */
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-}
-.card-vision { padding: 16px; display:flex; flex-direction:column; gap:12px; align-items:flex-start; }
-
-/* icon inline and circle */
-.icon-inline svg { color: var(--accent2); vertical-align: middle; margin-right: 8px; }
-.icon-circle {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:48px;
-  height:48px;
-  border-radius:10px;
-  background: rgba(255,255,255,0.02);
-  color: var(--accent1);
-  margin-right: 10px;
-}
-
-/* horizontal layout for motivations */
-.horizontal { display:grid; grid-template-columns: 1fr 320px; gap:18px; align-items:center; }
-.horizontal .media.small img { width:100%; border-radius:10px; object-fit:cover; }
-
-/* motivations list */
-.motivations { margin-top: 12px; padding-left: 18px; line-height: 1.6; }
-.motivations li { margin-bottom: 10px; display:flex; gap:10px; align-items:flex-start; }
-.li-icon { display:inline-flex; align-items:center; justify-content:center; color: var(--accent2); margin-top:4px; }
-
-/* feature grid (student focus) */
-.feature-grid .features { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 14px; margin-top: 12px; }
-.feature { padding: 14px; display:flex; flex-direction:column; gap:10px; }
-.feature-head { display:flex; gap:10px; align-items:center; }
-.icon-small { font-size: 20px; }
-
-/* headings and text */
-.title { text-align:center; font-size: 2.1rem; margin-bottom: 18px; color: #fff; }
-.section-card h2 { margin-top: 0; margin-bottom: 8px; font-size: 1.25rem; color: #fff; }
-.section-card p, .card-vision p, .feature p { color: var(--muted); margin: 0; }
-
-/* responsive */
-@media (max-width: 920px) {
-  .with-media, .horizontal { grid-template-columns: 1fr; }
-  .with-media .media img, .horizontal .media img { width: 100%; margin-bottom: 10px; }
-  .purpose-container { padding: 8px; }
-}
-
-/* 1. Definición de Animación de Entrada */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 2. Aplicación de Animación a las Tarjetas */
-/* Esto hará que las tarjetas aparezcan suavemente 
-  cuando la página cargue.
-*/
-.card-animated {
-  /* Inicialmente oculto para la animación */
-  opacity: 0; 
-  /* Aplicar la animación */
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
-/* Staggering (retraso) de la animación 
-  para un efecto más dinámico.
-*/
-.card-animated:nth-of-type(1) { animation-delay: 0.1s; }
-.card-animated:nth-of-type(2) { animation-delay: 0.2s; }
-.card-animated:nth-of-type(3) { animation-delay: 0.3s; }
-.card-animated:nth-of-type(4) { animation-delay: 0.4s; }
-.card-animated:nth-of-type(5) { animation-delay: 0.5s; }
-
-
-/* 3. Estilos del Nuevo "Hero" de Encabezado */
+/* --- HERO SECTION --- */
 .purpose-hero {
-  padding: 60px 20px 70px 20px;
+  position: relative;
+  padding: 80px 20px 60px;
   text-align: center;
-  /* Fondo sutil - asumiendo un tema oscuro */
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 40px; /* Separación del contenido */
+  margin-bottom: 20px;
 }
 
-.purpose-hero .title {
-  /* Tu .title original está bien, solo ajustamos tamaño y margen */
-  font-size: 2.8rem; /* Más grande e impactante */
-  margin-bottom: 12px;
-  color: #fff; /* Asegurar color */
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.purpose-hero .subtitle {
-  font-size: 1.2rem;
-  color: var(--muted, #aaa); /* Usar tu variable --muted */
-  max-width: 650px;
-  margin: 0 auto 20px auto;
+/* Título degradado */
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #94a3b8;
+  margin-bottom: 30px;
   line-height: 1.6;
 }
 
-.purpose-hero .team-link a {
-  color: var(--accent2, #9effff); /* Usar tu variable --accent2 */
-  text-decoration: none;
+/* Link tipo botón fantasma */
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6366f1;
   font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-}
-.purpose-hero .team-link a:hover {
-  text-decoration: underline;
-  text-shadow: 0 0 8px var(--accent2, #9effff);
-}
-
-
-/* 4. Estilos de Título para Rejillas */
-.grid-title {
-  /* Coloca el título *dentro* de la tarjeta 
-    pero abarcando todas las columnas
-  */
-  grid-column: 1 / -1; /* Abarcar todo el ancho del grid */
-  font-size: 1.5rem;
-  color: #fff;
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  padding: 10px 24px;
+  border-radius: 30px;
+  background: rgba(99, 102, 241, 0.1);
+  transition: all 0.3s ease;
 }
 
-
-/* 5. Estilos para Nuevos Iconos SVG (reemplazo de emojis) */
-/* Reutiliza .icon-circle pero con un tamaño más pequeño 
-  para esta sección.
-*/
-.feature-head .icon-circle.small-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px; /* Igual que el .icon-circle original */
-  /* Hereda color y fondo de .icon-circle */
-}
-.feature-head .icon-circle.small-icon svg {
-  width: 22px;
-  height: 22px;
-}
-/* Oculta la clase de emoji anterior si aún existe */
-.icon-small {
-  display: none;
+.hero-link:hover {
+  background: rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
 }
 
+.hero-link .arrow { transition: transform 0.3s; }
+.hero-link:hover .arrow { transform: translateX(4px); }
 
-/* 6. Estilo para la Tarjeta Final (Call to Action) */
-.cta-card {
-  text-align: center;
-  /* Fondo y borde más prominentes */
-  background: linear-gradient(145deg, rgba(var(--accent1-rgb, 0, 188, 212), 0.1), rgba(var(--accent1-rgb, 0, 188, 212), 0.02));
-  border: 1px solid rgba(var(--accent1-rgb, 0, 188, 212), 0.2);
-  padding: 30px;
+/* Brillo de fondo */
+.hero-glow {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+  z-index: 1;
+  pointer-events: none;
 }
 
-.cta-card h2 {
-  color: var(--accent1, #00bcd4); /* Usar tu variable --accent1 */
-  font-size: 1.6rem;
-  margin-bottom: 12px;
-}
-
-.cta-card p {
-  max-width: 750px;
+/* --- CONTAINER --- */
+.purpose-container {
+  max-width: 1100px;
   margin: 0 auto;
-  line-height: 1.7;
-  font-size: 1.05rem;
+  padding: 0 20px;
 }
 
-
-/* 7. Efectos Hover Globales para Tarjetas */
-/* Aplica una transición a todas las tarjetas para que el 
-  hover sea suave.
-*/
-.section-card, .card-vision, .feature.card {
-  /* Definir la transición base */
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+/* --- BENTO GRID LAYOUT --- */
+.bento-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-/* Efecto Hover para tarjetas individuales dentro de rejillas
-*/
-.card-vision:hover, .feature.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+/* Tarjeta Base (Estilo Cristal) */
+.bento-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px; /* Redondeo fuerte */
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto Hover para tarjetas de sección completas 
-  (ligeramente más sutil)
-*/
-.section-card.with-media:hover,
-.section-card.horizontal:hover,
-.section-card.cta-card:hover {
+.bento-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
+h2 { font-size: 1.5rem; color: #fff; margin: 0; }
+h3 { font-size: 1.2rem; color: #f1f5f9; margin: 10px 0 5px; }
+p { color: #cbd5e1; line-height: 1.6; margin: 0; font-size: 0.95rem; }
 
-/* 8. Ajuste Responsivo Adicional */
-/* Asegurarse de que el título de la rejilla se 
-  vea bien en móviles
-*/
-@media (max-width: 768px) {
-  .grid-title {
-    text-align: center;
-  }
-  .purpose-hero .title {
-    font-size: 2.2rem;
-  }
-  .purpose-hero .subtitle {
-    font-size: 1rem;
-  }
+/* Badges de Iconos */
+.icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+  margin-bottom: 12px;
+}
+
+.icon-badge.color-2 {
+  background: rgba(236, 72, 153, 0.2);
+  color: #f472b6;
+}
+
+/* --- 1. GOAL CARD --- */
+.goal-card {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  padding: 0; /* Sin padding para que la imagen toque bordes si queremos */
+}
+
+.goal-card .card-content { padding: 40px; }
+.goal-card .card-header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+
+.goal-card .card-image {
+  height: 100%;
+  min-height: 300px;
+}
+.goal-card .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mask-image: linear-gradient(to right, transparent 0%, black 20%); /* Difuminado */
+}
+
+/* --- 2. PILLARS GRID --- */
+.sub-grid-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.pill-card {
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.icon-large { font-size: 2rem; }
+
+/* --- 3. MOTIVATION CARD --- */
+.motivation-card {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+}
+
+.motivation-card .card-content { padding: 40px; }
+.motivation-card .card-image { height: 100%; min-height: 300px; }
+.motivation-card .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mask-image: linear-gradient(to left, transparent 0%, black 20%);
+}
+
+.check-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+.check-list li {
+  margin-bottom: 10px;
+  padding-left: 24px;
+  position: relative;
+  color: #cbd5e1;
+}
+.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #f472b6;
+  font-weight: bold;
+}
+
+/* --- 4. FEATURES SECTION --- */
+.features-container {
+  padding: 40px;
+}
+.features-header { text-align: center; margin-bottom: 30px; }
+.features-header p { color: #94a3b8; margin-top: 5px; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+.feature-item {
+  background: rgba(255,255,255,0.03);
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  transition: 0.3s;
+}
+.feature-item:hover { background: rgba(255,255,255,0.06); }
+.feature-item .icon-box { font-size: 2rem; margin-bottom: 10px; }
+.feature-item h4 { color: #fff; margin: 0 0 8px; font-size: 1.1rem; }
+
+/* --- 5. FINAL CTA --- */
+.final-cta {
+  padding: 50px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(15, 23, 42, 0.8) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+.final-cta h2 { 
+  margin-bottom: 16px; 
+  background: linear-gradient(90deg, #fff, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.final-cta p { max-width: 700px; margin: 0 auto; font-size: 1.1rem; }
+
+/* --- ANIMACIONES --- */
+.card-animated {
+  opacity: 0;
+  animation: slideUpFade 0.6s ease-out forwards;
+}
+.card-animated:nth-child(1) { animation-delay: 0.1s; }
+.sub-grid-pillars .card-animated:nth-child(1) { animation-delay: 0.2s; }
+.sub-grid-pillars .card-animated:nth-child(2) { animation-delay: 0.3s; }
+.sub-grid-pillars .card-animated:nth-child(3) { animation-delay: 0.4s; }
+.motivation-card { animation-delay: 0.5s; }
+.features-container { animation-delay: 0.6s; }
+.final-cta { animation-delay: 0.7s; }
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .goal-card, .motivation-card { grid-template-columns: 1fr; }
+  .goal-card .card-image, .motivation-card .card-image { order: -1; min-height: 200px; max-height: 300px; }
+  .goal-card .card-image img, .motivation-card .card-image img { mask-image: none; }
+  
+  .sub-grid-pillars, .features-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2.5rem; }
+}
+
+/* --- ICONOS SVG MINIMALISTAS --- */
+
+/* Contenedor para los Pilares */
+.icon-large-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05); /* Fondo sutil */
+  color: #818cf8; /* Color base del icono */
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover en la tarjeta padre afecta al icono */
+.pill-card:hover .icon-large-wrapper {
+  background: rgba(99, 102, 241, 0.2); /* Se enciende al hover */
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Contenedor para los Features (Estudiantes) */
+.icon-box-svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%; /* Circulares */
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #a5b4fc;
+  margin-bottom: 16px;
+  transition: 0.3s ease;
+}
+
+.feature-item:hover .icon-box-svg {
+  border-color: #6366f1;
+  color: #6366f1;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); /* Resplandor suave */
+}
+
+/* Soporte para Modo Claro (Si lo usas) */
+body[data-theme="light"] .icon-large-wrapper {
+  background: rgba(0, 0, 0, 0.05);
+  color: #4f46e5;
+}
+body[data-theme="light"] .icon-box-svg {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #475569;
 }
