@@ -1,179 +1,339 @@
-/* about-page.component.css - tarjetas apiladas, espacio y legibilidad */
+:host { display: block; }
 
-.about-page {
-  max-width: 980px;
-  margin: 40px auto;
-  padding: 12px;
-  color: var(--text);
-}
-
-.about-header {
-  text-align: center;
-  margin-bottom: 28px;
-}
-.about-header h1 { font-size: 2.1rem; margin: 0 0 6px 0; }
-.about-header .subtitle { color: var(--muted); margin: 0; }
-
-/* Tarjeta de miembro (estilo común) */
-.member-card {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  padding: 20px;
-  margin-bottom: 22px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.03);
-  box-shadow: 0 8px 30px rgba(2,6,23,0.45);
-}
-
-/* Profesor destacado: un poco más alto y con fondo sutil */
-.member-card.highlighted {
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 26px;
-}
-
-/* Foto */
-.photo {
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  overflow: hidden;
-  flex-shrink: 0;
-  background: rgba(255,255,255,0.02);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.photo img {
+.about-page-wrapper {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.about-container {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* --- 1. HERO (Centrado) --- */
+.about-hero {
+  text-align: center;
+  padding: 40px 0 20px;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0 0 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  margin: 0 auto;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 16px;
+  gap: 8px;
+  color: #818cf8;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 8px 20px;
+  border-radius: 20px;
+  background: rgba(99, 102, 241, 0.1);
+  transition: all 0.3s ease;
+}
+.hero-link:hover { 
+  background: rgba(99, 102, 241, 0.2);
+  color: #fff; 
+  transform: translateY(-2px);
+}
+
+
+/* --- ESTILO GENERAL TARJETAS --- */
+.bento-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bento-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+
+/* --- 2. MENTOR CARD (Horizontal) --- */
+.mentor-card {
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  gap: 30px;
+  background: linear-gradient(90deg, rgba(15,23,42,0.9), rgba(30,41,59,0.7));
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.profile-visual { flex-shrink: 0; }
+
+.avatar-frame.commander-frame {
+  width: 130px;
+  height: 130px;
+  border-radius: 24px;
+  padding: 4px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(99, 102, 241, 0.5);
+  position: relative;
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.2);
+}
+
+.avatar-img {
+  width: 100%; height: 100%;
+  object-fit: cover; border-radius: 18px;
   display: block;
 }
 
-/* Cuerpo de la tarjeta */
-.member-body {
-  flex: 1;
-  min-width: 0;
+.rank-badge {
+  position: absolute;
+  bottom: -12px; left: 50%;
+  transform: translateX(-50%);
+  background: #4f46e5;
+  color: white;
+  font-size: 0.75rem; font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.2);
+  white-space: nowrap;
 }
-.member-body h2, .member-body h3 {
-  margin: 0 0 6px 0;
-  color: #fff;
+
+.profile-content { flex: 1; }
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.role {
-  color: var(--accent2);
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.member-body p {
+
+.header-row h2 {
   margin: 0;
-  color: var(--muted);
+  font-size: 1.6rem;
+  color: white;
+}
+
+.role-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #a5b4fc;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(99, 102, 241, 0.15);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.bio {
+  margin: 0 0 12px 0;
+  color: #cbd5e1;
+  font-size: 1rem;
   line-height: 1.6;
 }
 
-/* Contact card */
-.contact-card {
-  margin-top: 18px;
-  padding: 18px;
-  text-align: center;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.03);
-}
-
-/* Small helpers */
-.img-hint { display:block; margin-top:8px; color: var(--muted); font-size: 12px; }
-
-/* Responsive: apilar verticalmente en pantallas pequeñas */
-@media (max-width: 780px) {
-  .member-card {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-  }
-  .photo { width: 140px; height: 140px; }
-  .member-body { width: 100%; }
-  .member-body h2, .member-body h3 { font-size: 1.05rem; }
-}
-
-/* --- AÑADIR ESTO A TU about-page.component.css --- */
-
-/* Estilos para las nuevas secciones */
-.team-section h2 {
-  font-size: 1.5rem;
-  color: #fff;
-  margin-bottom: 18px;
-  padding-left: 10px;
-  border-left: 3px solid var(--accent); /* Asumiendo que tienes una variable --accent */
-}
-
-/* Reseteo semántico para listas */
-.team-list, .team-grid {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-/* La REJILLA 2x2 para el equipo de desarrollo */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 22px;
-}
-
-/* Quitar el margen inferior de las tarjetas cuando están en la rejilla */
-.team-grid .member-card {
+.interests {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-style: italic;
   margin-bottom: 0;
 }
 
-/* Estilos para los enlaces de perfiles */
-.social-links {
-  margin-top: 16px;
+
+/* --- 3. CREW GRID (Tarjetas Verticales Centradas) --- */
+.crew-grid {
+  display: grid;
+  /* 4 Columnas automáticas en escritorio */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.crew-card {
+  padding: 30px 20px;
   display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrado Horizontal */
+  text-align: center;  /* Texto Centrado */
   gap: 16px;
+  height: 100%;
 }
 
-.social-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: color 0.2s ease;
+/* Header Vertical */
+.card-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 15px;
 }
 
-.social-links a:hover {
-  color: var(--accent2); /* Asumiendo --accent2 */
+/* Foto Grande */
+.card-top .avatar-frame {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  padding: 0; /* Sin padding extra para estudiantes */
 }
 
-/* Enlace a la página de Propósito */
-.purpose-link {
-  text-align: center;
-  margin: 10px 0 0 0;
+.card-top .avatar-img {
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
+}
+
+.crew-card:hover .avatar-img {
+  transform: scale(1.05);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.identity h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Roles */
+.role-pill {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.role-pill.code { background: rgba(56, 189, 248, 0.15); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.3); }
+.role-pill.logic { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.3); }
+.role-pill.design { background: rgba(244, 114, 182, 0.15); color: #fbcfe8; border: 1px solid rgba(244, 114, 182, 0.3); }
+.role-pill.qa { background: rgba(45, 212, 191, 0.15); color: #99f6e4; border: 1px solid rgba(45, 212, 191, 0.3); }
+
+.bio-short {
   font-size: 0.9rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+  flex-grow: 1;
 }
-.purpose-link a {
-  color: var(--accent2);
+
+/* --- BOTONES SOCIALES (Separados y Grandes) --- */
+.social-row {
+  display: flex;
+  justify-content: center; /* Centrados */
+  gap: 24px; /* AUMENTADO: Mucho espacio entre iconos */
+  margin-top: 12px;
+}
+
+.social-btn {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  width: 44px; /* AUMENTADO: Área táctil grande */
+  height: 44px;
+  color: #cbd5e1;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid transparent;
+}
+
+.social-btn:hover {
+  background: #0a66c2; /* Color LinkedIn por defecto al hover */
+  color: white;
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* Diferenciar el hover de GitHub si quieres (opcional) */
+.social-btn[href*="github"]:hover { background: #333; }
+
+
+/* --- 4. CONTACT BANNER --- */
+.contact-banner {
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: linear-gradient(90deg, rgba(99,102,241,0.15), rgba(15,23,42,0.6));
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+.contact-content h2 { font-size: 1.3rem; color: white; margin: 0 0 4px; }
+.contact-content p { margin: 0; color: #cbd5e1; }
+
+.btn-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: #fff;
+  color: #0f172a;
+  font-weight: 700;
   text-decoration: none;
-  font-weight: 600;
+  border-radius: 12px;
+  transition: 0.3s;
 }
-.purpose-link a:hover {
-  text-decoration: underline;
+.btn-contact:hover { 
+  background: #e2e8f0; 
+  transform: scale(1.05); 
 }
 
 
-/* --- MODIFICAR TU MEDIA QUERY --- */
-@media (max-width: 780px) {
-  /* ... (tu .member-card flex-direction: column) ... */
+/* --- ANIMACIONES --- */
+.card-animated { opacity: 0; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.mentor-card { animation-delay: 0.1s; }
+.crew-card:nth-child(1) { animation-delay: 0.2s; }
+.crew-card:nth-child(2) { animation-delay: 0.3s; }
+.crew-card:nth-child(3) { animation-delay: 0.4s; }
+.crew-card:nth-child(4) { animation-delay: 0.5s; }
 
-  /* Deshacer la rejilla en móvil (apilar) */
-  .team-grid {
-    grid-template-columns: 1fr;
-    gap: 0; /* El margen ya lo da .member-card */
-  }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  /* Asegurar que las tarjetas vuelvan a tener su margen */
-  .team-grid .member-card {
-    margin-bottom: 22px;
-  }
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .mentor-card { flex-direction: column; text-align: center; padding: 30px 20px; }
+  .info-header { flex-direction: column; align-items: center; gap: 15px; }
+  /* En móvil una columna, en tablets 2 */
+  .crew-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; } 
+  .contact-banner { flex-direction: column; text-align: center; }
 }
