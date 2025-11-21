@@ -4,10 +4,15 @@ import { GameInstance } from './js/game-instance.js';
 import { renderLeaderboard } from './js/leaderboard.js';
 import { controlsConfig, openConfigModal } from './js/controls.js';
 import * as UI from './js/ui.js';
+import { loadQuestionsBank } from './js/question-manager.js';
 
 // Inicialización
-(function init() {
+(async function init() { // <--- AQUI: Agregamos 'async'
     window.__embedParams = parseHash();
+    
+    // <--- AQUI: Esperamos a que carguen los datos (Local o API)
+    await loadQuestionsBank(); 
+
     gameSounds.preload();
     renderLeaderboard(UI.$leaderboardContainer);
 

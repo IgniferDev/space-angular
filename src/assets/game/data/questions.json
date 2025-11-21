@@ -1,0 +1,8 @@
+[
+  { "category": "math", "difficulty": 1, "q": "2 + 2", "a": "4" },
+  { "category": "math", "difficulty": 1, "q": "5 - 2", "a": "3" },
+  { "category": "math", "difficulty": 2, "q": "12 x 12", "a": "144" },
+  { "category": "math", "difficulty": 3, "q": "(10 x 2) + 5", "a": "25" },
+  { "category": "history", "difficulty": 1, "q": "Descubridor de América", "a": "Colón" },
+  { "category": "history", "difficulty": 2, "q": "Independencia de México", "a": "1810" }
+]
