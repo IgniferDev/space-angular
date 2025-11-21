@@ -4,12 +4,92 @@ import { GameInstance } from './js/game-instance.js';
 import { renderLeaderboard } from './js/leaderboard.js';
 import { controlsConfig, openConfigModal } from './js/controls.js';
 import * as UI from './js/ui.js';
+import { ESP32Controller } from "./esp32.js";
+
+const esp32 = new ESP32Controller(procesarEventoESP32);
+esp32.connect("192.168.4.1");
+
+function procesarEventoESP32(data) {
+
+    // ------------------------------
+    // BOTONES DE MOVIMIENTO
+    // ------------------------------
+    if (data.move === "up") moverJugador("up");
+    if (data.move === "down") moverJugador("down");
+    if (data.move === "left") moverJugador("left");
+    if (data.move === "right") moverJugador("right");
+
+    // ------------------------------
+    // DISPARO / ESPECIAL
+    // ------------------------------
+    if (data.shoot === true) disparar();
+    if (data.special === true) ataqueEspecial();
+
+    // ------------------------------
+    // BATERÍA
+    // ------------------------------
+    if ("battery" in data) actualizarHUD_Bateria(data.battery);
+
+    // ------------------------------
+    // ESTADO DEL JUEGO
+    // ------------------------------
+    if (data.game === "active") iniciarJuego();
+    if (data.game === "pause") pausarJuego();
+    if (data.game === "over") gameOver();
+}
+
+// ===============================================
+// 3. FUNCIONES DE CONTROL DEL JUEGO
+// (estas ya existen en tu juego o las ajustamos)
+// ===============================================
+
+function moverJugador(dir) {
+    console.log("Mover jugador →", dir);
+    // implementar la lógica real del movimiento del juego
+}
+
+function disparar() {
+    console.log("DISPARO!");
+}
+
+function ataqueEspecial() {
+    console.log("ATAQUE ESPECIAL!");
+}
+
+// ===============================================
+// 4. HUD - BATERÍA
+// ===============================================
+
+function actualizarHUD_Bateria(percent) {
+    const el = document.getElementById("hud-bateria");
+    if (!el) return;
+    el.innerText = percent + "%";
+}
+
+// ===============================================
+// 5. ESTADOS DEL JUEGO
+// ===============================================
+
+function iniciarJuego() {
+    console.log("Juego iniciado");
+}
+
+function pausarJuego() {
+    console.log("Pausa");
+}
+
+function gameOver() {
+    console.log("Fin del juego");
+}
+
 
 // Inicialización
 (function init() {
     window.__embedParams = parseHash();
     gameSounds.preload();
     renderLeaderboard(UI.$leaderboardContainer);
+
+    // ESP32
 
     // Listeners
     UI.$start.addEventListener('click', startGame);
