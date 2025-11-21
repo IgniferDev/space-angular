@@ -1,186 +1,187 @@
-# 🚀 **Space Invaders Educativo — Versión Extendida (v.1.0 Pre-Release)**
+Aquí tienes una **versión completamente renovada**, profesional, visual, lista para GitHub, con tu link oficial, tu versión **1.0 BETA**, el branding de SpaceEdu y sin errores.
+
+Incluye:
+✨ Mejor narrativa
+✨ Diseño más limpio
+✨ Menos texto innecesario
+✨ Más identidad del proyecto
+✨ Organización moderna (como proyectos AAA de GitHub)
+
+---
+
+# 🚀 **SpaceEdu — Arcade Educativo Interactivo (v1.0 BETA)**
+
+### *Aprende. Juega. Compite.*
 
 <p align="center">
-  <img src="https://i.imgur.com/Vp1l54z.png" width="260" alt="Logo Space Invaders Retro">
+  <img src="/src/assets/game/img/ufo.png" width="240" alt="SpaceEdu Logo">
 </p>
 
-**Una reinvención moderna del clásico arcade, ahora convertido en una herramienta educativa interactiva para aprender mientras disparas, esquivas y compites.**
-💥 *Matemáticas + Historia + Duelos 1v1 + Sonido retro + Fullscreen por jugador*.
+SpaceEdu es una experiencia educativa **gamificada**, basada en un arcade moderno al estilo *Space Invaders*, pero enfocado en **preguntas interactivas**, **competencia**, **velocidad mental** y aprendizaje real.
+
+Combina:
+
+* 🎮 Gameplay retro-moderno
+* 🧠 Preguntas de Matemáticas e Historia
+* ⚔️ Modo duelo 1v1
+* 🎧 Sonido clásico
+* 🌈 Diseño futurista basado en Angular 19
 
 ---
 
-## 🌐 **Demo en Vivo**
+# 🌐 **Demo en Vivo**
 
-*Link del proyecto*
-
-👉 **[https://tu-link-aqui.com/space-edu/](https://tu-link-aqui.com/space-edu/)**
-
----
-
-# 🎮 **¿Qué es Space Invaders Educativo?**
-
-Una experiencia **gamificada** donde cada enemigo trae una **pregunta**, cada disparo es una **respuesta**, y cada ronda es una batalla entre tu mente y tus reflejos.
-
-Diseñado para:
-
-* 🧠 Aprender matemáticas e historia de forma dinámica
-* 🏆 Competir en modo 1v1 con pantallas separadas
-* 🏫 Usarse en escuelas, clubes o actividades recreativas
-* 💻 Mostrar un ejemplo moderno de juego web sin frameworks
-
-Todo funcionando en **JavaScript puro**, sin motores externos.
+👉 **[https://igniferdev.github.io/space-angular/](https://igniferdev.github.io/space-angular/)**
+Versión actual: **v1.0 BETA**
 
 ---
 
-# 🔥 **Características Principales (v.1.0)**
+# 🎮 ¿Qué es SpaceEdu?
 
-### 🎯 **Modo Educativo Interactivo**
+Un juego educativo donde:
 
-Incluye dos bancos completos:
+🛸 Cada enemigo lanza una pregunta
+🎯 Cada disparo es una respuesta
+🔥 Cada ronda mide tu velocidad, precisión y reflejos
+🏆 Incluso puedes competir en duelos 1v1
 
-* 📐 Matemáticas (sumas, restas, problemas rápidos)
-* 🏺 Historia (general, antigua, mexicana)
+Perfecto para:
 
-Se pueden añadir más con facilidad.
-
----
-
-### 🎮 **Modo Competitivo para 2 Jugadores**
-
-Lo más destacado:
-
-* Cada jugador tiene **su propio canvas**, su HUD y sus controles.
-* Los enemigos, balas, rondas y preguntas son **totalmente independientes**.
-* Sistema de puntajes para enfrentamientos 1v1.
-
-🔥 *Lo más cercano a un “duelo académico retro”.*
+* Aulas
+* Torneos académicos
+* Clubes de ciencia
+* Actividades recreativas
+* Entrenamiento mental rápido
 
 ---
 
-### 🔊 **Sonido Integrado**
+# ✨ **Características Principales (v1.0 BETA)**
 
-Sistema de audio con fade suave:
+## 🧠 **Modo Educativo Interactivo**
 
-* Música retro looping
-* Disparo
-* Explosión
-* Respuesta correcta
-* Respuesta incorrecta
+Preguntas integradas:
 
-Sin cortes, clics o errores de autoplay.
+* 📐 Matemáticas básicas y de razonamiento
+* 🏺 Historia Universal y Mexicana
 
----
-
-### 🖥 **Pantalla Completa por Jugador**
-
-Cada pantalla tiene su botón ⛶:
-
-* Fullscreen individual
-* Ultra inmersivo
-* Perfecto para torneos y proyecciones
+Más bancos podrán añadirse fácilmente.
 
 ---
 
-### 📊 **Leaderboard Local Avanzado**
+## 🎮 **Modo Competitivo 1v1**
 
-Con guardado automático:
+* Dos jugadores, cada uno con su **propio canvas**
+* Mecánicas independientes: enemigos, balas, rondas
+* Comparación y registro de puntaje
+
+**Un duelo académico real-time.**
+
+---
+
+## 🔊 Sonido Retro Integrado
+
+* Disparos
+* Explosiones
+* Música en loop
+* Feedback de respuestas correctas / incorrectas
+* Sistema de audio sin retrasos ni errores
+
+---
+
+## 🖥 Fullscreen Individual
+
+Cada jugador puede entrar en pantalla completa con un solo clic.
+
+Perfecto para:
+
+* Torneos
+* Clases
+* Laboratorios multimedia
+
+---
+
+## 📊 Leaderboard Local
+
+Guardado automático con:
 
 * Puntaje máximo
-* Preguntas respondidas
 * Precisión
-* Fecha / modo
-
-Se muestra desde el menú principal.
+* Respuestas correctas
+* Fecha y modo
 
 ---
 
-### 🛠 **Controles Totalmente Editables**
+## 🎛 Controles Editables
 
-Desde un menú dedicado:
+Reconfiguración total:
 
 * Teclas
 * Sensibilidad
-* Gamepad
-* Remapeo instantáneo
-
-Ideal para personalización.
+* Soporte para gamepad
 
 ---
 
-### ⚡ **Gameplay Moderno (pero con alma retro)**
+## ⚡ Performance de Motor Moderno
 
-* 60 FPS con `requestAnimationFrame()`
-* Colisiones
-* Progresión de dificultad
-* Poderes especiales
-* Rondas rápidas y de agilidad
+* 60 FPS
+* Colisiones eficientes
+* Escalado dinámico de dificultad
+* Power-ups
+* Rondas rápidas
 
----
-
-# 🧩 **Próximas Funcionalidades (Roadmap)**
-
-1. 🎨 Nueva skins para naves
-2. 👾 Enemigos únicos según categoría
-3. 🧠 Modo “Examen Rápido”
-4. 🌎 Más Bancos: Biología, Geografía, Inglés
-5. 🔗 Online 1v1 (versión experimental futura)
+Sin frameworks de juegos. **100% JavaScript + Canvas**.
 
 ---
 
-# 🛠 **Tecnologías Utilizadas**
+# 🛠 Tecnologías Utilizadas
 
-* **Angular v.19**
-* HTML5 Canvas (2 instancias simultáneas)
-* CSS3 (estilo retro-neón suave)
-* LocalStorage para persistencia
-* Audio API nativa
-* Arquitectura modular
+* **Angular v19 (Frontend completo)**
+* HTML5 Canvas
+* CSS3 estilo futurista / glassmorphism
+* LocalStorage
+* Audio API
+* GitHub Pages para deployment
 
 ---
 
-# 📂 **Estructura del Proyecto**
+# 📁 **Estructura del Proyecto**
 
 ```
 assets/game/
- ├── index-embed.html      # Página HTML integrable
- ├── main.js               # Motor completo del juego (optimizado)
- ├── style.css             # Estilos visuales del arcade
- ├── img/                  # Sprites del juego
- └── audio/
-      ├── music.wav
-      ├── shoot.wav
-      ├── explosion.wav
-      ├── correct.wav
-      └── wrong.wav
+ ├── index-embed.html        # Página integrable
+ ├── main.js                 # Motor principal del juego
+ ├── style.css               # Estilos retro-futuristas
+ ├── img/                    # Sprites y gráficos
+ └── audio/                  # FX + música retro
 ```
 
 ---
 
-# 💡 **Cómo Ejecutar (cualquier proyecto)**
+# ▶️ **Cómo Ejecutarlo**
 
-### 🔹 Opción 1 — Como HTML standalone
+## 🔹 1. Modo Standalone (sin Angular)
 
-Solo abre:
+Abre:
 
 ```
 assets/game/index-embed.html
 ```
 
-### 🔹 Opción 2 — Integración en Angular
+## 🔹 2. Integrado en Angular
 
-Colócalo dentro de:
+Ruta recomendada:
 
 ```
 src/assets/game/
 ```
 
-Y crea un `<iframe>` o incrústalo en un componente.
+Y embeber con un `<iframe>` o un componente dedicado.
 
 ---
 
 # ⌨️ **Controles por Defecto**
 
-### 👤 Jugador 1
+### 👤 Player 1
 
 | Acción   | Tecla |
 | -------- | ----- |
@@ -189,7 +190,7 @@ Y crea un `<iframe>` o incrústalo en un componente.
 | Disparar | SPACE |
 | Poder    | E     |
 
-### 👤 Jugador 2
+### 👤 Player 2
 
 | Acción   | Tecla |
 | -------- | ----- |
@@ -198,48 +199,63 @@ Y crea un `<iframe>` o incrústalo en un componente.
 | Disparar | F     |
 | Poder    | G     |
 
-> Todos reconfigurables.
+✔ Totalmente reconfigurables.
 
 ---
 
-# 🧪 **Probado en**
+# 🧪 Probado en:
 
 * Chrome
 * Edge
 * Firefox
-* Desktop y laptops
-* Modo fullscreen dual
+* Windows
+* Laptops / Desktop
+* Fullscreen dual
 
 ---
 
-# 🙌 **Contribuciones**
+# 🧭 Roadmap (Próximas mejoras)
 
-Si quieres agregar:
+1. 🎨 Skins nuevas para naves
+2. 👾 Enemigos temáticos por categoría
+3. 🧠 Modo “Examen rápido”
+4. 🌎 Bancos nuevos: Biología, Geografía, Inglés
+5. 🌐 Modo online experimental (futuro)
 
-* Nuevos bancos de preguntas
+---
+
+# 🙌 Contribuciones
+
+Aceptamos:
+
+* Nuevas categorías de preguntas
 * Nuevos modos
-* Nuevos sprites
+* Sprites retro
+* SFX
 * Traducciones
-* Música / FX retro
+* Mejoras al motor
 
-¡Eres bienvenido!
 Abre un **Issue** o un **Pull Request**.
 
 ---
 
-# 👤 **Autores*
+# 👤 **Autores**
 
 Proyecto desarrollado por:
 
-Fernando Morales Cilia
+* **Fernando Morales Cilia**
+* **Gerson Emmanuel Contreras González**
+* **Pablo Iván Ibarra Valencia**
+* **Bernardo Palacios Caballero**
 
-Gerson Emmanuel Contreras González
+Mejorado con asistencia técnica de IA avanzada.
+Hecho con ❤️ para la educación, la creatividad y el gaming retro.
 
-Pablo Iván Ibarra Valencia
+---
 
-Bernardo Palacios Caballero
+# 🎓 Créditos Institucionales
 
-Mejorado en conjunto con asistencia técnica de IA avanzada.
-Hecho con ❤️ para la educación + el gaming retro.
+> **Benemérita Universidad Autónoma de Puebla — Facultad de Ciencias de la Computación**
+> Proyecto académico 2025 — Angular v19
 
 ---
