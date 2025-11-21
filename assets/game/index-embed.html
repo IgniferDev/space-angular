@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SpaceEdu Cyberpunk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="scanlines"></div>
+
+  <div id="menu">
+    <div class="menu-panel">
+      <h1>SPACE EDU</h1>
+      <p class="hint">Misión de Aprendizaje Táctico</p>
+
+      <div class="menu-row">
+        <label>Nº Jugadores</label>
+        <select id="player-count">
+          <option value="1">1 Jugador (Solo)</option>
+          <option value="2">2 Jugadores (VS)</option>
+        </select>
+      </div>
+
+      <div class="menu-row">
+        <label>Materia / Módulo</label>
+        <select id="mode-select">
+          <option value="math">Matemáticas</option>
+          <option value="history">Historia</option>
+          <option value="science">Ciencias</option>
+          <option value="geography">Geografía</option>
+        </select>
+      </div>
+
+      <div class="menu-row">
+        <label>Modalidad</label>
+        <select id="game-type-select">
+          <option value="lives">Supervivencia (Vidas)</option>
+          <option value="timer">Contra Reloj (Tiempo)</option>
+        </select>
+      </div>
+
+      <div class="menu-row" style="flex-direction: row; gap: 10px; margin-top: 10px;">
+        <button id="configure-controls" class="btn secondary" style="flex:1">Controles</button>
+        <button id="start-game" class="btn primary" style="flex:1">INICIAR MISIÓN</button>
+      </div>
+    </div>
+
+    <div id="leaderboard"></div>
+  </div>
+
+  <div id="controls-config" class="modal hidden">
+    <div class="modal-content">
+      <h2>Configuración de Sistemas</h2>
+      <div id="players-config"></div>
+      <div style="margin-top:20px; text-align:right; display: flex; gap: 10px; justify-content: flex-end;">
+        <button id="close-config" class="btn secondary">Cancelar</button>
+        <button id="save-config" class="btn primary">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="pause-menu" class="modal hidden">
+    <div class="menu-panel pause-content">
+      <h2>SISTEMA PAUSADO</h2>
+      <div class="menu-row">
+        <button id="resume" class="btn primary">Reanudar Misión</button>
+        <button id="restart-pause" class="btn secondary">Reiniciar Sistema</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="game-wrapper" class="game-wrapper">
+    </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

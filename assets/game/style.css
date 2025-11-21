@@ -1,0 +1,363 @@
+/* style.css - SpaceEdu Cyberpunk Edition (Corregido) */
+
+/* =========================================
+   1. VARIABLES Y CONFIGURACIÓN BASE
+   ========================================= */
+:root {
+  /* Paleta de Colores "Deep Space" */
+  --bg-deep: #03050c;
+  --bg-panel: rgba(11, 16, 33, 0.95);
+  
+  /* Neones */
+  --neon-blue: #00f3ff;
+  --neon-purple: #bc13fe;
+  --neon-red: #ff2a6d;
+  --neon-green: #05d5aa;
+  
+  /* Textos */
+  --text-main: #e0e6ed;
+  --text-muted: #94a3b8;
+  
+  /* Efectos */
+  --glass-border: 1px solid rgba(0, 243, 255, 0.2);
+  --glass-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+  
+  /* Fuentes */
+  --font-ui: 'Rajdhani', sans-serif;
+  --font-data: 'Roboto Mono', monospace;
+}
+
+* { box-sizing: border-box; user-select: none; }
+
+body {
+  margin: 0; padding: 0;
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  font-family: var(--font-ui);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Crucial: Evita scrollbars al mover la nave */
+  
+  /* Fondo de rejilla holográfica */
+  background-image: 
+    linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Scanlines decorativas (Efecto monitor antiguo) */
+.scanlines {
+  position: fixed; inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.05));
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* UTILIDAD CRÍTICA: Fuerza ocultar elementos */
+.hidden { display: none !important; }
+
+/* =========================================
+   2. MENÚS PRINCIPALES Y MODALES
+   ========================================= */
+/* El contenedor que cubre toda la pantalla */
+#menu, .modal {
+  position: fixed; 
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000; /* Por encima de todo el juego */
+  backdrop-filter: blur(5px);
+  background: rgba(3, 5, 12, 0.7);
+}
+
+/* La tarjeta del menú */
+.menu-panel, .modal-content {
+  background: var(--bg-panel);
+  border: var(--glass-border);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(0, 243, 255, 0.05);
+  display: flex; flex-direction: column; gap: 15px;
+  width: 400px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.menu-panel h1, .modal-content h2 {
+  color: var(--neon-blue);
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 10px 0;
+  letter-spacing: 3px;
+  text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+  font-size: 2rem;
+}
+
+.hint {
+  text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;
+}
+
+/* Filas del formulario */
+.menu-row { display: flex; flex-direction: column; gap: 5px; }
+.menu-row label { 
+  color: var(--text-muted); font-size: 0.8rem; 
+  text-transform: uppercase; font-weight: 700; letter-spacing: 1px;
+}
+
+/* Selectores estilo Sci-Fi */
+select, input[type="text"] {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+select:focus, input:focus { border-color: var(--neon-blue); box-shadow: 0 0 8px rgba(0, 243, 255, 0.3); }
+
+/* =========================================
+   3. BOTONES
+   ========================================= */
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+  font-size: 1rem;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--neon-blue), #0088ff);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+}
+.btn.primary:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5); }
+
+.btn.secondary {
+  background: transparent;
+  border: 1px solid var(--neon-purple);
+  color: var(--neon-purple);
+}
+.btn.secondary:hover { background: rgba(188, 19, 254, 0.1); color: #fff; }
+
+.btn.small { padding: 4px 10px; font-size: 0.8rem; }
+
+/* =========================================
+   4. TABLERO DE JUEGO (Layout)
+   ========================================= */
+.game-wrapper {
+  width: 100%; height: 100%;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.game-instance {
+  position: relative;
+  /* Tamaño base flexible */
+  width: 800px; 
+  height: 600px; 
+  /* Asegurar que no se salga de pantalla en monitores pequeños */
+  max-width: 100%; 
+  max-height: 100%;
+  aspect-ratio: 4/3;
+  
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,0,0,0.7);
+}
+
+.board {
+  width: 100%; height: 100%;
+  /* Fondo espacial radial */
+  background: radial-gradient(circle at 50% 80%, #101622 0%, #000 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* =========================================
+   5. HUD (Heads Up Display)
+   ========================================= */
+.top-info {
+  position: absolute; top: 0; left: 0; width: 100%; height: 45px;
+  background: rgba(11, 16, 33, 0.8);
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 15px;
+  z-index: 100;
+  font-family: var(--font-data);
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.score-box { color: var(--neon-green); text-shadow: 0 0 5px rgba(5,213,170,0.4); }
+.power-box { color: var(--neon-purple); }
+.lives-box { color: var(--neon-red); }
+.timer-box { color: #fff; font-weight: bold; }
+
+/* =========================================
+   6. ELEMENTOS DEL JUEGO (Naves, Enemigos)
+   ========================================= */
+/* JUGADOR */
+.player-wrap {
+  position: absolute; 
+  width: 56px; height: 56px; 
+  z-index: 20;
+  transition: transform 0.08s linear; /* Movimiento suave */
+  filter: drop-shadow(0 0 8px var(--neon-blue));
+}
+
+.player-answer {
+  position: absolute; 
+  top: -28px; left: 50%; 
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8); 
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
+  font-family: var(--font-data);
+  font-weight: 700; 
+  font-size: 13px;
+  padding: 3px 8px; 
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ENEMIGOS */
+.enemy {
+  position: absolute;
+  width: 80px; height: 60px;
+  display: flex; flex-direction: column; align-items: center;
+  z-index: 10;
+  transition: transform 0.1s linear;
+}
+.enemy img { 
+  width: 50px; 
+  filter: drop-shadow(0 0 5px rgba(255, 42, 109, 0.5)); 
+}
+.enemy-label {
+  margin-top: -8px;
+  background: rgba(0,0,0,0.85);
+  border: 1px solid var(--neon-red);
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hidden-by-power { opacity: 0.15; filter: grayscale(1) blur(2px); }
+
+/* DISPAROS */
+.laser { 
+  position: absolute; 
+  z-index: 15; 
+  filter: drop-shadow(0 0 6px var(--neon-green)); 
+}
+
+/* =========================================
+   7. EFECTOS VISUALES Y ANIMACIONES
+   ========================================= */
+/* Daño al jugador */
+@keyframes shake { 
+  10%, 90% { transform: translate3d(-2px, 0, 0); } 
+  20%, 80% { transform: translate3d(3px, 0, 0); } 
+  30%, 50%, 70% { transform: translate3d(-5px, 0, 0); } 
+  40%, 60% { transform: translate3d(5px, 0, 0); } 
+}
+.player-hit img {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  filter: drop-shadow(0 0 15px var(--neon-red)) sepia(1) hue-rotate(-50deg) saturate(5);
+}
+
+/* Overlay de Ronda */
+.round-overlay {
+  position: absolute; inset: 0;
+  display: flex; justify-content: center; align-items: center;
+  z-index: 500; pointer-events: none;
+}
+.round-text {
+  font-size: 4rem; font-weight: 800;
+  color: transparent; -webkit-text-stroke: 2px var(--neon-blue);
+  text-shadow: 0 0 30px var(--neon-blue);
+  animation: zoomFade 1.5s ease forwards;
+}
+@keyframes zoomFade { 0%{opacity:0; transform:scale(0.5);} 50%{opacity:1; transform:scale(1);} 100%{opacity:0; transform:scale(1.5);} }
+
+/* Mensaje flotante (+1 Vida) */
+.top-temp-msg {
+  position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
+  background: var(--neon-green); color: #000;
+  padding: 5px 15px; border-radius: 15px;
+  font-weight: bold; font-size: 0.9rem;
+  z-index: 200;
+  animation: floatUp 1s forwards;
+}
+@keyframes floatUp { 0% { opacity: 1; top: 60px; } 100% { opacity: 0; top: 30px; } }
+
+/* =========================================
+   8. LEADERBOARD & PANTALLA FINAL
+   ========================================= */
+#leaderboard {
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  width: 280px; max-height: 70vh;
+  background: rgba(11, 16, 33, 0.8);
+  border-left: 3px solid var(--neon-purple);
+  padding: 20px;
+  border-radius: 8px;
+  overflow-y: auto;
+}
+.leaderboard-inner h3 { color: var(--neon-purple); margin-top: 0; border-bottom: 1px solid #444; }
+.lb-table { width: 100%; font-size: 0.85rem; color: #ddd; border-collapse: collapse; }
+.lb-table td { padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.lb-table tr:first-child { color: var(--neon-blue); font-weight: bold; }
+
+/* Pantalla de Fin de Juego */
+.end-screen {
+  position: absolute; inset: 0;
+  background: rgba(3, 5, 12, 0.95);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+.end-title { 
+  font-size: 3rem; text-transform: uppercase; 
+  background: linear-gradient(to bottom, #fff, #999);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+}
+.end-screen .enter-name { display: flex; gap: 10px; align-items: center; margin-top: 15px; }
+.saved-msg { color: var(--neon-green); margin-top: 10px; font-weight: bold; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-blue); }
+
+/* RESPONSIVO: Apila el juego y oculta leaderboard flotante en movil */
+@media (max-width: 900px) {
+  .game-wrapper { flex-direction: column; height: auto; padding-top: 20px; }
+  .game-instance { width: 100%; margin-bottom: 20px; }
+  #leaderboard { position: relative; right: auto; top: auto; transform: none; width: 90%; margin: 20px auto; }
+}
