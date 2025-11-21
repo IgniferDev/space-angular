@@ -4,10 +4,8 @@ import { GameInstance } from './js/game-instance.js';
 import { renderLeaderboard } from './js/leaderboard.js';
 import { controlsConfig, openConfigModal } from './js/controls.js';
 import * as UI from './js/ui.js';
-import { ESP32Controller } from "./esp32.js";
+import { ESPEvents, startESPReceiver, setGameLED } from "./js/esp32.js";
 
-const esp32 = new ESP32Controller(procesarEventoESP32);
-esp32.connect("192.168.4.1");
 
 function procesarEventoESP32(data) {
 
@@ -66,12 +64,21 @@ function actualizarHUD_Bateria(percent) {
     el.innerText = percent + "%";
 }
 
+// ===============================
+//  LISTENER DE BATERÍA DEL ESP32
+// ===============================
+ESPEvents.addEventListener("esp-battery", (ev) => {
+    actualizarHUD_Bateria(ev.detail.nivel);
+});
+
+
 // ===============================================
 // 5. ESTADOS DEL JUEGO
 // ===============================================
 
 function iniciarJuego() {
     console.log("Juego iniciado");
+    setGameLED("on");
 }
 
 function pausarJuego() {
@@ -90,6 +97,7 @@ function gameOver() {
     renderLeaderboard(UI.$leaderboardContainer);
 
     // ESP32
+    startESPReceiver();
 
     // Listeners
     UI.$start.addEventListener('click', startGame);
