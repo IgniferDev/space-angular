@@ -5,6 +5,7 @@ import { renderLeaderboard } from './js/leaderboard.js';
 import { controlsConfig, openConfigModal } from './js/controls.js';
 import * as UI from './js/ui.js';
 import { loadQuestionsBank } from './js/question-manager.js';
+import { conectarMandoESP, desconectarMandoESP } from './js/esp-control.js';
 
 // Inicialización
 (async function init() { // <--- AQUI: Agregamos 'async'
@@ -15,9 +16,6 @@ import { loadQuestionsBank } from './js/question-manager.js';
 
     gameSounds.preload();
     renderLeaderboard(UI.$leaderboardContainer);
-
-    // ESP32
-    startESPReceiver();
 
     // Listeners
     UI.$start.addEventListener('click', startGame);
@@ -48,6 +46,10 @@ function startGame() {
     UI.$menu.classList.add('hidden');
     renderLeaderboard(UI.$leaderboardContainer);
     try { if (gameSounds.available) gameSounds.playLoop('bg'); } catch (e) { }
+
+    // 2. INICIAR MANDO ESP32 AQUÍ
+    // Pasamos el array 'instances' para que el controlador sepa a quién mover
+    conectarMandoESP(instances);
 }
 
 function buildInstances() {
@@ -68,6 +70,8 @@ function buildInstances() {
 }
 
 function goToMenu() {
+    desconectarMandoESP();
+    
     instances.forEach(i => i.stop());
     gameSounds.stop('bg');
     gameSounds.stopLoop();
