@@ -1,8 +1,11 @@
-import { GAME_WIDTH, GAME_HEIGHT, POSITIONS_X, ENEMY_TOP_Y, ENEMY_BOTTOM_Y, PLAYER_Y_MIDDLE, POWER_DURATION_MS, TIMER_START_SECONDS, TIMER_ON_CORRECT_BASE, TIMER_ON_WRONG_BASE, ROUNDS_EVERY_N_CORRECT, BANKS, UNPAUSE_INPUT_BLOCK_MS } from './constants.js';
+// 1. CAMBIO AQUÍ: Quitamos BANKS de los imports y agregamos getQuestionsForLevel
+import { GAME_WIDTH, GAME_HEIGHT, POSITIONS_X, ENEMY_TOP_Y, ENEMY_BOTTOM_Y, PLAYER_Y_MIDDLE, POWER_DURATION_MS, TIMER_START_SECONDS, TIMER_ON_CORRECT_BASE, TIMER_ON_WRONG_BASE, ROUNDS_EVERY_N_CORRECT, UNPAUSE_INPUT_BLOCK_MS } from './constants.js';
 import { shuffle, clamp, escapeHtml } from './utils.js';
 import { gameSounds } from './audio.js';
 import { addScoreToLeaderboard, renderLeaderboard } from './leaderboard.js';
 import { controlsConfig } from './controls.js';
+// Importamos la función del manager
+import { getQuestionsForLevel } from './question-manager.js';
 
 export class GameInstance {
     constructor(index, mode, parentEl, controlCfgIndexStart = 0, gameType = 'lives') {
@@ -24,7 +27,9 @@ export class GameInstance {
         this.topInfo = this.dom.topInfo;
 
         // gameplay state
-        this.bank = shuffle(BANKS[this.mode] || []);
+        // 2. CAMBIO AQUÍ: Inicializamos el banco pidiendo preguntas de Nivel 1 al Manager
+        this.bank = getQuestionsForLevel(this.mode, 1);
+        
         this.enemies = [];
         this.player = null;
         this.lasers = [];
@@ -51,59 +56,71 @@ export class GameInstance {
         this._prepare();
     }
 
-    _createDOM() {
+_createDOM() {
         const inst = document.createElement('div');
         inst.className = 'game-instance';
 
+        // HUD Superior
         const top = document.createElement('div'); top.className = 'top-info';
-        const title = document.createElement('div'); title.textContent = `Pantalla ${this.index + 1}`; title.style.fontWeight = '700';
-        const modeLabel = document.createElement('div'); modeLabel.style.color = '#fff'; modeLabel.textContent = (this.mode || 'modo');
-        const score = document.createElement('div'); score.className = 'score-box'; score.textContent = `Aciertos: 0`;
-        const powerBox = document.createElement('div'); powerBox.className = 'score-box'; powerBox.textContent = `Poderes: 2`;
-        const livesBox = document.createElement('div'); livesBox.className = 'score-box'; livesBox.textContent = this.gameType === 'lives' ? `Vidas: 3` : '';
-        const timerBox = document.createElement('div'); timerBox.className = 'score-box'; timerBox.textContent = this.gameType === 'timer' ? `Tiempo: ${this.timeLeft}s` : '';
-        top.appendChild(title); top.appendChild(modeLabel); top.appendChild(score); top.appendChild(powerBox); top.appendChild(livesBox); top.appendChild(timerBox);
+        const title = document.createElement('div'); title.textContent = `P${this.index + 1}`; title.style.fontWeight = '700';
+        // ... (resto de tus indicadores score, power, etc.) ...
+        // NOTA: Recomiendo usar iconos o textos cortos para que quepan bien:
+        const score = document.createElement('div'); score.className = 'score-box'; score.textContent = `PTS: 0`;
+        const powerBox = document.createElement('div'); powerBox.className = 'power-box'; powerBox.textContent = `PWR: 2`;
+        const livesBox = document.createElement('div'); livesBox.className = 'lives-box'; livesBox.textContent = this.gameType === 'lives' ? `HP: 3` : '';
+        const timerBox = document.createElement('div'); timerBox.className = 'timer-box'; timerBox.textContent = this.gameType === 'timer' ? `T: ${this.timeLeft}s` : '';
+        
+        top.appendChild(title); top.appendChild(score); top.appendChild(powerBox); top.appendChild(livesBox); top.appendChild(timerBox);
 
-        const fsBtn = document.createElement('button'); fsBtn.className = 'btn small'; fsBtn.textContent = '⛶'; fsBtn.title = 'Pantalla completa'; fsBtn.style.marginLeft = '6px';
-        title.style.display = 'inline-block'; title.style.marginRight = '8px';
-        title.appendChild(fsBtn);
+        // Botón Fullscreen
+        const fsBtn = document.createElement('button'); fsBtn.className = 'btn small'; fsBtn.textContent = '⛶';
+        fsBtn.style.marginLeft = 'auto'; // Empujar a la derecha
+        top.appendChild(fsBtn);
 
-        const board = document.createElement('div'); board.className = 'board'; board.style.width = GAME_WIDTH + 'px'; board.style.height = GAME_HEIGHT + 'px';
+        // TABLERO: Importante quitar el ancho fijo inline para que el CSS mande
+        const board = document.createElement('div'); 
+        board.className = 'board'; 
+        // board.style.width = GAME_WIDTH + 'px';  <-- ELIMINAR ESTO
+        // board.style.height = GAME_HEIGHT + 'px'; <-- ELIMINAR ESTO
+        // El CSS se encargará de que sea 100% del contenedor padre
 
         const roundOverlay = document.createElement('div'); roundOverlay.className = 'round-overlay hidden';
         roundOverlay.innerHTML = `<div class="round-text"></div>`;
 
+        // Pantalla Final (Game Over)
         const end = document.createElement('div'); end.className = 'end-screen hidden';
         end.innerHTML = `<h2 class="end-title"></h2>
-      <div class="end-body">
-        <div class="end-actions"></div>
-        <div class="enter-name hidden">
-          <label>Tu nombre: <input id="player-name-${this.index}" maxlength="20" placeholder="AAA"></label>
-          <button id="save-score-${this.index}" class="btn primary">Guardar puntaje</button>
-        </div>
-      </div>`;
+            <div class="end-body" style="text-align:center;">
+                <div class="end-actions"></div>
+                <div class="enter-name hidden" style="margin-top:15px;">
+                    <input id="player-name-${this.index}" maxlength="15" placeholder="TU NOMBRE">
+                    <button id="save-score-${this.index}" class="btn primary small">GUARDAR</button>
+                </div>
+            </div>`;
 
         inst.appendChild(top); inst.appendChild(board); inst.appendChild(roundOverlay); inst.appendChild(end);
         this.parentEl.appendChild(inst);
 
-        fsBtn.addEventListener('click', (ev) => {
-            ev.preventDefault(); ev.stopPropagation();
-            try {
-                if (board.requestFullscreen) board.requestFullscreen();
-                else if (board.webkitRequestFullscreen) board.webkitRequestFullscreen();
-                else if (board.msRequestFullscreen) board.msRequestFullscreen();
-            } catch (e) { }
-        });
+        // Listener Fullscreen (sin cambios)
+        fsBtn.addEventListener('click', (ev) => { /* ... */ });
 
         return { root: inst, topInfo: top, board, endScreen: end, roundOverlay, scoreBox: score, powerBox, livesBox, timerBox };
     }
 
     _prepare() {
         this._clearAll();
-        if (!BANKS[this.mode]) this.mode = Object.keys(BANKS)[0];
-        this.bank = shuffle(BANKS[this.mode] || []).slice();
-        while (this.bank.length < 12 && BANKS[this.mode] && BANKS[this.mode].length) this.bank.push(...shuffle(BANKS[this.mode]));
+        // 3. CAMBIO AQUÍ: Si no hay preguntas (por error de carga), iniciamos array vacío
+        if (!this.bank) this.bank = [];
+        
+        // Si el banco está vacío (gastamos todas las preguntas), pedimos más al Manager
+        if (this.bank.length < 6) {
+             const more = getQuestionsForLevel(this.mode, this.round);
+             this.bank.push(...more);
+        }
+
+        // Tomamos las primeras 6 preguntas para los enemigos iniciales
         const sel = this.bank.splice(0, 6);
+        
         for (let i = 0; i < 3; i++) {
             const it = sel[i] || { q: '?', a: '—' };
             this._createEnemy(i, 'top', POSITIONS_X[i], ENEMY_TOP_Y, it.q, it.a);
@@ -147,9 +164,6 @@ export class GameInstance {
             saveBtn.onclick = () => {
                 const name = (nameInput.value || '---').slice(0, 20);
                 addScoreToLeaderboard({ name, score: this.score, mode: this.mode, gameType: this.gameType, rounds: this.round, date: new Date().toISOString() });
-                // Actualizamos la leaderboard globalmente, requiere acceso al container global, 
-                // pero como GameInstance no lo tiene, confiamos en que el main.js o UI lo maneje,
-                // o usamos un selector global temporal:
                 const lbContainer = document.getElementById('leaderboard');
                 if(lbContainer) renderLeaderboard(lbContainer);
                 
@@ -297,7 +311,10 @@ export class GameInstance {
     _clearPowerIfExpired() { if (this.powerState && Date.now() >= this.powerState.expiresAt) this._clearPowerVisuals(); }
 
     _replenishEnemyAt(slot, row) {
-        if (this.bank.length === 0) this.bank = shuffle(BANKS[this.mode]).slice();
+        // 4. CAMBIO AQUÍ: Si el banco se vacía, pedimos más preguntas del nivel actual al Manager
+        if (this.bank.length === 0) {
+            this.bank = getQuestionsForLevel(this.mode, this.round);
+        }
         const next = this.bank.shift() || { q: '?', a: '—' };
         this._createEnemy(slot, row, POSITIONS_X[slot], row === 'top' ? ENEMY_TOP_Y : ENEMY_BOTTOM_Y, next.q, next.a);
     }
@@ -306,6 +323,11 @@ export class GameInstance {
         const newRound = Math.floor(this.correctCount / ROUNDS_EVERY_N_CORRECT) + 1;
         if (newRound > this.round) {
             this.round = newRound;
+            
+            // 5. CAMBIO AQUÍ: Al subir de ronda, pedimos preguntas nuevas (posiblemente más difíciles)
+            const newQuestions = getQuestionsForLevel(this.mode, this.round);
+            this.bank.push(...newQuestions);
+
             this.difficultyMultiplier = 1 + (this.round - 1) * 0.18;
             this._showRoundOverlay(this.round);
         }
@@ -378,7 +400,10 @@ export class GameInstance {
     _assignNewAnswer() {
         const alive = this.enemies.filter(e => e.alive).map(e => e.answer);
         if (alive.length === 0) {
-            if (this.bank.length === 0) this.bank = shuffle(BANKS[this.mode]).slice();
+            // 6. CAMBIO AQUÍ: Verificar si el banco está vacío antes de pedir
+            if (this.bank.length === 0) {
+                 this.bank = getQuestionsForLevel(this.mode, this.round);
+            }
             const next = this.bank.shift() || { a: '—' };
             this.player.answer = next ? next.a : '—';
         } else this.player.answer = alive[Math.floor(Math.random() * alive.length)];
@@ -420,8 +445,6 @@ export class GameInstance {
         actions.innerHTML = `<div style="margin:8px 0"><button class="btn primary btn-playagain">Jugar de nuevo</button> <button class="btn btn-backmenu">Volver al menú</button></div>`;
         const btnPlay = actions.querySelector('.btn-playagain'); btnPlay.onclick = () => { esc.classList.add('hidden'); this._prepare(); this.start(); };
         const btnMenu = actions.querySelector('.btn-backmenu');
-        // goToMenu no es parte de la clase, necesitamos emitir evento o pasar callback. 
-        // Usaremos evento custom para mantener desacoplamiento.
         btnMenu.onclick = () => { 
             this.stop(); 
             window.dispatchEvent(new CustomEvent('game-go-menu')); 
