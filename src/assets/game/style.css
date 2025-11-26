@@ -361,3 +361,11 @@ select:focus, input:focus { border-color: var(--neon-blue); box-shadow: 0 0 8px 
   .game-instance { width: 100%; margin-bottom: 20px; }
   #leaderboard { position: relative; right: auto; top: auto; transform: none; width: 90%; margin: 20px auto; }
 }
+
+.battery-box {
+    color: #fff;
+    font-weight: bold;
+    margin-left: 15px; /* Separarlo un poco del timer */
+    min-width: 60px;   /* Para que no "baile" el texto si cambia el número */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}

@@ -34,8 +34,13 @@ export function conectarMandoESP(ipIngresada, instances) {
             const response = await fetch(`http://${ESP_IP}/estado`);
             const data = await response.json();
             const btn = data.botones; 
+            const bat = data.bateria;
             
             const player = instances[0];
+            
+            if (bat !== undefined) {
+                player.updateBattery(bat);
+            }
 
             if (btn.l === 1) player.moveLeft();
             if (btn.r === 1) player.moveRight();
