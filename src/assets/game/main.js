@@ -46,10 +46,6 @@ function startGame() {
     UI.$menu.classList.add('hidden');
     renderLeaderboard(UI.$leaderboardContainer);
     try { if (gameSounds.available) gameSounds.playLoop('bg'); } catch (e) { }
-
-    // 2. INICIAR MANDO ESP32 AQUÍ
-    // Pasamos el array 'instances' para que el controlador sepa a quién mover
-    conectarMandoESP(instances);
 }
 
 function buildInstances() {
@@ -121,6 +117,11 @@ window.addEventListener('keyup', (e) => {
 });
 
 window.addEventListener('instance-toggle-pause', () => togglePauseAll());
+
+window.addEventListener('request-esp-connect', (event) => {
+    const ip = event.detail.ip;
+    conectarMandoESP(ip, instances);
+});
 
 function togglePauseAll() {
     const anyRunning = instances.some(i => i.running);
