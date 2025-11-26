@@ -70,6 +70,11 @@ _createDOM() {
         const livesBox = document.createElement('div'); livesBox.className = 'lives-box'; livesBox.textContent = this.gameType === 'lives' ? `HP: 3` : '';
         const timerBox = document.createElement('div'); timerBox.className = 'timer-box'; timerBox.textContent = this.gameType === 'timer' ? `T: ${this.timeLeft}s` : '';
         
+        const batteryBox = document.createElement('div'); 
+        batteryBox.className = 'battery-box'; 
+        batteryBox.textContent = '';
+        top.appendChild(batteryBox);
+
         top.appendChild(title); top.appendChild(score); top.appendChild(powerBox); top.appendChild(livesBox); top.appendChild(timerBox);
 
         // Botón Fullscreen
@@ -104,7 +109,7 @@ _createDOM() {
         // Listener Fullscreen (sin cambios)
         fsBtn.addEventListener('click', (ev) => { /* ... */ });
 
-        return { root: inst, topInfo: top, board, endScreen: end, roundOverlay, scoreBox: score, powerBox, livesBox, timerBox };
+        return { root: inst, topInfo: top, board, endScreen: end, roundOverlay, scoreBox: score, powerBox, livesBox, timerBox, batteryBox };
     }
 
     _prepare() {
@@ -226,6 +231,18 @@ _createDOM() {
     _updatePowerBox() { if (this.powerBox) this.powerBox.textContent = `Poderes: ${this.player.powerUsesRemaining}`; }
     _updateLivesBox() { if (this.livesBox) this.livesBox.textContent = this.gameType === 'lives' ? `Vidas: ${this.player.lives}` : ''; }
     _updateTimerBox() { if (this.timerBox) this.timerBox.textContent = this.gameType === 'timer' ? `Tiempo: ${Math.max(0, Math.floor(this.timeLeft))}s` : ''; }
+    
+    updateBattery(percent) {
+        if (!this.dom.batteryBox) return;
+        
+        // Actualizar texto
+        this.dom.batteryBox.textContent = `🔋 ${percent}%`;
+        
+        // Cambiar color según nivel
+        this.dom.batteryBox.style.color = '#00f3ff'; // Azul neón normal
+        if (percent < 50) this.dom.batteryBox.style.color = '#ffcc00'; // Amarillo
+        if (percent < 20) this.dom.batteryBox.style.color = '#ff0000'; // Rojo
+    }
 
     handleKeyDown(code) {
         if (Date.now() < this.ignoreInputUntil) return;

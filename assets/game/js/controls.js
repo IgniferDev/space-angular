@@ -32,6 +32,7 @@ export function openConfigModal(numPlayers, container) {
         <div>Disparar: <span id="kb-shoot-${p}">${keyName(cfg.keyboard.shoot)}</span> <button data-action="kb-shoot" data-player="${p}" class="btn small">Asignar</button></div>
         <div>Poder: <span id="kb-power-${p}">${keyName(cfg.keyboard.power)}</span> <button data-action="kb-power" data-player="${p}" class="btn small">Asignar</button></div>
       </div>
+      <hr margin="15 px 0" style="border-color:#444;">
       <div style="margin-top:8px;"><strong>Gamepad:</strong>
         <div>Asignar gamepad: <span id="gp-index-${p}">${cfg.gamepad.index === null ? 'ninguno' : cfg.gamepad.index}</span> <button data-action="assign-gamepad" data-player="${p}" class="btn small">Asignar</button></div>
       </div>`;
@@ -51,6 +52,44 @@ export function openConfigModal(numPlayers, container) {
             });
         });
     }
+
+    const hr = document.createElement('hr');
+    hr.style.margin = "15px 0";
+    hr.style.borderColor = "#444";
+    container.appendChild(hr);
+
+    const divEsp = document.createElement('div');
+    divEsp.className = 'mapping';
+    divEsp.innerHTML = `
+        <h3>Mando WiFi ESP32</h3>
+        <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+            <label>IP del ESP32:</label>
+            <input type="text" id="esp-ip-input" placeholder="Ej: 192.168.1.50" style="padding: 5px; width: 140px;">
+            <button id="btn-conectar-esp" class="btn primary small">Conectar</button>
+        </div>
+        <p style="font-size: 0.8em; color: #aaa; margin-top: 5px;">
+            Asegúrate de que tu PC y el ESP32 estén en la misma red WiFi.
+        </p>
+    `;
+    container.appendChild(divEsp);
+
+    const btnConnect = divEsp.querySelector('#btn-conectar-esp');
+    const inputIp = divEsp.querySelector('#esp-ip-input');
+
+    const savedIp = localStorage.getItem('last_esp_ip');
+    if(savedIp) inputIp.value = savedIp;
+
+    btnConnect.addEventListener('click', () => {
+        const ip = inputIp.value.trim();
+        if (!ip) {
+            alert("Por favor escribe una IP válida");
+            return;
+        }
+        
+        localStorage.setItem('last_esp_ip', ip);
+
+        window.dispatchEvent(new CustomEvent('request-esp-connect', { detail: { ip: ip } }));
+    });
 }
 
 function listenForKeyboardAssign(which, player) {

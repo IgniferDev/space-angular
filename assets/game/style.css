@@ -207,10 +207,10 @@ select:focus, input:focus { border-color: var(--neon-blue); box-shadow: 0 0 8px 
   color: #fff;
 }
 
-.score-box { color: var(--neon-green); text-shadow: 0 0 5px rgba(5,213,170,0.4); }
-.power-box { color: var(--neon-purple); }
-.lives-box { color: var(--neon-red); }
-.timer-box { color: #fff; font-weight: bold; }
+.score-box { color: var(--neon-green); text-shadow: 0 0 5px rgba(5,213,170,0.4); margin-right: 15px;}
+.power-box { color: var(--neon-purple); margin-right: 15px;}
+.lives-box { color: var(--neon-red); margin-right: 15px;}
+.timer-box { color: #fff; font-weight: bold; margin-right: 15px;}
 
 /* =========================================
    6. ELEMENTOS DEL JUEGO (Naves, Enemigos)
@@ -360,4 +360,13 @@ select:focus, input:focus { border-color: var(--neon-blue); box-shadow: 0 0 8px 
   .game-wrapper { flex-direction: column; height: auto; padding-top: 20px; }
   .game-instance { width: 100%; margin-bottom: 20px; }
   #leaderboard { position: relative; right: auto; top: auto; transform: none; width: 90%; margin: 20px auto; }
+}
+
+.battery-box {
+    color: #fff;
+    font-weight: bold;
+    margin-left: 15px;
+    margin-right: 15px;
+    min-width: 60px;  
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }

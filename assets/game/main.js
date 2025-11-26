@@ -5,6 +5,7 @@ import { renderLeaderboard } from './js/leaderboard.js';
 import { controlsConfig, openConfigModal } from './js/controls.js';
 import * as UI from './js/ui.js';
 import { loadQuestionsBank } from './js/question-manager.js';
+import { conectarMandoESP, desconectarMandoESP } from './js/esp-control.js';
 
 // Inicialización
 (async function init() { // <--- AQUI: Agregamos 'async'
@@ -49,7 +50,7 @@ function startGame() {
 
 function buildInstances() {
     UI.$gameWrapper.innerHTML = '';
-    instances = [];
+    instances.length = 0;
     const numPlayers = safeParseInt(UI.$playerCountSelect ? UI.$playerCountSelect.value : 1, 1);
     const mode = (UI.$modeSelect && UI.$modeSelect.value) ? UI.$modeSelect.value : (window.__embedParams && window.__embedParams.mode) || 'math';
     const gameType = (UI.$gameTypeSelect && UI.$gameTypeSelect.value) ? UI.$gameTypeSelect.value : (window.__embedParams && window.__embedParams.type) || 'lives';
@@ -65,6 +66,8 @@ function buildInstances() {
 }
 
 function goToMenu() {
+    desconectarMandoESP();
+    
     instances.forEach(i => i.stop());
     gameSounds.stop('bg');
     gameSounds.stopLoop();
@@ -114,6 +117,11 @@ window.addEventListener('keyup', (e) => {
 });
 
 window.addEventListener('instance-toggle-pause', () => togglePauseAll());
+
+window.addEventListener('request-esp-connect', (event) => {
+    const ip = event.detail.ip;
+    conectarMandoESP(ip, instances);
+});
 
 function togglePauseAll() {
     const anyRunning = instances.some(i => i.running);
