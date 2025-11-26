@@ -50,7 +50,7 @@ function startGame() {
 
 function buildInstances() {
     UI.$gameWrapper.innerHTML = '';
-    instances = [];
+    instances.length = 0;
     const numPlayers = safeParseInt(UI.$playerCountSelect ? UI.$playerCountSelect.value : 1, 1);
     const mode = (UI.$modeSelect && UI.$modeSelect.value) ? UI.$modeSelect.value : (window.__embedParams && window.__embedParams.mode) || 'math';
     const gameType = (UI.$gameTypeSelect && UI.$gameTypeSelect.value) ? UI.$gameTypeSelect.value : (window.__embedParams && window.__embedParams.type) || 'lives';

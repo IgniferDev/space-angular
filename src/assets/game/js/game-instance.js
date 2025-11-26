@@ -235,11 +235,13 @@ _createDOM() {
     updateBattery(percent) {
         if (!this.dom.batteryBox) return;
         
+        // Actualizar texto
         this.dom.batteryBox.textContent = `🔋 ${percent}%`;
         
-        this.dom.batteryBox.style.color = '#05d5aa'; // Verde por defecto
-        if (percent <= 50) this.dom.batteryBox.style.color = '#ffcc00'; // Amarillo
-        if (percent <= 25) this.dom.batteryBox.style.color = '#ff2a6d'; // Rojo alerta
+        // Cambiar color según nivel
+        this.dom.batteryBox.style.color = '#00f3ff'; // Azul neón normal
+        if (percent < 50) this.dom.batteryBox.style.color = '#ffcc00'; // Amarillo
+        if (percent < 20) this.dom.batteryBox.style.color = '#ff0000'; // Rojo
     }
 
     handleKeyDown(code) {
